@@ -1,3 +1,6 @@
+var usersApi = require('../Utils/usersApi');
+var Button = require('./Common/button');
+
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -40,7 +43,7 @@ var styles = StyleSheet.create({
   }
 });
 
-var Button = require('./Common/button');
+
 
 class LoginPage extends Component {
   constructor(props) {
@@ -52,7 +55,6 @@ class LoginPage extends Component {
   }
 
   render() {
-    console.log("gaegeagaeg")
     return (
       <View style={styles.container}>
         <Text style={styles.header}>Sign In</Text>
@@ -72,19 +74,23 @@ class LoginPage extends Component {
          value={this.state.password}
          onChangeText={(text) => this.setState({password: text})}/>
 
-        <Button text={'Sign In'} onPress={this.loginOnPress} />
+        <Button text={'Sign In'} onPress={this.loginOnPress.bind(this)} />
         <Text style={styles.label}>Not a member? Sign up here</Text>
-        <Button text={'Sign Up'} onPress={this.signupOnPress}/>
+        <Button text={'Sign Up'} onPress={this.signupOnPress.bind(this)}/>
       </View>
     )
   }
 
   loginOnPress() {
     //Log the user in
+    usersApi.loginUser(this.state.username, this.state.password).then((res) => console.log(res));
+    this.setState({
+      username: '',
+      password: ''
+    });
 
   }
   signupOnPress() {
-
   }
 };
 
