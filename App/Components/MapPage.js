@@ -1,6 +1,10 @@
+'use strict';
+
 var Button = require('./Common/button');
 var TabBar = require('./Common/TabBar');
-
+var UserProfilePage = require('./UserProfilePage.js')
+var SearchLocationPage = require('./SearchLocationPage.js')
+var GroupsPage = require('./GroupsPage.js')
 
 import React, { Component } from 'react';
 import {
@@ -51,16 +55,55 @@ class MapPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: ''
+      selectedTab: 'UserProfilePage'
     };
   }
 
   render() {
     return (
-      <View style={styles.container}>
-        <Text style={styles.header}>Map Page</Text>
-      </View>
+
+      <TabBarIOS selectedTab={this.state.selectedTab}
+      tintColor='red'>
+        <TabBarIOS.Item
+        selected={this.state.selectedTab === 'UserProfilePage'}
+        systemIcon='featured'
+        style={styles.wrapper}
+        onPress={() => {
+          this.setState({
+            selectedTab: 'UserProfilePage'
+          });
+        }}>
+        <UserProfilePage />
+        </TabBarIOS.Item>
+
+        <TabBarIOS.Item
+        selected={this.state.selectedTab === 'GroupsPage'}
+        systemIcon='contacts'
+        style={styles.wrapper}
+        onPress={() => {
+          this.setState({
+            selectedTab: 'GroupsPage'
+          });
+        }}>
+        <GroupsPage />
+        </TabBarIOS.Item>
+
+        <TabBarIOS.Item
+        selected={this.state.selectedTab === 'SearchLocationPage'}
+        systemIcon='search'
+        style={styles.wrapper}
+        onPress={() => {
+          this.setState({
+            selectedTab: 'SearchLocationPage'
+          });
+        }}>
+        <SearchLocationPage />
+        </TabBarIOS.Item>
+
+
+
+      </TabBarIOS>
+
     )
   }
 };
