@@ -72,7 +72,7 @@ class MapPage extends Component {
             selectedTab: 'UserProfilePage'
           });
         }}>
-        <UserProfilePage />
+        <UserProfilePage  />
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
