@@ -1,5 +1,6 @@
 var usersApi = require('../Utils/usersApi');
 var Button = require('./Common/button');
+var MapPage = require('./MapPage');
 
 import React, { Component } from 'react';
 import {
@@ -83,15 +84,23 @@ class LoginPage extends Component {
 
   loginOnPress() {
     //Log the user in
-    usersApi.loginUser(this.state.username, this.state.password).then((res) => console.log(res));
-    this.setState({
-      username: '',
-      password: ''
-    });
+      usersApi.loginUser(this.state.username, this.state.password)
+        .then((res) => {
+            console.log(res)
+            this.props.navigator.push({
+            title: 'Map Page',
+            component: MapPage,
+            passProps: {response: res}
+          })
+        });
+      this.setState({
+        username: '',
+        password: ''
+      });
+
 
   }
   signupOnPress() {
   }
-};
-
+}
 module.exports = LoginPage;
