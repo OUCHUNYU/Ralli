@@ -21,6 +21,11 @@ class Ralli extends Component {
     return (
       <NavigatorIOS
       style={styles.wrapper}
+      tintColor= 'blue'
+      barTintColor= 'blue'
+      titleTextColor = 'white'
+      backButtonTitle = 'Back to login'
+      rightButtonTitle = 'Search location'
       initialRoute = {{
         title: 'Rally',
         component: LoginPage

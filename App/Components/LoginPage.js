@@ -1,5 +1,6 @@
 var usersApi = require('../Utils/usersApi');
 var Button = require('./Common/button');
+var MapPage = require('./MapPage');
 
 import React, { Component } from 'react';
 import {
@@ -57,7 +58,7 @@ class LoginPage extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>Sign In</Text>
+        <Text style={styles.header}>Log In</Text>
 
         <Text style={styles.label}>Username:</Text>
 
@@ -74,7 +75,7 @@ class LoginPage extends Component {
          value={this.state.password}
          onChangeText={(text) => this.setState({password: text})}/>
 
-        <Button text={'Sign In'} onPress={this.loginOnPress.bind(this)} />
+        <Button text={'Log In'} onPress={this.loginOnPress.bind(this)} />
         <Text style={styles.label}>Not a member? Sign up here</Text>
         <Button text={'Sign Up'} onPress={this.signupOnPress.bind(this)}/>
       </View>
@@ -83,11 +84,20 @@ class LoginPage extends Component {
 
   loginOnPress() {
     //Log the user in
-    usersApi.loginUser(this.state.username, this.state.password).then((res) => console.log(res));
+    usersApi.loginUser(this.state.username, this.state.password)
+      .then((res) => {
+          console.log(res)
+          this.props.navigator.push({
+          title: 'Map Page',
+          component: MapPage,
+          passProps: {response: res}
+        })
+      });
     this.setState({
       username: '',
       password: ''
     });
+
 
   }
   signupOnPress() {
