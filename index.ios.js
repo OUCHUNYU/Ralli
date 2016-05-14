@@ -22,7 +22,7 @@ class Ralli extends Component {
       <NavigatorIOS
       style={styles.wrapper}
       tintColor= 'blue'
-      barTintColor= 'blue'
+      barTintColor= 'brown'
       titleTextColor = 'white'
       backButtonTitle = 'Back to login'
       rightButtonTitle = 'Search location'
