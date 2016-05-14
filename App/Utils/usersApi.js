@@ -13,7 +13,7 @@ var usersApi = {
     }, (err, newUserData) => {
       if (err) {
         console.log("Fail sigup");
-        return err;
+        // return err;
       } else {
         // login new user upon creation
         UsersRef.authWithPassword({
@@ -22,7 +22,7 @@ var usersApi = {
         }, (err, authData) => {
           if (err) {
             console.log("Login Failed");
-            return err;
+            // return err;
           }else {
             console.log("Login");
             return authData;
@@ -39,7 +39,7 @@ var usersApi = {
     }, function(error, authData) {
       if (error) {
         console.log("Login Failed");
-        return error;
+        // return error;
       }else {
         console.log('success');
         return authData;
@@ -51,4 +51,3 @@ var usersApi = {
 }
 
 module.exports = usersApi;
-
