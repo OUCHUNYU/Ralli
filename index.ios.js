@@ -1,13 +1,12 @@
 
 var LoginPage = require('./App/Components/LoginPage');
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
   Text,
   View,
-  NavigatorIOS,
+  NavigatorIOS
 } from 'react-native';
 
 var styles = StyleSheet.create({
@@ -17,13 +16,15 @@ var styles = StyleSheet.create({
 })
 
 class Ralli extends Component {
+
   render() {
     return (
       <NavigatorIOS
       style={styles.wrapper}
       initialRoute = {{
         title: 'Rally',
-        component: LoginPage
+        component: LoginPage,
+        backButtonTitle: 'Logout',
       }} />
     );
   }
