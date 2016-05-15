@@ -1,13 +1,13 @@
 
 var LoginPage = require('./App/Components/LoginPage');
-
+import GroupsPage from './App/Components/GroupsPage'
 import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
   Text,
   View,
-  NavigatorIOS,
+  NavigatorIOS
 } from 'react-native';
 
 var styles = StyleSheet.create({
@@ -23,7 +23,7 @@ class Ralli extends Component {
       style={styles.wrapper}
       initialRoute = {{
         title: 'Rally',
-        component: LoginPage
+        component: GroupsPage
       }} />
     );
   }

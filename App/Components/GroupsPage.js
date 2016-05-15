@@ -1,6 +1,7 @@
 'use strict';
 import Separator from './Helpers/Separator';
 import Badge from './Helpers/Badge';
+import ChatPage from './ChatPage';
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -59,13 +60,14 @@ var styles = StyleSheet.create({
 });
 
 class GroupsPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
 
-    };
+  goToChat(groupName){
+    this.props.navigator.push({
+      component: ChatPage,
+      title: groupName,
+      passProps: {groupName: groupName}
+    })
   }
-
   render() {
     var userData = {username: 'Timmert', email: 'timmer@time.com', pic_url: 'http://plan59.com/images/JPGs/sunshine_1954_fresh_00.jpg', location: 'San Francisco, CA' };
     var groupsData = [
@@ -80,8 +82,8 @@ class GroupsPage extends Component {
         <View key={index}>
           <View style={styles.rowContainer}>
             <TouchableHighlight
-            onPress={console.log('GOING TO CHAT')}
-            underlayColor='transparent'>
+            onPress={this.goToChat.bind(this, groupsData[index].name)}
+            underlayColor='black'>
             <Text style={styles.name}>{groupsData[index].name}</Text>
             </TouchableHighlight>
           </View>
@@ -91,7 +93,9 @@ class GroupsPage extends Component {
     });
     return(
       <ScrollView style={styles.container}>
-        <Badge userData={userData} />
+        <Badge
+        userData={userData}
+      />
         {list}
       </ScrollView>
     )
