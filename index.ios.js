@@ -1,13 +1,12 @@
 
 var LoginPage = require('./App/Components/LoginPage');
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
   Text,
   View,
-  NavigatorIOS,
+  NavigatorIOS
 } from 'react-native';
 
 var styles = StyleSheet.create({
