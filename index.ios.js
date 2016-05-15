@@ -1,6 +1,5 @@
 
 var LoginPage = require('./App/Components/LoginPage');
-import GroupsPage from './App/Components/GroupsPage'
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -17,13 +16,15 @@ var styles = StyleSheet.create({
 })
 
 class Ralli extends Component {
+
   render() {
     return (
       <NavigatorIOS
       style={styles.wrapper}
       initialRoute = {{
         title: 'Rally',
-        component: GroupsPage
+        component: LoginPage,
+        backButtonTitle: 'Logout',
       }} />
     );
   }

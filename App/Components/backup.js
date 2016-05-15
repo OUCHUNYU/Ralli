@@ -1,13 +1,17 @@
+var usersApi = require('../Utils/usersApi');
 var Button = require('./Common/button');
-// var MapView = require('react-native-maps');
-// var CustomCallout = require('./CustomCallout');
-// var PriceMarker = require('./PriceMarker');
-
+var MapPage = require('./MapPage');
+var SignUp = require('./SignUp');
 
 import React, { Component } from 'react';
 import {
   StyleSheet,
-  MapView,
+  Text,
+  View,
+  NavigatorIOS,
+  TextInput,
+  TouchableHighlight,
+  Image
 } from 'react-native';
 
 var styles = StyleSheet.create({
@@ -42,38 +46,66 @@ var styles = StyleSheet.create({
 });
 
 
-class GoogleMap extends Component {
-  render() {
-    var pins = [
-      {
-        latitude: 37.78825,
-        longitude: -122.4324,
-        title: 'Foo Place',
-        subtitle: '1234 Foo Drive'
-      },
-      {
-        latitude: 37.78825,
-        longitude: -122.4424,
-        title: 'Foo Place',
-        subtitle: '1234 Foo Drive'
-      }
-    ]
-    return (
-      <MapView
 
-       style={styles.wrapper}
-       showsUserLocation={true}
-       followUserLocation={true}>
-       <MapView.Marker coordinate={[{latitude: 36.78825,
-       longitude: -121.4324}]}>
-          <Marker />
-       <MapView.Callout>
-          <Marker />
-       </MapView.Callout>
-       </MapView.Marker>
-       </MapView>
-    );
+class LoginPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: ''
+    };
   }
-};
 
-module.exports = GoogleMap;
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.header}>Sign In</Text>
+
+        <Text style={styles.label}>Username:</Text>
+
+        <TextInput
+         style={styles.input}
+         value={this.state.username}
+         onChangeText={(text) => this.setState({username: text})}/>
+
+        <Text style={styles.label}>Password:</Text>
+
+        <TextInput
+         secureTextEntry={true}
+         style={styles.input}
+         value={this.state.password}
+         onChangeText={(text) => this.setState({password: text})}/>
+
+        <Button text={'Sign In'} onPress={this.loginOnPress.bind(this)} />
+        <Text style={styles.label}>Not a member? Sign up here</Text>
+        <Button text={'Sign Up'} onPress={this.signupOnPress.bind(this)}/>
+      </View>
+    )
+  }
+
+  loginOnPress() {
+    //Log the user in
+      usersApi.loginUser(this.state.username, this.state.password)
+        .then((res) => {
+            console.log(res)
+            this.props.navigator.push({
+            title: 'Map Page',
+            component: MapPage,
+            passProps: {response: res}
+          })
+        });
+      this.setState({
+        username: '',
+        password: ''
+      });
+
+
+  }
+  signupOnPress() {
+    this.props.navigator.push({
+    title: 'Sign Up',
+    component: SignUp
+  })
+  }
+}
+module.exports = LoginPage;
