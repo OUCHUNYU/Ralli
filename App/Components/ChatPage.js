@@ -1,5 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
+import Separator from './Helpers/Separator'
 import {
   StyleSheet,
   Text,
@@ -14,24 +15,44 @@ import {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    flexDirection: 'column',
+  },
+  buttonText: {
+    fontSize: 18,
+    color: 'white'
+  },
+  button: {
+    height: 60,
+    backgroundColor: '#48BBEC',
+    flex: 3,
     alignItems: 'center',
+    justifyContent: 'center'
   },
-  text: {
-    fontSize: 21,
-    color: 'black',
+  searchInput: {
+    height: 60,
+    padding: 10,
+    fontSize: 18,
+    color: '#111',
+    flex: 10
   },
-  textArea: {
-
+  rowContainer: {
+    padding: 10,
+  },
+  footerContainer: {
+    backgroundColor: '#E3E3E3',
+    alignItems: 'center',
+    flexDirection: 'row'
   }
 });
+
+var chatData = {messages: ['Hello there', 'Hi', 'You are the poop', 'potatoes']}
 
 class ChatPage extends Component{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
     this.state = {
-      dataSource: this.ds.cloneWithRows(this.props.messages),
+      dataSource: this.ds.cloneWithRows(chatData.messages),
       message: '',
       error: ''
     }
@@ -43,22 +64,12 @@ class ChatPage extends Component{
   }
   handleSubmit(){
     var message = this.state.message;
+    console.log(message);
+    chatData.messages.push(message)
     this.setState({
-      message: ''
-    });
-    api.addNote(this.props.userInfo.login, message)
-      .then((data) => {
-        api.getNotes(this.props.userInfo.login)
-          .then((data) => {
-            this.setState({
-              dataSource: this.ds.cloneWithRows(data)
-            })
-          });
-      })
-      .catch((error) => {
-        console.log('Request failed', error);
-        this.setState({error})
-      });
+      message: '',
+      dataSource: this.ds.cloneWithRows(chatData.messages)
+    })
   }
   renderRow(rowData){
     return (
@@ -77,7 +88,7 @@ class ChatPage extends Component{
             style={styles.searchInput}
             value={this.state.message}
             onChange={this.handleChange.bind(this)}
-            placeholder="New Note" />
+            placeholder="Type stuff" />
         <TouchableHighlight
             style={styles.button}
             onPress={this.handleSubmit.bind(this)}
@@ -92,12 +103,15 @@ class ChatPage extends Component{
       <View style={styles.container}>
           <ListView
             dataSource={this.state.dataSource}
-            renderRow={this.renderRow}
-            renderHeader={() => <Badge userInfo={this.props.userInfo}/>} />
+            renderRow={this.renderRow} />
         {this.footer()}
       </View>
     )
   }
+};
+
+ChatPage.propTypes = {
+  groupName: React.PropTypes.string.isRequired
 };
 
 module.exports = ChatPage;

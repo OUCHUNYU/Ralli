@@ -16,12 +16,6 @@ import {
 } from 'react-native';
 
 var styles = StyleSheet.create({
-  header: {
-    marginBottom: 20,
-    fontSize: 18,
-    textAlign: 'center',
-    color: 'black'
-  },
   container: {
     flex: 1,
     backgroundColor: '#F5FCFF',
@@ -93,9 +87,7 @@ class GroupsPage extends Component {
     });
     return(
       <ScrollView style={styles.container}>
-        <Badge
-        userData={userData}
-      />
+        <Badge userData={userData} />
         {list}
       </ScrollView>
     )

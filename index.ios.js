@@ -1,6 +1,7 @@
 
 var LoginPage = require('./App/Components/LoginPage');
 import React, { Component } from 'react';
+import GroupsPage from './App/Components/GroupsPage';
 import {
   AppRegistry,
   StyleSheet,
@@ -23,8 +24,9 @@ class Ralli extends Component {
       style={styles.wrapper}
       initialRoute = {{
         title: 'Rally',
-        component: LoginPage,
-        backButtonTitle: 'Logout',
+        component: GroupsPage,
+        backButtonTitle: 'Logout'
+        // react bitching about backbutton
       }} />
     );
   }
