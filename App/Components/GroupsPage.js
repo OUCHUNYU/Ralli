@@ -1,7 +1,6 @@
-var Button = require('./Common/button');
-
-
-
+'use strict';
+import Separator from './Helpers/Separator';
+import Badge from './Helpers/Badge';
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -11,7 +10,8 @@ import {
   TextInput,
   TouchableHighlight,
   Image,
-  TabBarIOS
+  TabBarIOS,
+  ScrollView
 } from 'react-native';
 
 var styles = StyleSheet.create({
@@ -23,12 +23,15 @@ var styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
   wrapper: {
     flex: 1
+  },
+  name: {
+    color: '#48BBEC',
+    fontSize: 18,
+    paddingBottom: 5
   },
   label: {
     fontSize: 14
@@ -42,27 +45,62 @@ var styles = StyleSheet.create({
     margin: 5,
     width: 200,
     alignSelf: 'center'
+  },
+  rowContainer: {
+    padding: 10
+  },
+  rowTitle: {
+    color: '#48BBEC',
+    fontSize: 16
+  },
+  rowContent: {
+    fontSize: 19
   }
 });
-
-
 
 class GroupsPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      password: ''
+
     };
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.header}>GroupsPage</Text>
-      </View>
+    var userData = {username: 'Timmert', email: 'timmer@time.com', pic_url: 'http://plan59.com/images/JPGs/sunshine_1954_fresh_00.jpg', location: 'San Francisco, CA' };
+    var groupsData = [
+        {name: 'Group 1', users: ['Bobbert', 'Timmert', 'Kev']},
+        {name: 'Group 2', users: ['Bobbert', 'Timmert', 'Kev']},
+        {name: 'Group 3', users: ['Bobbert', 'Timmert', 'Kev']},
+        {name: 'Group 4', users: ['Bobbert', 'Timmert', 'Kev']},
+        {name: 'Group 5', users: ['Bobbert', 'Timmert', 'Kev']}
+      ];
+    var list = groupsData.map((item, index) => {
+      return(
+        <View key={index}>
+          <View style={styles.rowContainer}>
+            <TouchableHighlight
+            onPress={console.log('GOING TO CHAT')}
+            underlayColor='transparent'>
+            <Text style={styles.name}>{groupsData[index].name}</Text>
+            </TouchableHighlight>
+          </View>
+          <Separator />
+        </View>
+      )
+    });
+    return(
+      <ScrollView style={styles.container}>
+        <Badge userData={userData} />
+        {list}
+      </ScrollView>
     )
   }
 };
+
+// GroupsPage.propTypes = {
+//   userData: React.PropTypes.object.isRequired,
+//   groupsData: React.PropTypes.object.isRequired
+// };
 
 module.exports = GroupsPage;
