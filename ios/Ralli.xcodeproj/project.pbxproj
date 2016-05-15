@@ -24,6 +24,7 @@
 		505B69101CE6E95400F3D131 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 505B69051CE6E5C300F3D131 /* libAirMaps.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		94BBEECA49A6493EBA81E6C4 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 094F0F8CE3E54D918793FFA3 /* libAirMaps.a */; };
+		BE0FB0861CE7B333008D7494 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 505B69051CE6E5C300F3D131 /* libAirMaps.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,6 +145,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE0FB0861CE7B333008D7494 /* libAirMaps.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

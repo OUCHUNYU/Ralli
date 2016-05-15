@@ -1,6 +1,7 @@
 var usersApi = require('../Utils/usersApi');
 var Button = require('./Common/button');
 var MapPage = require('./MapPage');
+var SignUp = require('./SignUp');
 
 import React, { Component } from 'react';
 import {
@@ -101,6 +102,10 @@ class LoginPage extends Component {
 
   }
   signupOnPress() {
+    this.props.navigator.push({
+    title: 'Sign Up',
+    component: SignUp
+  })
   }
 }
 module.exports = LoginPage;

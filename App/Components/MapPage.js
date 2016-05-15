@@ -4,6 +4,7 @@ var Button = require('./Common/button');
 var UserProfilePage = require('./UserProfilePage.js')
 var SearchLocationPage = require('./SearchLocationPage.js')
 var GroupsPage = require('./GroupsPage.js')
+var GoogleMap = require('./GoogleMap.js')
 
 import React, { Component } from 'react';
 import {
@@ -54,7 +55,7 @@ class MapPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      selectedTab: 'UserProfilePage'
+      selectedTab: 'GoogleMap'
     };
   }
 
@@ -64,15 +65,15 @@ class MapPage extends Component {
       <TabBarIOS selectedTab={this.state.selectedTab}
       tintColor='red'>
         <TabBarIOS.Item
-        selected={this.state.selectedTab === 'UserProfilePage'}
+        selected={this.state.selectedTab === 'GoogleMap'}
         systemIcon='featured'
         style={styles.wrapper}
         onPress={() => {
           this.setState({
-            selectedTab: 'UserProfilePage'
+            selectedTab: 'GoogleMap'
           });
         }}>
-        <UserProfilePage  />
+        <GoogleMap />
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
