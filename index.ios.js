@@ -17,13 +17,15 @@ var styles = StyleSheet.create({
 })
 
 class Ralli extends Component {
+
   render() {
     return (
       <NavigatorIOS
       style={styles.wrapper}
       initialRoute = {{
         title: 'Rally',
-        component: LoginPage
+        component: LoginPage,
+        backButtonTitle: 'Logout',
       }} />
     );
   }

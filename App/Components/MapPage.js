@@ -5,6 +5,7 @@ var UserProfilePage = require('./UserProfilePage.js')
 var SearchLocationPage = require('./SearchLocationPage.js')
 var GroupsPage = require('./GroupsPage.js')
 var GoogleMap = require('./GoogleMap.js')
+var CreateMarker = require('./CreateMarker.js')
 
 import React, { Component } from 'react';
 import {
@@ -60,8 +61,8 @@ class MapPage extends Component {
   }
 
   render() {
+    this.rightButtonAssign
     return (
-
       <TabBarIOS selectedTab={this.state.selectedTab}
       tintColor='red'>
         <TabBarIOS.Item
@@ -100,12 +101,24 @@ class MapPage extends Component {
         <SearchLocationPage />
         </TabBarIOS.Item>
 
-
-
       </TabBarIOS>
 
-    )
-  }
+    )}
+
+    rightButtonAssign() {
+      console.log("eagoheaoguh")
+      this.props.navigator.push({
+        onRightButtonPress: gotoMarker
+      })
+    }
+
+    gotoMarker() {
+      this.props.navigator.push ({
+        title: 'Create Marker',
+        Component: CreateMarker
+      })
+    }
+
 };
 
 module.exports = MapPage;

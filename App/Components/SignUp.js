@@ -1,7 +1,7 @@
 'use strict'
 
 import React, { Component } from 'react';
-var Button = require('./Common/button');
+
 var t = require('tcomb-form-native');
 
 import {
