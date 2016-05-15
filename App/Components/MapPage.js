@@ -74,7 +74,6 @@ class MapPage extends Component {
           });
         }}>
         <GoogleMap />
-        <UserProfilePage  />
         </TabBarIOS.Item>
 
         <TabBarIOS.Item
