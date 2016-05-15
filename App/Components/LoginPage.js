@@ -3,6 +3,7 @@ var usersApi = require('../Utils/usersApi');
 var MapPage = require('./MapPage');
 var SignUp = require('./SignUp');
 var CreateMarker = require('./CreateMarker')
+var GoogleMap = require('./GoogleMap')
 
 import React, { Component } from 'react';
 import {
@@ -141,7 +142,7 @@ class LoginPage extends Component {
             console.log(res)
             this.props.navigator.push({
             title: 'Map Page',
-            component: MapPage,
+            component: GoogleMap,
             passProps: {response: res},
             rightButtonIcon: require('./Common/small-icon.png'),
             onRightButtonPress: this.gotoMarker.bind(this)
