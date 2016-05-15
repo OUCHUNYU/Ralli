@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 var Button = require('./Common/button');
+var Marker = require('./Common/small-icon.png')
 
 import {
   StyleSheet,
@@ -65,7 +66,9 @@ class GoogleMap extends Component {
   hide() {
     this.refs.m1.hideCallout();
   }
-
+  onMarkerPress() {
+    console.log("wagueaggukea")
+  }
   render() {
     const { region, markers } = this.state;
     return (
@@ -82,7 +85,10 @@ class GoogleMap extends Component {
             image={require('./Common/small-icon.png')}
             anchor={{ x: 0.84, y: 1 }}
           />
-          <MapView.Marker ref="m2" coordinate={markers[1].coordinate}>
+          <MapView.Marker
+          ref="m2"
+          coordinate={markers[1].coordinate}
+          image={Marker}>
             <MapView.Callout>
               <View>
                 <Text>This is a plain view</Text>
