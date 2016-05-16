@@ -1,5 +1,5 @@
 var Firebase = require('firebase');
-var FirebaseUsersUrl = 'https://ralli.firebaseio.com';
+var FirebaseUsersUrl = 'https://ralli.firebaseio.com/users';
 var UsersRef = new Firebase(FirebaseUsersUrl);
 
 // To check user login state:
@@ -15,44 +15,51 @@ var UsersRef = new Firebase(FirebaseUsersUrl);
 
 
 var usersApi = {
-  createNewUser: function(userEmail, userPassword) {
+  createNewUser: function(userEmail, userPassword, userName) {
    return UsersRef.createUser({
-      email    : userEmail,
-      password : userPassword
-    }, (err, newUserData) => {
-      if (err) {
-        console.log("Fail sigup");
-      } else {
-        // login new user upon creation
-        UsersRef.authWithPassword({
-          email: userEmail,
-          password: userPassword
-        }, (err, authData) => {
-          if (err) {
-            console.log("Login Failed");
-          }else {
-            console.log("Login");
-            return authData;
-          }
-        }, {remember: "sessionOnly"});
-      }
-    });
+            email    : userEmail,
+            password : userPassword
+          }, (err, newUserData) => {
+            if (err) {
+              console.log("Fail sigup");
+            }
+          }).then((res) => {
+            return this.loginUser(userEmail, userPassword)
+          }).then((res) => {
+            UsersRef.push({
+              username: userName,
+              email: userEmail,
+              avatarUrl: res.password.profileImageURL,
+              groups: []
+            })
+          });
   },
 
   loginUser: function(userEmail, userPassword) {
     return UsersRef.authWithPassword({
-      email    : userEmail,
-      password : userPassword
-    }, function(error, authData) {
-      if (error) {
-        console.log("Login Failed");
-      }else {
-        console.log('success');
-        return authData;
-      }
-    }, {
-      remember: "sessionOnly"
-    });
+              email    : userEmail,
+              password : userPassword
+            }, function(error, authData) {
+              if (error) {
+                console.log("Login Failed");
+              }else {
+                console.log('success');
+                return authData;
+              }
+            }, {
+              remember: "sessionOnly"
+            });
+  },
+
+  getUserByEmail: function(email) {
+    return UsersRef
+             .orderByChild('email')
+             .equalTo(email)
+             .once('value');
+  },
+
+  getCurrentUser: function() {
+    return UsersRef.getAuth();
   }
 }
 
@@ -71,3 +78,4 @@ module.exports = usersApi;
 //   console.log("*****************************************************");
 //   console.log(UsersRef.getAuth());
 // }));
+console.log(usersApi.getUserByEmail("ouchunyu@yahoo.com").then((res) => console.log(res.val())))
