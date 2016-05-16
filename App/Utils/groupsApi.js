@@ -72,6 +72,10 @@ var groupsApi = {
       new Firebase('https://ralli.firebaseio.com/groups/' + groupId).update({members: newFormedMembers});
     })
 
+  },
+
+  addMessage: function(message, userId, chatRoomRef) {
+    chatRoomRef.push({userId: userId, message: message});
   }
 
 };
