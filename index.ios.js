@@ -27,13 +27,8 @@ class Ralli extends Component {
       style={styles.wrapper}
       initialRoute = {{
         title: 'Rally',
-<<<<<<< HEAD
         component: GoogleMap,
         backButtonTitle: 'Logout',
-=======
-        component: LoginPage,
-        backButtonTitle: 'Logout'
->>>>>>> 8324e7867987929d57c3023f48c7f271edaae1ca
       }} />
     );
   }

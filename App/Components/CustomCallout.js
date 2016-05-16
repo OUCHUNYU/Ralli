@@ -1,5 +1,6 @@
 var Button = require('./Common/button');
-
+var Dimensions = require('Dimensions');
+var {height, width} = Dimensions.get('window');
 
 
 import React, { Component } from 'react';
@@ -26,19 +27,17 @@ class CustomCallout extends Component {
       </View>
     );
   }
-
-  openMarker() {
-    LinkingIOS.openURL('http://google.com')
-  }
 }
+
 
 var styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     alignSelf: 'flex-start',
   },
+  
   bubble: {
-    width: 140,
+    width: width * .75,
     flexDirection: 'row',
     alignSelf: 'flex-start',
     backgroundColor: '#6600ff',
