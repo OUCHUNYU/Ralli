@@ -3,7 +3,7 @@ var Button = require('./Common/button');
 var Marker = require('./Common/small-icon.png')
 var GroupsPage = require('./GroupsPage')
 var UserProfilePage = require('./UserProfilePage')
-var SearchLocationPage = require('./SearchLocationPage')
+var EventFeed = require('./EventFeed')
 
 
 
@@ -96,7 +96,7 @@ class GoogleMap extends Component {
   onPressFeed() {
     this.props.navigator.push ({
       title: 'Feed',
-      component: SearchLocationPage
+      component: EventFeed
     })
   }
   onPressNext() {
