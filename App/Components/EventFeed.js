@@ -1,5 +1,5 @@
 var Button = require('./Common/button');
-
+import Badge from './Helpers/Badge';
 
 
 import React, { Component } from 'react';
@@ -47,22 +47,15 @@ var styles = StyleSheet.create({
 
 
 
-class SearchLocationPage extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      username: '',
-      password: ''
-    };
-  }
-
+class UserProfilePage extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>Search Location Page</Text>
+        <Text style={styles.header}>UserProfilePage</Text>
+        <Badge userData={userInfo} />
       </View>
     )
   }
 };
 
-module.exports = SearchLocationPage;
+module.exports = UserProfilePage;

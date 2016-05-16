@@ -45,37 +45,39 @@ var styles = StyleSheet.create({
   }
 });
 
-var chatData = {messages: ['Hello there', 'Hi', 'You are the poop', 'potatoes']}
+var groupChat = {messages: [{username: 'Timmert', message: 'Hello there'}]}
 
 class ChatPage extends Component{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
     this.state = {
-      dataSource: this.ds.cloneWithRows(chatData.messages),
+      dataSource: this.ds.cloneWithRows(groupChat.messages),
       message: '',
-      error: ''
+      error: '',
+      user: this.props.userData
     }
   }
+
   handleChange(e){
     this.setState({
       message: e.nativeEvent.text
     })
   }
   handleSubmit(){
-    var message = this.state.message;
-    console.log(message);
-    chatData.messages.push(message)
+    var message = this.state.message
+    console.log(message)
+    groupChat.messages.push({username: this.state.user.username, message: message})
     this.setState({
       message: '',
-      dataSource: this.ds.cloneWithRows(chatData.messages)
+      dataSource: this.ds.cloneWithRows(groupChat.messages)
     })
   }
   renderRow(rowData){
     return (
       <View>
         <View style={styles.rowContainer}>
-          <Text> {rowData} </Text>
+          <Text> {rowData.username}: {rowData.message} </Text>
         </View>
         <Separator />
       </View>
@@ -99,6 +101,7 @@ class ChatPage extends Component{
     )
   }
   render(){
+    console.log(this.props);
     return (
       <View style={styles.container}>
           <ListView
@@ -111,7 +114,8 @@ class ChatPage extends Component{
 };
 
 ChatPage.propTypes = {
-  groupName: React.PropTypes.string.isRequired
+  groupName: React.PropTypes.string.isRequired,
+  userData: React.PropTypes.object.isRequired
 };
 
 module.exports = ChatPage;
