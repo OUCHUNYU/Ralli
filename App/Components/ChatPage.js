@@ -5,6 +5,7 @@ import Separator from './Helpers/Separator'
 import {
   StyleSheet,
   Text,
+  AlertIOS,
   ListView,
   View,
   TextInput,
@@ -61,7 +62,7 @@ var styles = StyleSheet.create({
   }
 });
 
-var groupChat = {messages: [{username: 'Timmert', message: 'Hello there'}]}
+var items = [{name: 'Previousely on group chat', message: '' }]
 
 const chatEndPoint = 'https://rallychats.firebaseio.com/chat/';
 
@@ -70,7 +71,7 @@ class ChatPage extends Component{
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
     this.state = {
-      dataSource: this.ds.cloneWithRows(groupChat.messages),
+      dataSource: this.ds.cloneWithRows(items),
       items: [],
       message: '',
       error: '',
@@ -89,9 +90,15 @@ class ChatPage extends Component{
       console.log(items);
       this.setState({
         items: items,
-        dataSource: this.ds.cloneWithRows(items)
+        dataSource: this.ds.cloneWithRows(items.reverse())
       });
     }.bind(this));
+  }
+
+  saveResponse(promptValue){
+    // api call to add user to current chat
+    this.setState({ promptValue: promptValue })
+    console.log(promptValue);
   }
 
   handleChange(e){
@@ -145,7 +152,8 @@ class ChatPage extends Component{
           </TouchableHighlight>
         </View>
         <ListView
-          enableEmptySections={true}
+          scrollTo={0, 5}
+          enableEmptySections={false}
           dataSource={this.state.dataSource}
           renderRow={this.renderRow} />
         {this.footer()}
