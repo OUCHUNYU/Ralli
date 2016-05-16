@@ -13,12 +13,7 @@ import {
 
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  buttonText: {
-    fontSize: 18,
-    color: 'white'
+    flex: 1
   },
   button: {
     height: 60,
@@ -41,6 +36,28 @@ var styles = StyleSheet.create({
     backgroundColor: '#E3E3E3',
     alignItems: 'center',
     flexDirection: 'row'
+  },
+  plusButton: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#48BBEC',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    borderColor: 'white',
+    borderWidth: 1.5
+  },
+  buttonText: {
+    fontSize: 20,
+    color: 'white'
+  },
+  pluscontainer: {
+    paddingTop: 65,
+    paddingBottom: 0,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end'
   }
 });
 
@@ -72,7 +89,7 @@ class ChatPage extends Component{
       console.log(items);
       this.setState({
         items: items,
-        dataSource: this.ds.cloneWithRows(this.state.items)
+        dataSource: this.ds.cloneWithRows(items)
       });
     }.bind(this));
   }
@@ -86,8 +103,7 @@ class ChatPage extends Component{
   handleSubmit(){
     this.ref.push({ name: this.state.userName, message: this.state.message || '' });
     this.setState({
-      message: '',
-      dataSource: this.ds.cloneWithRows(this.state.items)
+      message: ''
     })
   }
   renderRow(rowData){
@@ -120,10 +136,18 @@ class ChatPage extends Component{
   render(){
     return (
       <View style={styles.container}>
-          <ListView
-            enableEmptySections={true}
-            dataSource={this.state.dataSource}
-            renderRow={this.renderRow} />
+        <View style={styles.pluscontainer}>
+          <TouchableHighlight
+          style={styles.plusButton}
+          onPress={() => AlertIOS.prompt('Enter Group Name', null, this.saveResponse.bind(this))}
+          underlayColor='black'>
+            <Text style={styles.buttonText}> + </Text>
+          </TouchableHighlight>
+        </View>
+        <ListView
+          enableEmptySections={true}
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow} />
         {this.footer()}
       </View>
     )
