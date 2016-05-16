@@ -72,12 +72,30 @@ var styles = StyleSheet.create({
     fontSize: 14
   },
   spacer: {
-    marginVertical: 100
+    marginVertical: 80
   },
   headerbar: {
     flex: 1,
     alignItems: 'center',
     flexDirection: 'row'
+  },
+  buttonFacebook: {
+    backgroundColor: '#3e51b2',
+    height: 36,
+    borderColor: '#3e51b2',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
+  FacebookContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  FacebookImage: {
+    height: 32
   }
 });
 
@@ -122,6 +140,12 @@ class LoginPage extends Component {
            <TouchableHighlight style={styles.button} onPress={this.loginOnPress.bind(this)} underlayColor='#99d9f4'>
              <Text style={styles.buttonText}>Log In</Text>
            </TouchableHighlight>
+           <TouchableHighlight style={styles.buttonFacebook} onPress={console.log("YO")} underlayColor='#6878ca'>
+           <View style={styles.FacebookContainer}>
+             <Image style={styles.FacebookImage} source={require('./Common/Facebook-48.png')} />
+             <Text style={styles.buttonText}>Sign in with Facebook</Text>
+             </View>
+           </TouchableHighlight>
            <Text style={styles.spacer}> </Text>
           <Text style={styles.label}>Not a member? Sign up here</Text>
           <TouchableHighlight style={styles.button} onPress={this.signupOnPress.bind(this)} underlayColor='#99d9f4'>
@@ -146,7 +170,7 @@ class LoginPage extends Component {
         .then((res) => {
             console.log(res)
             this.props.navigator.push({
-            title: 'Map Page',
+            title: 'Rallies Nearby',
             component: GoogleMap,
             passProps: {response: res}
           })

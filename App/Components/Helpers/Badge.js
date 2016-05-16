@@ -12,7 +12,8 @@ import {
 var styles = StyleSheet.create({
   container: {
     backgroundColor: '#48BBEC',
-    paddingBottom: 10
+    paddingBottom: 30,
+    marginBottom: -45
   },
   name: {
     alignSelf: 'center',
@@ -30,7 +31,7 @@ var styles = StyleSheet.create({
     height: 125,
     width: 125,
     borderRadius: 65,
-    marginTop: 10,
+    marginTop: 25,
     alignSelf: 'center'
   },
   plusButton: {
@@ -64,7 +65,7 @@ class Badge extends Component{
     return(
       <View style={styles.container}>
           <Image style={styles.image} source={{uri: this.props.userData.pic_url}} />
-        <Text style={styles.name}> My Groups </Text>
+        <Text style={styles.name}></Text>
       </View>
     )
   }

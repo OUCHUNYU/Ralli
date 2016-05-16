@@ -190,7 +190,7 @@ class GoogleMap extends Component {
             <Image source={require('./Common/profile.png')} style={styles.icon}/>
           </TouchableOpacity>
           <TouchableOpacity onPress={this.onPressCreateMarker.bind(this)} style={[styles.bubble, styles.button]}>
-            <Image source={require('./Common/Untitled.png')} style={styles.icon}/>
+            <Image source={require('./Common/Untitled.png')} style={styles.middleicon}/>
           </TouchableOpacity>
           <TouchableOpacity onPress={this.onPressFeed.bind(this)} style={[styles.bubble, styles.button]}>
             <Image source={require('./Common/activityfeed.png')} style={styles.icon} />
@@ -258,10 +258,12 @@ var styles = StyleSheet.create({
   icon: {
     height: 35,
     width: 35,
-    opacity: .8
   },
   icongood: {
-    opacity: .8
+  },
+  middleicon: {
+    height: 33,
+    width: 33
   }
 });
 
