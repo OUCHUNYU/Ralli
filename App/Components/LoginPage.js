@@ -1,6 +1,4 @@
 var usersApi = require('../Utils/usersApi');
-
-var MapPage = require('./MapPage');
 var SignUp = require('./SignUp');
 var CreateMarker = require('./CreateMarker')
 var GoogleMap = require('./GoogleMap')
@@ -129,7 +127,7 @@ class LoginPage extends Component {
   }
   gotoMarker() {
     console.log(this.props)
-    this.props.navigator.push ({
+    this.props.navigator.push({
       title: 'Create Marker',
       component: CreateMarker
     })

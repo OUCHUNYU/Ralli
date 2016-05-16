@@ -1,6 +1,7 @@
 var Button = require('./Common/button');
-var MapPage = require('./MapPage');
-var DatePicker = require('./Common/DatePicker')
+
+var DatePicker = require('./Common/DatePicker');
+var GroupsInvitePage = require('./GroupsInvitePage');
 
 import React, { Component } from 'react';
 import {
@@ -14,8 +15,6 @@ import {
   DatePickerIOS,
   ScrollView
 } from 'react-native';
-
-
 
 var styles = StyleSheet.create({
   header: {
@@ -81,8 +80,6 @@ var styles = StyleSheet.create({
   }
 });
 
-
-
 class CreateMarker extends Component {
   constructor(props) {
     super(props);
@@ -92,7 +89,13 @@ class CreateMarker extends Component {
       description: ''
     };
   }
-
+  onInviteButton() {
+    this.props.navigator.replace({
+      title: 'Invite Groups',
+      component: GroupsInvitePage,
+      rightButtonIcon: require('./Common/small-icon.png')
+    })
+  }
   render() {
     return (
       <ScrollView>
@@ -125,21 +128,14 @@ class CreateMarker extends Component {
 
          <DatePicker />
 
-         <TouchableHighlight style={styles.button} onPress={this.onStartRally.bind(this)} underlayColor='#99d9f4'>
-           <Text style={styles.buttonText}>Start Rally!</Text>
+         <TouchableHighlight style={styles.button} onPress={this.onInviteButton.bind(this)} underlayColor='#99d9f4'>
+           <Text style={styles.buttonText}> Invite Groups </Text>
          </TouchableHighlight>
 
       </ScrollView>
     )
   }
 
-  onStartRally() {
-    this.props.navigator.push({
-      title: 'Map Page',
-      Component: MapPage,
-      rightButtonIcon: require('./Common/small-icon.png')
-    })
-  }
       // usersApi.createMarker(this.state.eventTitle, this.state.address, this.state.description)
       //   .then((res) => {
       //       console.log(res)
@@ -159,5 +155,5 @@ class CreateMarker extends Component {
 
 
 
-}
+};
 module.exports = CreateMarker;

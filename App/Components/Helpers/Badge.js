@@ -4,7 +4,9 @@ import {
   Text,
   StyleSheet,
   View,
-  Image
+  Image,
+  TouchableHighlight,
+  AlertIOS
 } from 'react-native';
 
 var styles = StyleSheet.create({
@@ -30,16 +32,39 @@ var styles = StyleSheet.create({
     borderRadius: 65,
     marginTop: 10,
     alignSelf: 'center'
+  },
+  plusButton: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: '#48BBEC',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    borderColor: 'white',
+    borderWidth: 1.5
+  },
+  buttonText: {
+    fontSize: 20,
+    color: 'white'
+  },
+  pluscontainer: {
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end'
   }
 });
 
 class Badge extends Component{
+  saveResponse(promptValue) {
+    this.setState({ promptValue: JSON.stringify(promptValue) });
+  }
+
   render(){
     return(
       <View style={styles.container}>
           <Image style={styles.image} source={{uri: this.props.userData.pic_url}} />
         <Text style={styles.name}> My Groups </Text>
-        <PlusButton />
       </View>
     )
   }
