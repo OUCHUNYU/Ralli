@@ -55,7 +55,7 @@ var usersApi = {
     return UsersRef
              .orderByChild('email')
              .equalTo(email)
-             .once('child_added');
+             .once('value');
   },
 
   getCurrentUser: function() {
@@ -79,4 +79,4 @@ module.exports = usersApi;
 //   console.log(UsersRef.getAuth());
 // }));
 
-// console.log(usersApi.getUserByEmail("ouchunyu@yahoo.com").then((res) => console.log(res.val())))
+console.log(usersApi.getUserByEmail("ouchunyu@yahoo.com").then((res) => console.log(res.val())))
