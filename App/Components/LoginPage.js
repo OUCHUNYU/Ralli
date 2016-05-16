@@ -1,4 +1,5 @@
 var usersApi = require('../Utils/usersApi');
+
 var SignUp = require('./SignUp');
 var CreateMarker = require('./CreateMarker')
 var GoogleMap = require('./GoogleMap')
@@ -133,7 +134,7 @@ class LoginPage extends Component {
 
   gotoMarker() {
     console.log(this.props)
-    this.props.navigator.push({
+    this.props.navigator.push ({
       title: 'Create Marker',
       component: CreateMarker
     })
@@ -147,9 +148,7 @@ class LoginPage extends Component {
             this.props.navigator.push({
             title: 'Map Page',
             component: GoogleMap,
-            passProps: {response: res},
-            rightButtonIcon: require('./Common/small-icon.png'),
-            onRightButtonPress: this.gotoMarker.bind(this)
+            passProps: {response: res}
           })
         });
       this.setState({
@@ -182,9 +181,9 @@ class LoginPage extends Component {
     this.props.navigator.push({
       title: 'Map Page',
       component: GoogleMap,
-      passProps: {response: usersApi.getCurrentUser()},
-      rightButtonIcon: require('./Common/small-icon.png'),
-      onRightButtonPress: this.gotoMarker.bind(this)
+      passProps: {response: usersApi.getCurrentUser()}
+
+
     })
   }
 

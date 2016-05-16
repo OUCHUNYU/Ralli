@@ -5,7 +5,10 @@ var GroupsPage = require('./GroupsPage');
 var UserProfilePage = require('./UserProfilePage');
 var GroupsInvitePage = require('./GroupsInvitePage');
 var EventFeed = require('./EventFeed')
+var CreateMarker =require('./CreateMarker')
+
 'use strict';
+
 
 
 
@@ -104,6 +107,12 @@ class GoogleMap extends Component {
       component: EventFeed
     })
   }
+  onPressCreateMarker () {
+    this.props.navigator.push ({
+      title: 'Make a Rally',
+      component: CreateMarker
+    })
+  }
   onPressNext() {
     console.log("NEXT PIN BITCH")
   }
@@ -180,6 +189,9 @@ class GoogleMap extends Component {
           <TouchableOpacity onPress={this.onPressProfile.bind(this)} style={[styles.bubble, styles.button]}>
             <Image source={require('./Common/profile.png')} style={styles.icon}/>
           </TouchableOpacity>
+          <TouchableOpacity onPress={this.onPressCreateMarker.bind(this)} style={[styles.bubble, styles.button]}>
+            <Image source={require('./Common/Untitled.png')} style={styles.icon}/>
+          </TouchableOpacity>
           <TouchableOpacity onPress={this.onPressFeed.bind(this)} style={[styles.bubble, styles.button]}>
             <Image source={require('./Common/activityfeed.png')} style={styles.icon} />
           </TouchableOpacity>
@@ -221,7 +233,7 @@ var styles = StyleSheet.create({
   },
   button: {
     height: height * .08,
-    width: width * .25,
+    width: width * .20,
     alignItems: 'center',
     justifyContent: 'center'
   },
