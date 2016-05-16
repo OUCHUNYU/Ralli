@@ -78,5 +78,4 @@ module.exports = usersApi;
 //   console.log("*****************************************************");
 //   console.log(UsersRef.getAuth());
 // }));
-
 console.log(usersApi.getUserByEmail("ouchunyu@yahoo.com").then((res) => console.log(res.val())))

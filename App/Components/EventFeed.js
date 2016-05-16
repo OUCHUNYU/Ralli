@@ -1,60 +1,85 @@
-var Button = require('./Common/button');
-import Badge from './Helpers/Badge';
-
-
+'use strict';
 import React, { Component } from 'react';
+import Separator from './Helpers/Separator'
 import {
   StyleSheet,
   Text,
+  ListView,
   View,
   NavigatorIOS,
   TextInput,
   TouchableHighlight,
-  Image,
-  TabBarIOS
+  Image
 } from 'react-native';
 
 var styles = StyleSheet.create({
-  header: {
-    marginBottom: 20,
-    fontSize: 18,
-    textAlign: 'center',
-    color: 'black'
-  },
   container: {
     flex: 1,
-    justifyContent: 'center',
+    flexDirection: 'column',
+  },
+  buttonText: {
+    fontSize: 18,
+    color: 'white'
+  },
+  button: {
+    height: 60,
+    backgroundColor: '#48BBEC',
+    flex: 3,
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    justifyContent: 'center'
   },
-  wrapper: {
-    flex: 1
+  searchInput: {
+    height: 60,
+    padding: 10,
+    fontSize: 18,
+    color: '#111',
+    flex: 10
   },
-  label: {
-    fontSize: 14
+  rowContainer: {
+    padding: 10,
   },
-  input: {
-    padding: 4,
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
-    margin: 5,
-    width: 200,
-    alignSelf: 'center'
+  footerContainer: {
+    backgroundColor: '#E3E3E3',
+    alignItems: 'center',
+    flexDirection: 'row'
   }
 });
 
+// all event objects a user has been invited to (array) MVP
+var userEventsData = [{title: 'Party in hell', desc: 'The last pary you will ever go to'}, {title: 'A funeral', desc: 'Hope they had angel mail'}, {title: 'Drug Deal Gone Wrong', desc: 'Same old shit'}]
 
+class EventFeed extends Component{
+  constructor(props){
+    super(props);
+    this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
+    this.state = {
+      dataSource: this.ds.cloneWithRows(userEventsData),
+      message: '',
+      error: '',
+      user: this.props.userData
+    }
+  }
 
-class UserProfilePage extends Component {
-  render() {
+  renderRow(rowData){
+    return (
+      <View>
+        <View style={styles.rowContainer}>
+          <Text> {rowData.title}: {rowData.desc} </Text>
+        </View>
+        <Separator />
+      </View>
+    )
+  }
+  render(){
+    console.log(this.props);
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>UserProfilePage</Text>
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={this.renderRow} />
       </View>
     )
   }
 };
 
-module.exports = UserProfilePage;
+module.exports = EventFeed;

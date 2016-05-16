@@ -83,7 +83,6 @@ var groupsApi = {
 
 module.exports = groupsApi;
 
-
 // console.log(groupsApi.createGroup());
 
 // var theUser;
@@ -93,4 +92,3 @@ module.exports = groupsApi;
 //   console.log("*****************************************************");
 //   // console.log();
 // }));
-
