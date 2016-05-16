@@ -56,7 +56,9 @@ var styles = StyleSheet.create({
 
 class GroupsPage extends Component {
   saveResponse(promptValue){
-    this.setState({ promptValue: JSON.stringify(promptValue) });
+    // api call to create group with promptValue(the name is stored in prompt value)
+    this.setState({ promptValue: JSON.stringify(promptValue) })
+    
   }
 
   addToGroup(groupName){

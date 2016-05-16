@@ -71,6 +71,3 @@ module.exports = usersApi;
 //   console.log("*****************************************************");
 //   console.log(UsersRef.getAuth());
 // }));
-
-
-

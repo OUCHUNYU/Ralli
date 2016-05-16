@@ -23,7 +23,7 @@ class Ralli extends Component {
       style={styles.wrapper}
       initialRoute = {{
         title: 'Rally',
-        component: LoginPage,
+        component: GroupsPage,
         backButtonTitle: 'Logout'
       }} />
     );
