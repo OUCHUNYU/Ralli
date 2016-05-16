@@ -1,72 +1,27 @@
-'use strict'
-
 import React, { Component } from 'react';
-
-var t = require('tcomb-form-native');
-
 import {
   StyleSheet,
   PropTypes,
   View,
+  TextInput,
   Text,
   Dimensions,
-  TouchableOpacity,
   TouchableHighlight,
   Image,
   AppRegistry
 } from 'react-native';
 
-var Form = t.form.Form;
-
-// here we are: define your domain model
-var NewUser = t.struct({
-  username: t.String,              // a required string
-  email: t.String,               // a required number
-  password: t.String,
-  rememberMe: t.Boolean
-});
-
-var options = {
-  fields: {
-    username: {
-      error: 'Username incorrect'
-    },
-    email: {
-      error: 'Insert a valid email'
-    },
-    password: {
-      error: 'Password invalid'
-    }
-  }
-};
-
-class SignUp extends Component {
-
-  onPress() {
-    // call getValue() to get the values of the form
-    var value = this.refs.form.getValue();
-    if (value) { // if validation fails, value will be null
-      console.log(value); // value here is an instance of NewUser
-    }
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Create New User</Text>
-        <Form
-          ref="form"
-          type={NewUser}
-          options={options}/>
-        <TouchableHighlight style={styles.button} onPress={this.onPress} underlayColor='#99d9f4'>
-          <Text style={styles.buttonText}>Create User</Text>
-        </TouchableHighlight>
-      </View>
-    );
-  }
-};
 
 var styles = StyleSheet.create({
+  header: {
+    marginBottom: 20,
+    fontSize: 18,
+    textAlign: 'center',
+    color: 'black'
+  },
+  wrapper: {
+    flex: 1
+  },
   container: {
     justifyContent: 'center',
     marginTop: 50,
@@ -75,8 +30,10 @@ var styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    alignSelf: 'center',
-    marginBottom: 30
+    alignSelf: 'flex-start',
+    marginBottom: 30,
+    marginTop: 25,
+    color: '#4320df'
   },
   buttonText: {
     fontSize: 18,
@@ -92,7 +49,81 @@ var styles = StyleSheet.create({
     marginBottom: 10,
     alignSelf: 'stretch',
     justifyContent: 'center'
+  },
+  input: {
+    padding: 4,
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    margin: 5,
+    marginBottom: 20,
+    flex: 1,
+    alignSelf: 'stretch',
+    borderColor: "lightsteelblue"
+  },
+  label: {
+    fontSize: 14
+  },
+  spacer: {
+    marginVertical: 100
+  },
+  headerbar: {
+    flex: 1,
+    alignItems: 'center',
+    flexDirection: 'row'
   }
 });
+
+
+
+class SignUp extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      username: '',
+      password: ''
+    };
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={styles.headerbar}>
+        <Image style={styles.image} source={require('./Common/small-icon.png')} />
+        <Text style={styles.title}> Create Rally Account</Text>
+
+        </View>
+
+        <Text style={styles.label}>Username:</Text>
+
+        <TextInput
+         style={styles.input}
+         value={this.state.username}
+         onChangeText={(text) => this.setState({username: text})}/>
+
+         <Text style={styles.label}>Email:</Text>
+
+         <TextInput
+          style={styles.input}
+          value={this.state.email}
+          onChangeText={(text) => this.setState({email: text})}/>
+
+        <Text style={styles.label}>Password:</Text>
+
+        <TextInput
+         secureTextEntry={true}
+         style={styles.input}
+         value={this.state.password}
+         onChangeText={(text) => this.setState({password: text})}/>
+
+         <TouchableHighlight style={styles.button} underlayColor='#99d9f4'>
+           <Text style={styles.buttonText}>Create Account</Text>
+         </TouchableHighlight>
+         <Text style={styles.spacer}> </Text>
+      </View>
+    )
+  }
+}
 
 module.exports = SignUp;

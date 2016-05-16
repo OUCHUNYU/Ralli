@@ -143,9 +143,7 @@ class LoginPage extends Component {
             this.props.navigator.push({
             title: 'Map Page',
             component: GoogleMap,
-            passProps: {response: res},
-            rightButtonIcon: require('./Common/small-icon.png'),
-            onRightButtonPress: this.gotoMarker.bind(this)
+            passProps: {response: res}
           })
         });
       this.setState({
