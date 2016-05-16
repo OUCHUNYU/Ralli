@@ -45,22 +45,12 @@ class GoogleMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
-<<<<<<< HEAD
-      rendered: true,
       region: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       },
-=======
-      region: ({
-      latitude: LATITUDE,
-      longitude: LONGITUDE,
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA,
-      }),
->>>>>>> c6459ace24c692eccaa4ba7d885657faade9e38e
       markers: [
         {
           coordinate: {
