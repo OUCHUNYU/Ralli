@@ -27,7 +27,7 @@ class Ralli extends Component {
       style={styles.wrapper}
       initialRoute = {{
         title: 'Rally',
-        component: GoogleMap
+        component: LoginPage
       }} />
     );
   }
