@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PlusButton from '../Common/PlusButton'
+import PlusButton from '../Common/PlusButton';
 import {
   Text,
   StyleSheet,
@@ -37,7 +37,7 @@ class Badge extends Component{
   render(){
     return(
       <View style={styles.container}>
-        <Image style={styles.image} source={{uri: this.props.userData.pic_url}} />
+          <Image style={styles.image} source={{uri: this.props.userData.pic_url}} />
         <Text style={styles.name}> My Groups </Text>
         <PlusButton />
       </View>
@@ -46,7 +46,7 @@ class Badge extends Component{
 }
 
 Badge.propTypes = {
-  userData: React.PropTypes.object.isRequired
+  userData: React.PropTypes.object.isRequired,
 };
 
 module.exports = Badge;
