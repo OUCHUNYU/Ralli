@@ -182,6 +182,8 @@ class LoginPage extends Component {
       title: 'Map Page',
       component: GoogleMap,
       passProps: {response: usersApi.getCurrentUser()}
+
+
     })
   }
 
