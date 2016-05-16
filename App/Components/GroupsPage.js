@@ -1,4 +1,6 @@
 'use strict';
+
+var { width, height } = Dimensions.get('window');
 import Separator from './Helpers/Separator';
 import Badge from './Helpers/Badge';
 import ChatPage from './ChatPage';
@@ -14,13 +16,14 @@ import {
   TabBarIOS,
   ScrollView,
   ListView,
-  AlertIOS
+  AlertIOS,
+  Dimensions
 } from 'react-native';
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#48BBEC',
   },
   wrapper: {
     flex: 1
@@ -56,22 +59,39 @@ var styles = StyleSheet.create({
   plusButton: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#48BBEC',
+    backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    borderColor: 'white',
-    borderWidth: 1.5
+    borderColor: '#48BBEC',
+    borderWidth: 1.5,
+    width: width * .30,
+    height: 30,
+    borderRadius: 8,
+    marginBottom: 10
   },
   buttonText: {
-    fontSize: 20,
-    color: 'white'
+    color: '#48BBEC'
   },
   pluscontainer: {
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end'
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 10
+  },
+  rowContainer: {
+    padding: 5,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    paddingVertical: 20,
+    marginVertical: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    overflow: 'visible',
+    borderWidth: 2,
+    borderColor: '#48BBEC',
+    opacity: .97
+  },
+  listviewbox: {
+    paddingHorizontal: 10
   }
 });
 
@@ -97,9 +117,8 @@ class GroupsPage extends Component {
     // api call to create group with promptValue(the name is stored in prompt value)
     this.setState({ promptValue: promptValue })
     var group = this.state.promptValue
-    console.log(group)
+    // api call to get updated list of groups or setting up
     groupsData.push({name: group})
-    console.log(groupsData)
     this.setState({
       dataSource: this.ds.cloneWithRows(groupsData)
     })
@@ -112,9 +131,7 @@ class GroupsPage extends Component {
     this.props.navigator.push({
       component: ChatPage,
       title: groupName,
-      passProps: {groupName: groupName, userData: userData},
-      rightButtonIcon: require('./Common/Plus-button.png'),
-      onRightButtonPress: this.addToGroup.bind(this, groupName)
+      passProps: {groupName: groupName, userData: userData}
     })
   };
 
@@ -122,13 +139,14 @@ class GroupsPage extends Component {
     console.log(this.state.promptValue);
     return (
       <View>
+        <TouchableHighlight
+        onPress={this.goToChat.bind(this, rowData.name)}
+        underlayColor='#48BBEC'>
         <View style={styles.rowContainer}>
-          <TouchableHighlight
-          onPress={this.goToChat.bind(this, rowData.name)}
-          underlayColor='black'>
-          <Text style={styles.name}>{rowData.name}</Text>
-          </TouchableHighlight>
+          <Image style={styles.groupImage} source={require('./Common/usergroup.png')} />
+          <Text style={styles.name}>   {rowData.name} </Text>
         </View>
+        </TouchableHighlight>
         <Separator />
       </View>
     )
@@ -142,14 +160,16 @@ class GroupsPage extends Component {
         style={styles.pluscontainer}>
           <TouchableHighlight
           style={styles.plusButton}
-          onPress={() => AlertIOS.prompt('Enter Group Name', null, this.saveResponse.bind(this))}
-          underlayColor='black'>
-            <Text style={styles.buttonText}> + </Text>
+          onPress={() => AlertIOS.prompt('Enter Group name:', null, this.saveResponse.bind(this))}
+          underlayColor='gray'>
+            <Text style={styles.buttonText}>Create Group</Text>
           </TouchableHighlight>
         </View>
+        <View style={styles.listviewbox}>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)} />
+          </View>
       </ScrollView>
     )
   }
