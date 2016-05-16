@@ -1,5 +1,5 @@
-
 var LoginPage = require('./App/Components/LoginPage');
+import GroupsPage from './App/Components/GroupsPage'
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -24,7 +24,7 @@ class Ralli extends Component {
       initialRoute = {{
         title: 'Rally',
         component: LoginPage,
-        backButtonTitle: 'Logout',
+        backButtonTitle: 'Logout'
       }} />
     );
   }

@@ -52,7 +52,6 @@ class UserProfilePage extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.header}>UserProfilePage</Text>
-        <Badge userData={userInfo} />
       </View>
     )
   }
