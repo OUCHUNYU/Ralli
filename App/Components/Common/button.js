@@ -17,14 +17,16 @@ var styles = StyleSheet.create({
     borderRadius: 5,
     padding: 5,
     borderColor: 'black',
-    marginTop: 10
+    marginTop: 10,
+    marginHorizontal: 30,
   },
 
   buttonText: {
     flex: 1,
-    fontSize: 20,
+    fontSize: 10,
     alignSelf: 'center',
     padding: 5,
+    color: 'white'
   }
 })
 

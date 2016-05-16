@@ -21,6 +21,8 @@ import {
   Dimensions,
   TouchableOpacity,
   Image,
+  TouchableHighlight,
+  LinkingIOS
 } from 'react-native';
 
 var MapView = require('react-native-maps');
@@ -40,12 +42,12 @@ class GoogleMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
-      },
+      region: ({
+      latitude: LATITUDE,
+      longitude: LONGITUDE,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA,
+      }),
       markers: [
         {
           coordinate: {
@@ -102,7 +104,22 @@ class GoogleMap extends Component {
   onPressNext() {
     console.log("NEXT PIN BITCH")
   }
+  openMarker() {
+    LinkingIOS.openURL('http://google.com')
+  }
 
+  onRegionChange(region) {
+    this.state.region = region;
+  }
+  markerCenter() {
+
+    console.log("I clicked amarker")
+    this.state.region.latitude = this.state.markers[2].latitude
+    this.state.region.longitude = this.state.markers[2].longitude
+    this.state.region.latitudeDelta = 0.0922
+    this.state.region.longitudeDelta = 0.0421
+
+  }
   render() {
     const { region, markers } = this.state;
     return (
@@ -116,44 +133,55 @@ class GoogleMap extends Component {
             coordinate={markers[0].coordinate}
             title="This is a title"
             description="This is a description"
-            image={require('./Common/small-icon.png')}
+            image={Marker}
             anchor={{ x: 0.84, y: 1 }}
           />
           <MapView.Marker
           ref="m2"
           coordinate={markers[1].coordinate}
-          image={Marker}>
+          >
             <MapView.Callout>
               <View>
                 <Text>This is a plain view</Text>
               </View>
             </MapView.Callout>
           </MapView.Marker>
+
           <MapView.Marker
             ref="m3"
             coordinate={markers[2].coordinate}
-            calloutOffset={{ x: -8, y: 28 }}
             calloutAnchor={{ x: 0.5, y: 0.4 }}
+            calloutOffset={{ x: -8, y: 28 }}
+            onPress={this.markerCenter.bind(this)}
           >
+
             <MapView.Callout tooltip>
-              <CustomCallout>
-                <Text style={{ color: '#fff' }}>This is a custom callout bubble view</Text>
+              <TouchableOpacity onPress={this.markerCenter.bind(this)}>
+              <CustomCallout style={styles.calloutOpacity}>
+                <Text style={styles.calloutHeader}>PUB CRAWL</Text>
+                <Text style={styles.calloutText}>Address: 2020</Text>
+                <Text style={styles.calloutText}>Description: We gonna Party</Text>
+                <Text style={styles.calloutText}>Groups: Krispy Fresh</Text>
+                <Button onPress={this.openMarker.bind(this)} text="I'm Going"></Button>
               </CustomCallout>
+              </TouchableOpacity>
             </MapView.Callout>
+
           </MapView.Marker>
+
         </MapView>
         <View style={styles.buttonContainer}>
           <TouchableOpacity onPress={this.onPressGroups.bind(this)} style={[styles.bubble, styles.button]}>
-            <Text>Groups</Text>
+            <Image source={require('./Common/usergroup.png')} style={styles.icongood} />
           </TouchableOpacity>
           <TouchableOpacity onPress={this.onPressProfile.bind(this)} style={[styles.bubble, styles.button]}>
-            <Text>Profile</Text>
+            <Image source={require('./Common/profile.png')} style={styles.icon}/>
           </TouchableOpacity>
           <TouchableOpacity onPress={this.onPressFeed.bind(this)} style={[styles.bubble, styles.button]}>
-            <Text>Feed</Text>
+            <Image source={require('./Common/activityfeed.png')} style={styles.icon} />
           </TouchableOpacity>
           <TouchableOpacity style={[styles.bubble, styles.button]}>
-            <Text>Next</Text>
+            <Image source={require('./Common/next.png')} style={styles.icon} />
           </TouchableOpacity>
         </View>
       </View>
@@ -190,16 +218,37 @@ var styles = StyleSheet.create({
     alignItems: 'stretch',
   },
   button: {
-    width: 80,
-    paddingHorizontal: 12,
+    height: height * .08,
+    width: width * .25,
     alignItems: 'center',
-    marginHorizontal: 10,
+    justifyContent: 'center'
   },
   buttonContainer: {
     flexDirection: 'row',
-    marginVertical: 60,
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
     backgroundColor: 'transparent',
+
   },
+  calloutHeader: {
+    fontSize: 30,
+    color: '#fff'
+  },
+  calloutText: {
+    color: '#fff'
+  },
+  calloutOpacity: {
+    borderRadius: 8,
+    opacity: .8
+  },
+  icon: {
+    height: 35,
+    width: 35,
+    opacity: .8
+  },
+  icongood: {
+    opacity: .8
+  }
 });
 
 module.exports = GoogleMap;
