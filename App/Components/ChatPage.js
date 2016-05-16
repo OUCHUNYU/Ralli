@@ -1,4 +1,5 @@
 'use strict';
+import Firebase from 'firebase'
 import React, { Component } from 'react';
 import Separator from './Helpers/Separator'
 import {
@@ -6,10 +7,8 @@ import {
   Text,
   ListView,
   View,
-  NavigatorIOS,
   TextInput,
-  TouchableHighlight,
-  Image
+  TouchableHighlight
 } from 'react-native';
 
 var styles = StyleSheet.create({
@@ -47,16 +46,35 @@ var styles = StyleSheet.create({
 
 var groupChat = {messages: [{username: 'Timmert', message: 'Hello there'}]}
 
+const chatEndPoint = 'https://rallychats.firebaseio.com/chat/';
+
 class ChatPage extends Component{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
     this.state = {
       dataSource: this.ds.cloneWithRows(groupChat.messages),
+      items: [],
       message: '',
       error: '',
-      user: this.props.userData
+      userName: 'Bobbert'
     }
+  }
+
+  componentWillMount(){
+    Firebase.enableLogging(true);
+    this.ref = new Firebase(chatEndPoint);
+    this.ref.on('value', function(snapshot) {
+      var items = [];
+      snapshot.forEach(function(child) {
+        items.push(child.val());
+      });
+      console.log(items);
+      this.setState({
+        items: items,
+        dataSource: this.ds.cloneWithRows(this.state.items)
+      });
+    }.bind(this));
   }
 
   handleChange(e){
@@ -64,20 +82,19 @@ class ChatPage extends Component{
       message: e.nativeEvent.text
     })
   }
+
   handleSubmit(){
-    var message = this.state.message
-    console.log(message)
-    groupChat.messages.push({username: this.state.user.username, message: message})
+    this.ref.push({ name: this.state.userName, message: this.state.message || '' });
     this.setState({
       message: '',
-      dataSource: this.ds.cloneWithRows(groupChat.messages)
+      dataSource: this.ds.cloneWithRows(this.state.items)
     })
   }
   renderRow(rowData){
     return (
       <View>
         <View style={styles.rowContainer}>
-          <Text> {rowData.username}: {rowData.message} </Text>
+          <Text> {rowData.name}: {rowData.message} </Text>
         </View>
         <Separator />
       </View>
@@ -101,10 +118,10 @@ class ChatPage extends Component{
     )
   }
   render(){
-    console.log(this.props);
     return (
       <View style={styles.container}>
           <ListView
+            enableEmptySections={true}
             dataSource={this.state.dataSource}
             renderRow={this.renderRow} />
         {this.footer()}
@@ -113,9 +130,5 @@ class ChatPage extends Component{
   }
 };
 
-ChatPage.propTypes = {
-  groupName: React.PropTypes.string.isRequired,
-  userData: React.PropTypes.object.isRequired
-};
 
 module.exports = ChatPage;
