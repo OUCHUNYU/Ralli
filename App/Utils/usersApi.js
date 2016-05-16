@@ -46,8 +46,6 @@ var usersApi = {
                 console.log('success');
                 return authData;
               }
-            }, {
-              remember: "sessionOnly"
             });
   },
 
@@ -68,6 +66,7 @@ module.exports = usersApi;
 
 
 
+
 // var theUser;
 // console.log(usersApi.loginUser('gum@gum.com', 'gumerlock').then((res) => {
 //   theUser = UsersRef.getAuth();
@@ -78,4 +77,4 @@ module.exports = usersApi;
 //   console.log("*****************************************************");
 //   console.log(UsersRef.getAuth());
 // }));
-console.log(usersApi.getUserByEmail("ouchunyu@yahoo.com").then((res) => console.log(res.val())))
+// console.log(usersApi.getUserByEmail("ouchunyu@yahoo.com") == true)
