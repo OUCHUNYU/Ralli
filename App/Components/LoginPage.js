@@ -129,7 +129,7 @@ class LoginPage extends Component {
   }
   gotoMarker() {
     console.log(this.props)
-    this.props.navigator.push ({
+    this.props.navigator.push({
       title: 'Create Marker',
       component: CreateMarker
     })

@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 var Button = require('./Common/button');
-var Marker = require('./Common/small-icon.png')
-var GroupsPage = require('./GroupsPage')
-var UserProfilePage = require('./UserProfilePage')
+var Marker = require('./Common/small-icon.png');
+var GroupsPage = require('./GroupsPage');
+var UserProfilePage = require('./UserProfilePage');
+var GroupsInvitePage = require('./GroupsInvitePage');
 var EventFeed = require('./EventFeed')
-
+'use strict';
 
 
 
@@ -20,7 +21,8 @@ import {
   Text,
   Dimensions,
   TouchableOpacity,
-  Image,
+  NavigatorIOS,
+  Image
 } from 'react-native';
 
 var MapView = require('react-native-maps');
@@ -40,6 +42,7 @@ class GoogleMap extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      rendered: true,
       region: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
@@ -160,7 +163,6 @@ class GoogleMap extends Component {
     );
   }
 }
-
 var styles = StyleSheet.create({
   container: {
     position: 'absolute',
