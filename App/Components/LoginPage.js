@@ -1,6 +1,4 @@
 var usersApi = require('../Utils/usersApi');
-
-var MapPage = require('./MapPage');
 var SignUp = require('./SignUp');
 var CreateMarker = require('./CreateMarker')
 var GoogleMap = require('./GoogleMap')
