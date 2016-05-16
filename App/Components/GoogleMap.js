@@ -21,6 +21,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Image,
+  TouchableHighlight
 } from 'react-native';
 
 var MapView = require('react-native-maps');
@@ -102,7 +103,9 @@ class GoogleMap extends Component {
   onPressNext() {
     console.log("NEXT PIN BITCH")
   }
-
+  openMarker() {
+    LinkingIOS.openURL('http://google.com')
+  }
   render() {
     const { region, markers } = this.state;
     return (
@@ -138,6 +141,8 @@ class GoogleMap extends Component {
             <MapView.Callout tooltip>
               <CustomCallout>
                 <Text style={{ color: '#fff' }}>This is a custom callout bubble view</Text>
+                
+
               </CustomCallout>
             </MapView.Callout>
           </MapView.Marker>

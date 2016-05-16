@@ -7,6 +7,8 @@ import {
   StyleSheet,
   Text,
   View,
+  TouchableHighlight,
+  LinkingIOS
 } from 'react-native';
 
 
@@ -23,6 +25,10 @@ class CustomCallout extends Component {
         <View style={styles.arrow} />
       </View>
     );
+  }
+
+  openMarker() {
+    LinkingIOS.openURL('http://google.com')
   }
 }
 

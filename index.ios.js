@@ -1,5 +1,6 @@
 
 var LoginPage = require('./App/Components/LoginPage');
+var GoogleMap = require('./App/Components/GoogleMap');
 
 import React, { Component } from 'react';
 import {
@@ -24,7 +25,7 @@ class Ralli extends Component {
       style={styles.wrapper}
       initialRoute = {{
         title: 'Rally',
-        component: LoginPage,
+        component: GoogleMap,
         backButtonTitle: 'Logout',
       }} />
     );
