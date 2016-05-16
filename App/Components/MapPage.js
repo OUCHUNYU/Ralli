@@ -1,8 +1,7 @@
 'use strict';
-
 var Button = require('./Common/button');
 var UserProfilePage = require('./UserProfilePage.js')
-var SearchLocationPage = require('./SearchLocationPage.js')
+var EventFeed = require('./EventFeed.js')
 var GroupsPage = require('./GroupsPage.js')
 var GoogleMap = require('./GoogleMap.js')
 var CreateMarker = require('./CreateMarker.js')
@@ -117,10 +116,10 @@ class MapPage extends Component {
         style={styles.wrapper}
         onPress={() => {
           this.setState({
-            selectedTab: 'SearchLocationPage'
+            selectedTab: 'EventFeed'
           });
         }}>
-        <SearchLocationPage />
+        <EventFeed />
         </TabBarIOS.Item>
 
       </TabBarIOS>

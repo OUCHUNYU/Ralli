@@ -1,5 +1,6 @@
 'use strict';
 import React, { Component } from 'react';
+import Separator from './Helpers/Separator'
 import {
   StyleSheet,
   Text,
@@ -14,57 +15,69 @@ import {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    flexDirection: 'column',
+  },
+  buttonText: {
+    fontSize: 18,
+    color: 'white'
+  },
+  button: {
+    height: 60,
+    backgroundColor: '#48BBEC',
+    flex: 3,
     alignItems: 'center',
+    justifyContent: 'center'
   },
-  text: {
-    fontSize: 21,
-    color: 'black',
+  searchInput: {
+    height: 60,
+    padding: 10,
+    fontSize: 18,
+    color: '#111',
+    flex: 10
   },
-  textArea: {
-
+  rowContainer: {
+    padding: 10,
+  },
+  footerContainer: {
+    backgroundColor: '#E3E3E3',
+    alignItems: 'center',
+    flexDirection: 'row'
   }
 });
+
+var groupChat = {messages: [{username: 'Timmert', message: 'Hello there'}]}
 
 class ChatPage extends Component{
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
     this.state = {
-      dataSource: this.ds.cloneWithRows(this.props.messages),
+      dataSource: this.ds.cloneWithRows(groupChat.messages),
       message: '',
-      error: ''
+      error: '',
+      user: this.props.userData
     }
   }
+
   handleChange(e){
     this.setState({
       message: e.nativeEvent.text
     })
   }
   handleSubmit(){
-    var message = this.state.message;
+    var message = this.state.message
+    console.log(message)
+    groupChat.messages.push({username: this.state.user.username, message: message})
     this.setState({
-      message: ''
-    });
-    api.addNote(this.props.userInfo.login, message)
-      .then((data) => {
-        api.getNotes(this.props.userInfo.login)
-          .then((data) => {
-            this.setState({
-              dataSource: this.ds.cloneWithRows(data)
-            })
-          });
-      })
-      .catch((error) => {
-        console.log('Request failed', error);
-        this.setState({error})
-      });
+      message: '',
+      dataSource: this.ds.cloneWithRows(groupChat.messages)
+    })
   }
   renderRow(rowData){
     return (
       <View>
         <View style={styles.rowContainer}>
-          <Text> {rowData} </Text>
+          <Text> {rowData.username}: {rowData.message} </Text>
         </View>
         <Separator />
       </View>
@@ -77,7 +90,7 @@ class ChatPage extends Component{
             style={styles.searchInput}
             value={this.state.message}
             onChange={this.handleChange.bind(this)}
-            placeholder="New Note" />
+            placeholder="Type stuff" />
         <TouchableHighlight
             style={styles.button}
             onPress={this.handleSubmit.bind(this)}
@@ -88,16 +101,21 @@ class ChatPage extends Component{
     )
   }
   render(){
+    console.log(this.props);
     return (
       <View style={styles.container}>
           <ListView
             dataSource={this.state.dataSource}
-            renderRow={this.renderRow}
-            renderHeader={() => <Badge userInfo={this.props.userInfo}/>} />
+            renderRow={this.renderRow} />
         {this.footer()}
       </View>
     )
   }
+};
+
+ChatPage.propTypes = {
+  groupName: React.PropTypes.string.isRequired,
+  userData: React.PropTypes.object.isRequired
 };
 
 module.exports = ChatPage;

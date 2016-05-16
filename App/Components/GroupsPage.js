@@ -12,16 +12,11 @@ import {
   TouchableHighlight,
   Image,
   TabBarIOS,
-  ScrollView
+  ScrollView,
+  AlertIOS
 } from 'react-native';
 
 var styles = StyleSheet.create({
-  header: {
-    marginBottom: 20,
-    fontSize: 18,
-    textAlign: 'center',
-    color: 'black'
-  },
   container: {
     flex: 1,
     backgroundColor: '#F5FCFF',
@@ -60,14 +55,22 @@ var styles = StyleSheet.create({
 });
 
 class GroupsPage extends Component {
+  saveResponse(promptValue){
+    this.setState({ promptValue: JSON.stringify(promptValue) });
+  }
 
-  goToChat(groupName){
+  addToGroup(groupName){
+    AlertIOS.prompt('Add User Email', null, this.saveResponse.bind(this))
+  };
+  goToChat(groupName, userData){
     this.props.navigator.push({
       component: ChatPage,
       title: groupName,
-      passProps: {groupName: groupName}
+      passProps: {groupName: groupName, userData: userData},
+      rightButtonIcon: require('./Common/Plus-button.png'),
+      onRightButtonPress: this.addToGroup.bind(this, groupName)
     })
-  }
+  };
   render() {
     var userData = {username: 'Timmert', email: 'timmer@time.com', pic_url: 'http://plan59.com/images/JPGs/sunshine_1954_fresh_00.jpg', location: 'San Francisco, CA' };
     var groupsData = [
@@ -82,7 +85,7 @@ class GroupsPage extends Component {
         <View key={index}>
           <View style={styles.rowContainer}>
             <TouchableHighlight
-            onPress={this.goToChat.bind(this, groupsData[index].name)}
+            onPress={this.goToChat.bind(this, groupsData[index].name, userData)}
             underlayColor='black'>
             <Text style={styles.name}>{groupsData[index].name}</Text>
             </TouchableHighlight>
@@ -93,18 +96,12 @@ class GroupsPage extends Component {
     });
     return(
       <ScrollView style={styles.container}>
-        <Badge
-        userData={userData}
-      />
+        <Badge userData={userData} />
         {list}
       </ScrollView>
+
     )
   }
 };
-
-// GroupsPage.propTypes = {
-//   userData: React.PropTypes.object.isRequired,
-//   groupsData: React.PropTypes.object.isRequired
-// };
 
 module.exports = GroupsPage;
