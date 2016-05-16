@@ -91,7 +91,7 @@ class CreateMarker extends Component {
   }
   onInviteButton() {
     this.props.navigator.replace({
-      title: 'Invite Page',
+      title: 'Invite Groups',
       component: GroupsInvitePage,
       rightButtonIcon: require('./Common/small-icon.png')
     })

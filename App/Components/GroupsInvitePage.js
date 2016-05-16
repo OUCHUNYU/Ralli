@@ -22,6 +22,7 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5FCFF',
+    paddingVertical: 80
   },
   wrapper: {
     flex: 1
@@ -29,7 +30,8 @@ var styles = StyleSheet.create({
   name: {
     color: '#48BBEC',
     fontSize: 18,
-    paddingBottom: 5
+    paddingBottom: 5,
+    alignSelf: 'flex-start'
   },
   label: {
     fontSize: 14
@@ -45,7 +47,10 @@ var styles = StyleSheet.create({
     alignSelf: 'center'
   },
   rowContainer: {
-    padding: 10
+    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'stretch'
   },
   rowTitle: {
     color: '#48BBEC',
@@ -64,9 +69,6 @@ var styles = StyleSheet.create({
     marginHorizontal: 10,
     alignSelf: 'stretch',
     justifyContent: 'center'
-  },
-  switch: {
-    justifyContent: 'flex-end'
   },
   buttonText: {
     fontSize: 18,
@@ -99,7 +101,7 @@ class GroupsInvitePage extends Component {
     })
   }
   onMakePublic() {
-    this.props.navigator.resetTo({
+    this.props.navigator.pop({
       title: 'Map Page',
       component: GoogleMap,
       rightButtonIcon: require('./Common/small-icon.png'),
@@ -126,8 +128,7 @@ class GroupsInvitePage extends Component {
         <View key={index}>
           <View style={styles.rowContainer}>
             <Text style={styles.name}>{groupsData[index].name}</Text>
-            <Switch
-            style={styles.switch}/>
+            <Switch />
           </View>
           <Separator />
         </View>
