@@ -77,4 +77,4 @@ module.exports = usersApi;
 //   console.log("*****************************************************");
 //   console.log(UsersRef.getAuth());
 // }));
-// console.log(usersApi.getUserByEmail("ouchunyu@yahoo.com") == true)
+// console.log(usersApi.getUserByEmail("ouchunyu@yahoo.com"))
