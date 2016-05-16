@@ -97,9 +97,8 @@ class GroupsPage extends Component {
     // api call to create group with promptValue(the name is stored in prompt value)
     this.setState({ promptValue: promptValue })
     var group = this.state.promptValue
-    console.log(group)
+    // api call to get updated list of groups or setting up
     groupsData.push({name: group})
-    console.log(groupsData)
     this.setState({
       dataSource: this.ds.cloneWithRows(groupsData)
     })
@@ -112,9 +111,7 @@ class GroupsPage extends Component {
     this.props.navigator.push({
       component: ChatPage,
       title: groupName,
-      passProps: {groupName: groupName, userData: userData},
-      rightButtonIcon: require('./Common/Plus-button.png'),
-      onRightButtonPress: this.addToGroup.bind(this, groupName)
+      passProps: {groupName: groupName, userData: userData}
     })
   };
 
