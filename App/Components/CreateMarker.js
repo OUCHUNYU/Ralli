@@ -1,5 +1,4 @@
 var Button = require('./Common/button');
-var MapPage = require('./MapPage');
 var DatePicker = require('./Common/DatePicker');
 var GroupsInvitePage = require('./GroupsInvitePage');
 
