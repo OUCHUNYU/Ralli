@@ -1,5 +1,4 @@
 var GoogleMap = require('./App/Components/GoogleMap');
-
 var LoginPage = require('./App/Components/LoginPage');
 
 import GroupsPage from './App/Components/GroupsPage'

@@ -1,7 +1,9 @@
 var usersApi = require('../Utils/usersApi');
+
 var SignUp = require('./SignUp');
 var CreateMarker = require('./CreateMarker')
 var GoogleMap = require('./GoogleMap')
+
 
 import React, { Component } from 'react';
 import {
@@ -11,7 +13,7 @@ import {
   NavigatorIOS,
   TextInput,
   TouchableHighlight,
-  Image
+  Image,
 } from 'react-native';
 
 
@@ -91,43 +93,48 @@ class LoginPage extends Component {
   }
 
   render() {
-    return (
-      <View style={styles.container}>
-        <View style={styles.headerbar}>
-        <Image style={styles.image} source={require('./Common/small-icon.png')} />
-        <Text style={styles.title}> Log In</Text>
+    if (usersApi.getCurrentUser()) {
+      return (<View onLayout={this.loggedInUserRedirect.bind(this)}></View>)
+    }else {
+      return (
+        <View style={styles.container}>
+          <View style={styles.headerbar}>
+          <Image style={styles.image} source={require('./Common/small-icon.png')} />
+          <Text style={styles.title}> Log In</Text>
 
+          </View>
+
+          <Text style={styles.label}>Username:</Text>
+
+          <TextInput
+           style={styles.input}
+           value={this.state.username}
+           onChangeText={(text) => this.setState({username: text})}/>
+
+          <Text style={styles.label}>Password:</Text>
+
+          <TextInput
+           secureTextEntry={true}
+           style={styles.input}
+           value={this.state.password}
+           onChangeText={(text) => this.setState({password: text})}/>
+
+           <TouchableHighlight style={styles.button} onPress={this.loginOnPress.bind(this)} underlayColor='#99d9f4'>
+             <Text style={styles.buttonText}>Log In</Text>
+           </TouchableHighlight>
+           <Text style={styles.spacer}> </Text>
+          <Text style={styles.label}>Not a member? Sign up here</Text>
+          <TouchableHighlight style={styles.button} onPress={this.signupOnPress.bind(this)} underlayColor='#99d9f4'>
+            <Text style={styles.buttonText}>Sign Up</Text>
+          </TouchableHighlight>
         </View>
-
-        <Text style={styles.label}>Username:</Text>
-
-        <TextInput
-         style={styles.input}
-         value={this.state.username}
-         onChangeText={(text) => this.setState({username: text})}/>
-
-        <Text style={styles.label}>Password:</Text>
-
-        <TextInput
-         secureTextEntry={true}
-         style={styles.input}
-         value={this.state.password}
-         onChangeText={(text) => this.setState({password: text})}/>
-
-         <TouchableHighlight style={styles.button} onPress={this.loginOnPress.bind(this)} underlayColor='#99d9f4'>
-           <Text style={styles.buttonText}>Log In</Text>
-         </TouchableHighlight>
-         <Text style={styles.spacer}> </Text>
-        <Text style={styles.label}>Not a member? Sign up here</Text>
-        <TouchableHighlight style={styles.button} onPress={this.signupOnPress.bind(this)} underlayColor='#99d9f4'>
-          <Text style={styles.buttonText}>Sign Up</Text>
-        </TouchableHighlight>
-      </View>
-    )
+      )
+    }
   }
+
   gotoMarker() {
     console.log(this.props)
-    this.props.navigator.push({
+    this.props.navigator.push ({
       title: 'Create Marker',
       component: CreateMarker
     })
@@ -141,9 +148,7 @@ class LoginPage extends Component {
             this.props.navigator.push({
             title: 'Map Page',
             component: GoogleMap,
-            passProps: {response: res},
-            rightButtonIcon: require('./Common/small-icon.png'),
-            onRightButtonPress: this.gotoMarker.bind(this)
+            passProps: {response: res}
           })
         });
       this.setState({
@@ -157,6 +162,30 @@ class LoginPage extends Component {
     title: 'Sign Up',
     component: SignUp
   })}
+
+  // loggedInUserRedirect() {
+  //   if(usersApi.getCurrentUser()) {
+  //     usersApi.getCurrentUser().then((res) => {
+  //         this.props.navigator.push({
+  //         title: 'Map Page',
+  //         component: GoogleMap,
+  //         passProps: {response: res},
+  //         rightButtonIcon: require('./Common/small-icon.png'),
+  //         onRightButtonPress: this.gotoMarker.bind(this)
+  //       })
+  //     })
+  //   }
+  // }
+
+  loggedInUserRedirect() {
+    this.props.navigator.push({
+      title: 'Map Page',
+      component: GoogleMap,
+      passProps: {response: usersApi.getCurrentUser()}
+
+
+    })
+  }
 
 }
 module.exports = LoginPage;
