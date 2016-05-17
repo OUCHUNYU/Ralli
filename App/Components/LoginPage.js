@@ -32,14 +32,16 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 50,
     padding: 20,
-    backgroundColor: '#ffffff',
+    width: null,
+    height: null
   },
   title: {
     fontSize: 30,
     alignSelf: 'flex-start',
     marginBottom: 30,
     marginTop: 25,
-    color: '#4320df'
+    color: 'white',
+    backgroundColor: 'rgba(0,0,0,0)',
   },
   buttonText: {
     fontSize: 18,
@@ -70,15 +72,18 @@ var styles = StyleSheet.create({
     backgroundColor: '#d9d9d9'
   },
   label: {
-    fontSize: 14
+    fontSize: 14,
+    color: 'white',
+    backgroundColor: 'rgba(0,0,0,0)',
   },
   spacer: {
-    marginVertical: 80
+    marginVertical: 80,
+    backgroundColor: 'rgba(0,0,0,0)',
   },
   headerbar: {
     flex: 1,
     alignItems: 'center',
-    flexDirection: 'row',
+    flexDirection: 'row'
   },
   buttonFacebook: {
     backgroundColor: '#3e51b2',
@@ -116,7 +121,7 @@ class LoginPage extends Component {
     //   return (<View onLayout={this.loggedInUserRedirect.bind(this)}></View>)
     // }else {
       return (
-        <View style={styles.container}>
+        <Image source={require('./Common/bridge-giphy.gif')} style={styles.container}>
           <View style={styles.headerbar}>
           <Image style={styles.image} source={require('./Common/small-icon.png')} />
           <Text style={styles.title}> Log In</Text>
@@ -152,7 +157,7 @@ class LoginPage extends Component {
           <TouchableHighlight style={styles.button} onPress={this.signupOnPress.bind(this)} underlayColor='#99d9f4'>
             <Text style={styles.buttonText}>Sign Up</Text>
           </TouchableHighlight>
-        </View>
+        </Image>
       )
     // }
   }
