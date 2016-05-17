@@ -111,9 +111,9 @@ class LoginPage extends Component {
   }
 
   render() {
-    if (usersApi.getCurrentUser()) {
-      return (<View onLayout={this.loggedInUserRedirect.bind(this)}></View>)
-    }else {
+    // if (usersApi.getCurrentUser()) {
+    //   return (<View onLayout={this.loggedInUserRedirect.bind(this)}></View>)
+    // }else {
       return (
         <View style={styles.container}>
           <View style={styles.headerbar}>
@@ -153,7 +153,7 @@ class LoginPage extends Component {
           </TouchableHighlight>
         </View>
       )
-    }
+    // }
   }
 
   gotoMarker() {
