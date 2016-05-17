@@ -83,7 +83,14 @@ class GroupsInvitePage extends Component {
     this.state = {
       eventTitle: '',
       address: '',
-      description: ''
+      description: '',
+      groupsData: [
+          {name: 'Group 1', users: ['Bobbert', 'Timmert', 'Kev']},
+          {name: 'Group 2', users: ['Bobbert', 'Timmert', 'Kev']},
+          {name: 'Group 3', users: ['Bobbert', 'Timmert', 'Kev']},
+          {name: 'Group 4', users: ['Bobbert', 'Timmert', 'Kev']},
+          {name: 'Group 5', users: ['Bobbert', 'Timmert', 'Kev']}
+        ]
     };
   }
   onStartRally() {
@@ -99,6 +106,12 @@ class GroupsInvitePage extends Component {
     })
   }
 
+  onSwitchPress () {
+
+    console.log(this.groupsData[index])
+
+  }
+
   render() {
     var userData = {username: 'Timmert', email: 'timmer@time.com', pic_url: 'http://plan59.com/images/JPGs/sunshine_1954_fresh_00.jpg', location: 'San Francisco, CA' };
     var groupsData = [
@@ -111,13 +124,11 @@ class GroupsInvitePage extends Component {
     var list = groupsData.map((item, index) => {
       return(
         <View key={index}>
-          <View style={styles.rowContainer}>
-            <Text style={styles.name}>{groupsData[index].name}</Text>
-            <Switch
-              onTintColor={'green'}
-              tintColor={'red'}
-             />
-          </View>
+          <TouchableHighlight onPress={this.onSwitchPress.bind(this)}>
+            <View style={styles.rowContainer}>
+                <Text style={styles.name}>{groupsData[index].name}</Text>
+            </View>
+          </TouchableHighlight>
           <Separator />
         </View>
       )
