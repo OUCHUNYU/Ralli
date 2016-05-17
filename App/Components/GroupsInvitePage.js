@@ -86,34 +86,19 @@ class GroupsInvitePage extends Component {
       description: ''
     };
   }
-  gotoMarker() {
-    this.props.navigator.push ({
-      title: 'Create Marker',
-      component: CreateMarker
-    })
-  }
   onStartRally() {
     this.props.navigator.pop({
       title: 'Map Page',
       component: GoogleMap,
-      rightButtonIcon: require('./Common/small-icon.png'),
-      onRightButtonPress: this.gotoMarker.bind(this)
     })
   }
   onMakePublic() {
     this.props.navigator.pop({
       title: 'Map Page',
       component: GoogleMap,
-      rightButtonIcon: require('./Common/small-icon.png'),
-      onRightButtonPress: this.gotoMarker.bind(this)
     })
   }
-  getInitialState() {
-    return (
-      trueSwitchIsOn: true,
-      falseSwitchIsOn: false,
-    )
-  }
+
   render() {
     var userData = {username: 'Timmert', email: 'timmer@time.com', pic_url: 'http://plan59.com/images/JPGs/sunshine_1954_fresh_00.jpg', location: 'San Francisco, CA' };
     var groupsData = [
@@ -128,12 +113,17 @@ class GroupsInvitePage extends Component {
         <View key={index}>
           <View style={styles.rowContainer}>
             <Text style={styles.name}>{groupsData[index].name}</Text>
-            <Switch />
+            <Switch
+              onTintColor={'green'}
+              tintColor={'red'}
+             />
           </View>
           <Separator />
         </View>
       )
     });
+
+    console.log(this.props.eventInfo)
     return(
       <ScrollView style={styles.container}>
         <TouchableHighlight style={styles.button} onPress={this.onMakePublic.bind(this)} underlayColor='#99d9f4'>
