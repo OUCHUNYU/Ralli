@@ -1,10 +1,11 @@
 'use strict';
 
 var groupsApi = require('../Utils/groupsApi.js');
+var usersApi = require('../Utils/usersApi.js');
 
 import Firebase from 'firebase'
 import React, { Component } from 'react';
-import Separator from './Helpers/Separator'
+// import Separator from './Helpers/Separator'
 import {
   StyleSheet,
   Text,
@@ -12,7 +13,8 @@ import {
   ListView,
   View,
   TextInput,
-  TouchableHighlight
+  TouchableHighlight,
+  Image,
 } from 'react-native';
 
 var styles = StyleSheet.create({
@@ -34,7 +36,9 @@ var styles = StyleSheet.create({
     flex: 10
   },
   rowContainer: {
+    flexDirection: 'row',
     padding: 10,
+    marginBottom: 5,
   },
   footerContainer: {
     backgroundColor: '#E3E3E3',
@@ -62,6 +66,15 @@ var styles = StyleSheet.create({
     paddingBottom: 0,
     justifyContent: 'flex-end',
     alignItems: 'flex-end'
+  },
+  avatar: {
+    height: 50,
+    width: 50,
+    borderRadius: 25,
+  },
+  messageStyle: {
+    marginTop: 15,
+    flex: 1,
   }
 });
 
@@ -69,10 +82,10 @@ var styles = StyleSheet.create({
 class ChatPage extends Component{
   constructor(props){
     super(props);
-    this.chatEndPoint = 'https://ralli.firebaseio.com/groups/' + this.props.groupData.id;
+    this.chatRef = new Firebase('https://ralli.firebaseio.com/groups/' + this.props.groupData.id + "/chatroom");
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
     this.state = {
-      dataSource: '',
+      dataSource: this.ds.cloneWithRows([{username: "Ralli Robot", message: "No body has said anything yet, be the first one!", avatarUrl: "http://www.gravatar.com/avatar/04da6ee5653a27ae038bebcdff7ea49c?s=90&r=g"}]),
       items: [],
       message: '',
       error: '',
@@ -81,25 +94,21 @@ class ChatPage extends Component{
   }
 
   componentWillMount(){
-    Firebase.enableLogging(true);
-    this.ref = new Firebase(this.chatEndPoint);
-    this.ref.limitToLast(15).on('value', function(snapshot) {
-      if(snapshot) {
-        var items = [];
-        snapshot.forEach(function(child) {
-          items.push(child.val());
-        });
-        console.log(items);
+    // Firebase.enableLogging(true);
+    this.chatRef.on('value', function(snapshot) {
+      if(snapshot.val()) {
+        var messages = [];
+        for(var i in snapshot.val()) {
+          messages.push(snapshot.val()[i]);
+        }
         this.setState({
-          items: items,
-          dataSource: this.ds.cloneWithRows(items.reverse()),
-          userName: this.props.userData.userName
+          items: messages,
+          dataSource: this.ds.cloneWithRows(messages),
+          userName: this.props.userData.username
         });
       }else {
         this.setState({
-          items: [],
-          dataSource: this.ds.cloneWithRows([]),
-          userName: this.props.userData.userName
+          userName: this.props.userData.username
         });
       }
     }.bind(this));
@@ -108,7 +117,16 @@ class ChatPage extends Component{
   saveResponse(promptValue){
     // api call to add user to current chat
     this.setState({ promptValue: promptValue })
-    console.log(promptValue);
+    var personEmail = this.state.promptValue;
+    // console.log(promptValue);
+    usersApi.getUserByEmail(personEmail).then((res) => {
+      // user id is Object.keys(res.val())[0]
+      // group id is this.
+      console.log(this.props.groupData.id)
+      console.log(Object.keys(res.val())[0])
+
+      groupsApi.joinGroup(this.props.groupData.id, Object.keys(res.val())[0], this.props.groupData.name);
+    })
   }
 
   handleChange(e){
@@ -118,19 +136,17 @@ class ChatPage extends Component{
   }
 
   handleSubmit(){
-    this.ref.push({ name: this.state.userName, message: this.state.message || '' });
+    this.chatRef.push({ username: this.state.userName, message: this.state.message || '', avatarUrl: this.props.userData.avatarUrl });
     this.setState({
       message: ''
     })
   }
   renderRow(rowData){
     return (
-      <View>
         <View style={styles.rowContainer}>
-          <Text> {rowData.name}: {rowData.message} </Text>
+          <Image style={styles.avatar} source={{uri: rowData.avatarUrl}} />
+          <Text style={styles.messageStyle} > {rowData.username}: {rowData.message}</Text>
         </View>
-        <Separator />
-      </View>
     )
   }
   footer(){
@@ -151,24 +167,41 @@ class ChatPage extends Component{
     )
   }
   render(){
-    return (
-      <View style={styles.container}>
-        <View style={styles.pluscontainer}>
-          <TouchableHighlight
-          style={styles.plusButton}
-          onPress={() => AlertIOS.prompt('Enter Group Name', null, this.saveResponse.bind(this))}
-          underlayColor='black'>
-            <Text style={styles.buttonText}> + </Text>
-          </TouchableHighlight>
+    if (this.state.items.length > 0) {
+      return (
+        <View style={styles.container}>
+          <View style={styles.pluscontainer}>
+            <TouchableHighlight
+            style={styles.plusButton}
+            onPress={() => AlertIOS.prompt('Add a person by Email', null, this.saveResponse.bind(this))}
+            underlayColor='black'>
+              <Text style={styles.buttonText}> + </Text>
+            </TouchableHighlight>
+          </View>
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={this.renderRow} />
+          {this.footer()}
         </View>
-        <ListView
-          scrollTo={0, 5}
-          enableEmptySections={false}
-          dataSource={this.state.dataSource}
-          renderRow={this.renderRow} />
-        {this.footer()}
-      </View>
-    )
+      )
+    }else {
+      return (
+        <View style={styles.container}>
+          <View style={styles.pluscontainer}>
+            <TouchableHighlight
+            style={styles.plusButton}
+            onPress={() => AlertIOS.prompt('Add a person by Email', null, this.saveResponse.bind(this))}
+            underlayColor='black'>
+              <Text style={styles.buttonText}> + </Text>
+            </TouchableHighlight>
+          </View>
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={this.renderRow} />
+          {this.footer()}
+        </View>
+      )
+    }
   }
 };
 
@@ -178,3 +211,6 @@ ChatPage.propTypes = {
 };
 
 module.exports = ChatPage;
+
+// scrollTo={0, 5}
+// enableEmptySections={false}

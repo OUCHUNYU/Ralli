@@ -114,8 +114,16 @@ var styles = StyleSheet.create({
 class GroupsPage extends Component {
   componentWillMount() {
     // when a group is added
+    console.log(this.props.userData)
     this.userRef.on('value', ((dataSnapshot) => {
+      console.log(dataSnapshot.val().groups)
       if (dataSnapshot && dataSnapshot.val().groups) {
+
+        // var groups = [];
+        // for(var i in snapshot.val()) {
+        //   messages.push(snapshot.val()[i]);
+        // }
+
         this.setState({
           groups : dataSnapshot.val().groups,
           dataSource: this.ds.cloneWithRows(dataSnapshot.val().groups),
@@ -132,9 +140,8 @@ class GroupsPage extends Component {
   }
 
   constructor(props){
-    console.log("constructor first")
     super(props);
-    this.userRef = new Firebase('https://ralli.firebaseio.com/users/-KHqf2KiolbegdEhXHuy');
+    this.userRef = new Firebase('https://ralli.firebaseio.com/users/' + this.props.userId);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
 
     this.state = {
@@ -157,9 +164,6 @@ class GroupsPage extends Component {
     AlertIOS.prompt('Add User Email', null, this.saveResponse.bind(this))
   };
   goToChat(row){
-    console.log("you are on the way to chat")
-    console.log(row)
-    console.log("sahdfkjshdfhsk")
     this.props.navigator.push({
       component: ChatPage,
       title: row.name,
@@ -225,10 +229,11 @@ class GroupsPage extends Component {
   }
 };
 
-// GroupsPage.propTypes = {
-//   userInfo: React.PropTypes.object.isRequired,
-//   userId: React.PropTypes.string.isRequired
-// };
+GroupsPage.propTypes = {
+  userData: React.PropTypes.object.isRequired,
+  userId: React.PropTypes.string.isRequired
+};
+
 
 
 module.exports = GroupsPage;
