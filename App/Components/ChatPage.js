@@ -96,7 +96,6 @@ class ChatPage extends Component{
       userName: ''
     }
   }
-
   componentWillMount(){
     // Firebase.enableLogging(true);
     this.chatRef.on('value', function(snapshot) {
@@ -210,7 +209,8 @@ class ChatPage extends Component{
           </View>
           <ListView
             dataSource={this.state.dataSource}
-            renderRow={this.renderRow} />
+            renderRow={this.renderRow}
+          />
           {this.footer()}
         </View>
       )
