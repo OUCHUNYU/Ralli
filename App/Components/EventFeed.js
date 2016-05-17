@@ -37,8 +37,9 @@ var styles = StyleSheet.create({
     flex: 10
   },
   rowContainer: {
+    flex: 1,
     padding: 10,
-    backgroundColor: '#6600ff',
+    backgroundColor: '#0d0d0d',
     borderRadius: 8,
     paddingVertical: 20,
     marginVertical: 2,
@@ -46,10 +47,8 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     overflow: 'visible',
     borderWidth: 2,
-    borderColor: '#8c8c8c',
-    borderTopColor: 'white',
-    borderLeftColor: 'white',
-    opacity: .97
+    borderColor: '#000000',
+    opacity: .8
   },
   footerContainer: {
     backgroundColor: '#E3E3E3',
@@ -57,9 +56,9 @@ var styles = StyleSheet.create({
     flexDirection: 'row'
   },
   rowText: {
+    flex: 1,
     color: 'white',
-    overflow: 'visible',
-  }
+  },
 });
 
 // all event objects a user has been invited to (array) MVP

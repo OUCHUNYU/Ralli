@@ -64,7 +64,8 @@ var styles = StyleSheet.create({
     marginBottom: 20,
     flex: 1,
     alignSelf: 'stretch',
-    borderColor: "lightsteelblue"
+    borderColor: '#bfbfbf',
+    backgroundColor: '#d9d9d9'
   },
   label: {
     fontSize: 14

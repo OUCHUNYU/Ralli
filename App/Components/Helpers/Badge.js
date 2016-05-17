@@ -11,7 +11,7 @@ import {
 
 var styles = StyleSheet.create({
   container: {
-    backgroundColor: '#48BBEC',
+    backgroundColor: '#6600ff',
     paddingBottom: 30,
     marginBottom: -45
   },

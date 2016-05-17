@@ -18,7 +18,7 @@ var styles = StyleSheet.create({
   },
   button: {
     height: 60,
-    backgroundColor: '#48BBEC',
+    backgroundColor: '#6600ff',
     flex: 3,
     alignItems: 'center',
     justifyContent: 'center'
@@ -41,7 +41,7 @@ var styles = StyleSheet.create({
   plusButton: {
     flex: 1,
     flexDirection: 'row',
-    backgroundColor: '#48BBEC',
+    backgroundColor: '#6600ff',
     alignItems: 'center',
     justifyContent: 'center',
     width: 40,
@@ -130,7 +130,7 @@ class ChatPage extends Component{
             style={styles.searchInput}
             value={this.state.message}
             onChange={this.handleChange.bind(this)}
-            placeholder="Type stuff" />
+            placeholder="Group Chat" />
         <TouchableHighlight
             style={styles.button}
             onPress={this.handleSubmit.bind(this)}
