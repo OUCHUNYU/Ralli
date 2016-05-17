@@ -45,8 +45,8 @@ var styles = StyleSheet.create({
   },
   button: {
     height: 36,
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
+    backgroundColor: '#6600ff',
+    borderColor: '#6600ff',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,
@@ -64,7 +64,8 @@ var styles = StyleSheet.create({
     marginBottom: 20,
     flex: 1,
     alignSelf: 'stretch',
-    borderColor: "lightsteelblue"
+    borderColor: '#bfbfbf',
+    backgroundColor: '#d9d9d9'
   },
   label: {
     fontSize: 14
