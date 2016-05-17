@@ -50,10 +50,7 @@ var usersApi = {
   },
 
   getUserByEmail: function(email) {
-    return UsersRef
-             .orderByChild('email')
-             .equalTo(email)
-             .once('value');
+    return new Firebase('https://ralli.firebaseio.com').child('users').orderByChild('email').equalTo(email).once('value');
   },
 
   getCurrentUser: function() {
@@ -77,4 +74,9 @@ module.exports = usersApi;
 //   console.log("*****************************************************");
 //   console.log(UsersRef.getAuth());
 // }));
-// console.log(usersApi.getUserByEmail("ouchunyu@yahoo.com"))
+// usersApi.createNewUser("gsdaf@gmail.com", "dfadsfafds", "someone");
+// console.log(usersApi.getUserByEmail("ouchunyu@yahoo.com").then((res) => {console.log(typeof Object.keys(res.val())[0])}))
+
+// get the actuall user object
+// var obj = { first: 'someVal' };
+// obj[Object.keys(obj)[0]];

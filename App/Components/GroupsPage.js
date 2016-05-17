@@ -1,7 +1,8 @@
 'use strict';
+var Firebase = require('firebase');
+var groupsApi = require('../Utils/groupsApi.js');
 
 var { width, height } = Dimensions.get('window');
-import Separator from './Helpers/Separator';
 import Badge from './Helpers/Badge';
 import ChatPage from './ChatPage';
 import React, { Component } from 'react';
@@ -100,21 +101,51 @@ var styles = StyleSheet.create({
   }
 });
 
-var userData = {username: 'Timmert', email: 'timmer@time.com', pic_url: 'http://plan59.com/images/JPGs/sunshine_1954_fresh_00.jpg', location: 'San Francisco, CA' };
-var groupsData = [
-    {name: 'Group 1'},
-    {name: 'Group 2'},
-    {name: 'Group 3'},
-    {name: 'Group 4'},
-    {name: 'Group 5'}
-  ];
+// var passedUser = {username: 'ouchunyu', email: 'ouchunyu@yahoo.com', avatarUrl: "https://secure.gravatar.com/avatar/47fc607a6ee96a95f4a431b810dffbe2?d=retro"};
+
+// var groupsData = [
+//     {name: 'Group 1'},
+//     {name: 'Group 2'},
+//     {name: 'Group 3'},
+//     {name: 'Group 4'},
+//     {name: 'Group 5'}
+//   ];
 
 class GroupsPage extends Component {
+  componentWillMount() {
+    // when a group is added
+    // console.log("mount first")
+    this.userRef.on('value', ((dataSnapshot) => {
+      if (dataSnapshot && dataSnapshot.val().groups) {
+        // var groupArr = [];
+        // for(var i = 0; i < dataSnapshot.val().groups.length; i++) {
+        //   groupArr.push(dataSnapshot.val().groups[i])
+        // }
+        this.setState({
+          groups : dataSnapshot.val().groups,
+          dataSource: this.ds.cloneWithRows(dataSnapshot.val().groups),
+          userData: dataSnapshot.val()
+        });
+      }else {
+        this.setState({
+          groups : [],
+          dataSource: this.ds.cloneWithRows(this.state.groups),
+          userData: dataSnapshot.val()
+        });
+      }
+    }));
+  }
+
   constructor(props){
+    console.log("constructor first")
     super(props);
-    this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
+    this.userRef = new Firebase('https://ralli.firebaseio.com/users/-KHqf2KiolbegdEhXHuy');
+    this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+
     this.state = {
-      dataSource: this.ds.cloneWithRows(groupsData)
+      groups: [],
+      dataSource: '',
+      userData: ''
     }
   }
 
@@ -123,9 +154,12 @@ class GroupsPage extends Component {
     this.setState({ promptValue: promptValue })
     var group = this.state.promptValue
     // api call to get updated list of groups or setting up
-    groupsData.push({name: group})
-    this.setState({
-      dataSource: this.ds.cloneWithRows(groupsData)
+    // groupsData.push({name: group})
+    // this.setState({
+    //   dataSource: this.ds.cloneWithRows(groupsData)
+    // })
+    this.userRef.once("value").then((res) => {
+      groupsApi.createGroup(res.val(), group);
     })
   }
 
@@ -136,12 +170,12 @@ class GroupsPage extends Component {
     this.props.navigator.push({
       component: ChatPage,
       title: groupName,
-      passProps: {groupName: groupName, userData: userData}
+      passProps: {groupName: groupName, userData: this.state.userData}
     })
   };
 
   renderRow(rowData){
-    console.log(this.state.promptValue);
+    // console.log(this.state.promptValue);
     return (
       <View>
         <TouchableHighlight
@@ -158,26 +192,53 @@ class GroupsPage extends Component {
   }
 
   render() {
-    return(
-      <ScrollView style={styles.container}>
-        <Badge userData={userData} />
-        <View
-        style={styles.pluscontainer}>
-          <TouchableHighlight
-          style={styles.plusButton}
-          onPress={() => AlertIOS.prompt('Enter Group name:', null, this.saveResponse.bind(this))}
-          underlayColor='gray'>
-            <Text style={styles.buttonText}>Create Group</Text>
-          </TouchableHighlight>
-        </View>
-        <View style={styles.listviewbox}>
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this.renderRow.bind(this)} />
+    if (this.state.groups.length > 0) {
+      console.log("render first")
+      // console.log(this.state.userData instanceof Object)
+      return(
+        <ScrollView style={styles.container}>
+          <Badge userData={this.state.userData} />
+          <View
+          style={styles.pluscontainer}>
+            <TouchableHighlight
+            style={styles.plusButton}
+            onPress={() => AlertIOS.prompt('Enter Group name:', null, this.saveResponse.bind(this))}
+            underlayColor='gray'>
+              <Text style={styles.buttonText}>Create Group</Text>
+            </TouchableHighlight>
           </View>
-      </ScrollView>
-    )
+          <View style={styles.listviewbox}>
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={this.renderRow.bind(this)} />
+            </View>
+        </ScrollView>
+      )
+    }else {
+      return(
+        <ScrollView style={styles.container}>
+          <Badge userData={this.state.userData} />
+          <View
+          style={styles.pluscontainer}>
+            <TouchableHighlight
+            style={styles.plusButton}
+            onPress={() => AlertIOS.prompt('Enter Group name:', null, this.saveResponse.bind(this))}
+            underlayColor='gray'>
+              <Text style={styles.buttonText}>Create Group</Text>
+            </TouchableHighlight>
+          </View>
+          <View style={styles.listviewbox}>
+            </View>
+        </ScrollView>
+      )
+    }
   }
 };
+
+// GroupsPage.propTypes = {
+//   userInfo: React.PropTypes.object.isRequired,
+//   userId: React.PropTypes.string.isRequired
+// };
+
 
 module.exports = GroupsPage;
