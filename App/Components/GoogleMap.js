@@ -110,7 +110,8 @@ class GoogleMap extends Component {
   onPressGroups() {
     this.props.navigator.push ({
       title: 'Groups Page',
-      component: GroupsPage
+      component: GroupsPage,
+      passProps: {userData: this.props.userData, userId: this.props.userId}
     })
   }
   onPressProfile() {
@@ -278,5 +279,11 @@ var styles = StyleSheet.create({
   },
 
 });
+
+
+GoogleMap.propTypes = {
+  userData: React.PropTypes.object.isRequired,
+  userId: React.PropTypes.string.isRequired
+};
 
 module.exports = GoogleMap;

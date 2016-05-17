@@ -174,19 +174,22 @@ class LoginPage extends Component {
     //Log the user in
       usersApi.loginUser(this.state.username, this.state.password)
         .then((res) => {
-            console.log(res)
+          usersApi.getUserByEmail(res.password.email).then((res) => {
             this.props.navigator.push({
             title: 'Rallies Nearby',
             component: GoogleMap,
-            passProps: {response: res}
+            passProps: {userData: res.val()[Object.keys(res.val())[0]], userId: Object.keys(res.val())[0]}
           })
-        });
+        })
+      })
       this.setState({
         username: '',
         password: ''
       });
+    }
 
-  }
+
+
   signupOnPress() {
     this.props.navigator.push({
     title: 'Sign Up',

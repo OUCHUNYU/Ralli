@@ -34,7 +34,7 @@ var groupsApi = {
 
   },
 
-  joinGroup: function(groupId, newMemberId, currentUser) {
+  joinGroup: function(groupId, newMemberId, groupName) {
     return new Firebase(FirebaseGroupsUrl + '/' + groupId).once("value").then((res) => {
       var targetGroup = res.val().members;
       if (targetGroup) {
@@ -49,12 +49,12 @@ var groupsApi = {
 
 
       (new Firebase('https://ralli.firebaseio.com/users/' + newMemberId)).once("value").then((res) => {
-        var newMemberObject = res.val().joinedGroups;
+        var newMemberObject = res.val().groups;
         if(newMemberObject) {
-          newMemberObject.push(groupId)
-          (new Firebase('https://ralli.firebaseio.com/users/' + newMemberId)).update({joinedGroups: newMemberObject.slice(0)})
+          newMemberObject.push({id: groupId, name: groupName})
+          (new Firebase('https://ralli.firebaseio.com/users/' + newMemberId)).update({groups: newMemberObject.slice(0)})
         }else {
-          (new Firebase('https://ralli.firebaseio.com/users/' + newMemberId)).update({joinedGroups: [groupId]})
+          (new Firebase('https://ralli.firebaseio.com/users/' + newMemberId)).update({groups: [{id: groupId, name: groupName}]})
         }
       })
     })
