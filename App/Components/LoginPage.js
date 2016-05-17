@@ -48,8 +48,8 @@ var styles = StyleSheet.create({
   },
   button: {
     height: 36,
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
+    backgroundColor: '#6600ff',
+    borderColor: '#6600ff',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,
@@ -66,7 +66,8 @@ var styles = StyleSheet.create({
     marginBottom: 20,
     flex: 1,
     alignSelf: 'stretch',
-    borderColor: "lightsteelblue"
+    borderColor: '#bfbfbf',
+    backgroundColor: '#d9d9d9'
   },
   label: {
     fontSize: 14
@@ -77,7 +78,7 @@ var styles = StyleSheet.create({
   headerbar: {
     flex: 1,
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   buttonFacebook: {
     backgroundColor: '#3e51b2',
@@ -111,9 +112,9 @@ class LoginPage extends Component {
   }
 
   render() {
-    if (usersApi.getCurrentUser()) {
-      return (<View onLayout={this.loggedInUserRedirect.bind(this)}></View>)
-    }else {
+    // if (usersApi.getCurrentUser()) {
+    //   return (<View onLayout={this.loggedInUserRedirect.bind(this)}></View>)
+    // }else {
       return (
         <View style={styles.container}>
           <View style={styles.headerbar}>
@@ -153,7 +154,7 @@ class LoginPage extends Component {
           </TouchableHighlight>
         </View>
       )
-    }
+    // }
   }
 
   gotoMarker() {
