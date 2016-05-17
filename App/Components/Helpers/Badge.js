@@ -64,7 +64,7 @@ class Badge extends Component{
   render(){
     return(
       <View style={styles.container}>
-          <Image style={styles.image} source={{uri: this.props.userData.pic_url}} />
+          <Image style={styles.image} source={{uri: this.props.userData.avatarUrl}} />
         <Text style={styles.name}></Text>
       </View>
     )

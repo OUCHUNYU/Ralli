@@ -64,7 +64,7 @@ var styles = StyleSheet.create({
 
 var items = [{name: 'Previousely on group chat', message: '' }]
 
-const chatEndPoint = 'https://rallychats.firebaseio.com/chat/';
+const chatEndPoint = 'https://ralli.firebaseio.com/groups';
 
 class ChatPage extends Component{
   constructor(props){
@@ -161,6 +161,7 @@ class ChatPage extends Component{
     )
   }
 };
+
 
 
 module.exports = ChatPage;

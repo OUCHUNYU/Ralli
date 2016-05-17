@@ -15,12 +15,15 @@ var groupsApi = {
       var groupId = res.key();
       if (currentUser.groups) {
         usersApi.getUserByEmail(currentUser.email).then((res) => {
-          currentUser.groups.push(groupId);
-          (new Firebase('https://ralli.firebaseio.com/users/' + res.key())).update({groups: currentUser.groups.slice(0)});
+          currentUser.groups.push({name: newGroupName, id: groupId});
+          var userId = Object.keys(res.val())[0];
+
+          (new Firebase('https://ralli.firebaseio.com/users/' + userId)).update({groups: currentUser.groups.slice(0)});
         })
       }else {
         usersApi.getUserByEmail(currentUser.email).then((res) => {
-          (new Firebase('https://ralli.firebaseio.com/users/' + res.key())).update({groups: [groupId]});
+          var userId = Object.keys(res.val())[0];
+          (new Firebase('https://ralli.firebaseio.com/users/' + userId)).update({groups: [{name: newGroupName, id: groupId}]});
         })
       }
 
@@ -92,3 +95,7 @@ module.exports = groupsApi;
 //   console.log("*****************************************************");
 //   // console.log();
 // }));
+
+// new Firebase('https://ralli.firebaseio.com/users/-KHqf2KiolbegdEhXHuy').once("value").then((res) => {
+//       groupsApi.createGroup(res.val(), "asdfjlsdfsafssdafdasdsafsad");
+//     })
