@@ -89,8 +89,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     overflow: 'visible',
     borderWidth: 2,
-    borderColor: '#bfbfbf',
-    opacity: .97
+    borderColor: '#bfbfbf'
   },
   listviewbox: {
     paddingHorizontal: 10

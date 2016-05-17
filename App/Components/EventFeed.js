@@ -16,7 +16,8 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
+    backgroundColor: '#cccccc'
   },
   buttonText: {
     fontSize: 18,
