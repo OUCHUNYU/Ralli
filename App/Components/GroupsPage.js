@@ -23,15 +23,16 @@ import {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#48BBEC',
+    backgroundColor: '#cccccc',
   },
   wrapper: {
     flex: 1
   },
   name: {
-    color: '#48BBEC',
+    color: '#666666',
     fontSize: 18,
-    paddingBottom: 5
+    paddingBottom: 5,
+    fontWeight: 'bold'
   },
   label: {
     fontSize: 14
@@ -47,7 +48,7 @@ var styles = StyleSheet.create({
     alignSelf: 'center'
   },
   rowContainer: {
-    padding: 10
+    padding: 5
   },
   rowTitle: {
     color: '#48BBEC',
@@ -62,7 +63,7 @@ var styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: '#48BBEC',
+    borderColor: '#4700b3',
     borderWidth: 1.5,
     width: width * .30,
     height: 30,
@@ -70,7 +71,7 @@ var styles = StyleSheet.create({
     marginBottom: 10
   },
   buttonText: {
-    color: '#48BBEC'
+    color: '#6600ff'
   },
   pluscontainer: {
     justifyContent: 'center',
@@ -84,14 +85,18 @@ var styles = StyleSheet.create({
     paddingVertical: 20,
     marginVertical: 1,
     flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
     overflow: 'visible',
     borderWidth: 2,
-    borderColor: '#48BBEC',
-    opacity: .97
+    borderColor: '#bfbfbf'
   },
   listviewbox: {
     paddingHorizontal: 10
+  },
+  arrow: {
+    fontSize: 25,
+    color: '#b3b3b3',
   }
 });
 
@@ -144,10 +149,10 @@ class GroupsPage extends Component {
         underlayColor='#48BBEC'>
         <View style={styles.rowContainer}>
           <Image style={styles.groupImage} source={require('./Common/usergroup.png')} />
-          <Text style={styles.name}>   {rowData.name} </Text>
+          <Text style={styles.name}>{rowData.name}</Text>
+          <Text style={styles.arrow}> > </Text>
         </View>
         </TouchableHighlight>
-        <Separator />
       </View>
     )
   }
