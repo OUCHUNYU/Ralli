@@ -157,9 +157,6 @@ class GroupsPage extends Component {
     AlertIOS.prompt('Add User Email', null, this.saveResponse.bind(this))
   };
   goToChat(row){
-    console.log("you are on the way to chat")
-    console.log(row)
-    console.log("sahdfkjshdfhsk")
     this.props.navigator.push({
       component: ChatPage,
       title: row.name,
