@@ -114,13 +114,8 @@ var styles = StyleSheet.create({
 class GroupsPage extends Component {
   componentWillMount() {
     // when a group is added
-    // console.log("mount first")
     this.userRef.on('value', ((dataSnapshot) => {
       if (dataSnapshot && dataSnapshot.val().groups) {
-        // var groupArr = [];
-        // for(var i = 0; i < dataSnapshot.val().groups.length; i++) {
-        //   groupArr.push(dataSnapshot.val().groups[i])
-        // }
         this.setState({
           groups : dataSnapshot.val().groups,
           dataSource: this.ds.cloneWithRows(dataSnapshot.val().groups),
@@ -153,11 +148,6 @@ class GroupsPage extends Component {
     // api call to create group with promptValue(the name is stored in prompt value)
     this.setState({ promptValue: promptValue })
     var group = this.state.promptValue
-    // api call to get updated list of groups or setting up
-    // groupsData.push({name: group})
-    // this.setState({
-    //   dataSource: this.ds.cloneWithRows(groupsData)
-    // })
     this.userRef.once("value").then((res) => {
       groupsApi.createGroup(res.val(), group);
     })
@@ -166,20 +156,22 @@ class GroupsPage extends Component {
   addToGroup(groupName){
     AlertIOS.prompt('Add User Email', null, this.saveResponse.bind(this))
   };
-  goToChat(groupName){
+  goToChat(row){
+    console.log("you are on the way to chat")
+    console.log(row)
+    console.log("sahdfkjshdfhsk")
     this.props.navigator.push({
       component: ChatPage,
-      title: groupName,
-      passProps: {groupName: groupName, userData: this.state.userData}
+      title: row.name,
+      passProps: {groupData: row, userData: this.state.userData}
     })
   };
 
   renderRow(rowData){
-    // console.log(this.state.promptValue);
     return (
       <View>
         <TouchableHighlight
-        onPress={this.goToChat.bind(this, rowData.name)}
+        onPress={this.goToChat.bind(this, rowData)}
         underlayColor='#48BBEC'>
         <View style={styles.rowContainer}>
           <Image style={styles.groupImage} source={require('./Common/usergroup.png')} />
@@ -193,8 +185,6 @@ class GroupsPage extends Component {
 
   render() {
     if (this.state.groups.length > 0) {
-      console.log("render first")
-      // console.log(this.state.userData instanceof Object)
       return(
         <ScrollView style={styles.container}>
           <Badge userData={this.state.userData} />
