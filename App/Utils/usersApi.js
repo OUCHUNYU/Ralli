@@ -75,7 +75,7 @@ module.exports = usersApi;
 //   console.log(UsersRef.getAuth());
 // }));
 // usersApi.loginUser("gumerlock@yahoo.com", "gumerlock").then((res) => {console.log(res.password.email)});
-// console.log(usersApi.getUserByEmail("ouchunyu@yahoo.com").then((res) => {console.log(Object.keys(res.val())[0])}))
+// console.log(usersApi.getUserByEmail("asdfsa@fadsf.com").then((res) => {console.log(Object.keys(res.val())[0])}).catch((err) => {console.log("user not found")}))
 
 // get the actuall user object
 // var obj = { first: 'someVal' };
