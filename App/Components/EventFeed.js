@@ -17,7 +17,9 @@ var styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     paddingHorizontal: 20,
-    backgroundColor: '#cccccc'
+    backgroundColor: '#cccccc',
+    width: null,
+    height: null
   },
   buttonText: {
     fontSize: 18,
@@ -91,11 +93,11 @@ class EventFeed extends Component{
   render(){
     console.log(this.props);
     return (
-      <View style={styles.container}>
+      <Image source={require('./Common/clouds.gif')} style={styles.container}>
           <ListView
             dataSource={this.state.dataSource}
             renderRow={this.renderRow} />
-      </View>
+      </Image>
     )
   }
 };
