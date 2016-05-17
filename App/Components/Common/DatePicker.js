@@ -94,13 +94,6 @@ var Heading = React.createClass({
 });
 
 module.exports = DatePicker;
-exports.examples = [
-{
-  title: '<DatePickerIOS>',
-  render: function(): ReactElement {
-    return <DatePickerExample />;
-  },
-}];
 
 var styles = StyleSheet.create({
   textinput: {

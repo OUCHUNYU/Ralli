@@ -76,26 +76,64 @@ var styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     flexDirection: 'row'
+  },
+  labelContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 2,
+  },
+  labelView: {
+    marginRight: 10,
+    paddingVertical: 2,
+  },
+  label: {
+    fontWeight: '500',
+  },
+  headingContainer: {
+    padding: 4,
+    backgroundColor: '#f6f7f8',
+  },
+  heading: {
+    fontWeight: '500',
+    fontSize: 14,
   }
 });
 
-class CreateMarker extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+
+var CreateMarker = React.createClass({
+  getDefaultProps: function () {
+    return {
+      date: new Date(),
+      timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
+    };
+  },
+
+  getInitialState: function() {
+    return {
+      date: this.props.date,
+      timeZoneOffsetInHours: this.props.timeZoneOffsetInHours,
       eventTitle: '',
       address: '',
-      description: ''
+      description: '',
     };
-  }
+  },
+
+  onDateChange: function(date) {
+    this.setState({date: date});
+  },
+
   onInviteButton() {
     this.props.navigator.replace({
       title: 'Invite Groups',
       component: GroupsInvitePage,
-      rightButtonIcon: require('./Common/small-icon.png')
+      rightButtonIcon: require('./Common/small-icon.png'),
+      passProps: {eventInfo: this.state}
     })
-  }
-  render() {
+  },
+
+  render: function() {
+    // Ideally, the timezone input would be a picker rather than a
+    // text input, but we don't have any pickers yet :(
     return (
       <ScrollView>
         <View style={styles.headerbar}>
@@ -125,15 +163,21 @@ class CreateMarker extends Component {
           value={this.state.description}
           onChangeText={(text) => this.setState({description: text})}/>
 
-         <DatePicker />
+          <DatePickerIOS
+            date={this.state.date}
+            mode="datetime"
+            timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
+            onDateChange={this.onDateChange}
+          />
 
-         <TouchableHighlight style={styles.button} onPress={this.onInviteButton.bind(this)} underlayColor='#99d9f4'>
+         <TouchableHighlight style={styles.button} onPress={this.onInviteButton} underlayColor='#99d9f4'>
            <Text style={styles.buttonText}> Invite Groups </Text>
          </TouchableHighlight>
 
       </ScrollView>
-    )
-  }
+    );
+  },
+});
 
       // usersApi.createMarker(this.state.eventTitle, this.state.address, this.state.description)
       //   .then((res) => {
@@ -153,6 +197,4 @@ class CreateMarker extends Component {
       // });
 
 
-
-};
 module.exports = CreateMarker;

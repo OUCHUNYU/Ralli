@@ -154,34 +154,35 @@ class GoogleMap extends Component {
 
   render() {
     const { region, markers } = this.state;
-    var list = this.state.markers.map((item, index) => {
+    var markersList = this.state.markers.map((item, index) => {
     return (
-          <MapView.Marker
-            ref="m3"
-            image={Marker}
-            coordinate={markers[index].coordinate}
-            calloutAnchor={{ x: 0.1, y: 0.1 }}
-            calloutOffset={{ x: 1, y: 29 }}
-          >
-            <MapView.Callout tooltip>
-              <TouchableOpacity onPress={this.markerCenter.bind(this)}>
-                <CustomCallout style={styles.calloutOpacity}>
-                  <Text style={styles.calloutHeader}>{markers[index].title}</Text>
-                  <Text style={styles.calloutText}>{markers[index].address}</Text>
-                  <Text style={styles.calloutText}>{markers[index].description}</Text>
-                  <Text style={styles.calloutText}>Group: {markers[index].groups}</Text>
-                  <Image style={styles.calloutImage} source={require('./Common/sbpete.png')}/>
-                  <Button onPress={this.openMarker.bind(this)} text="I'm Going"></Button>
-                </CustomCallout>
-              </TouchableOpacity>
-            </MapView.Callout>
-          </MapView.Marker>
+      <MapView.Marker
+        ref="m3"
+        key={index}
+        image={Marker}
+        coordinate={markers[index].coordinate}
+        calloutAnchor={{ x: 0.1, y: 0.1 }}
+        calloutOffset={{ x: 1, y: 29 }}
+      >
+        <MapView.Callout tooltip>
+          <TouchableOpacity onPress={this.markerCenter.bind(this)}>
+            <CustomCallout style={styles.calloutOpacity}>
+              <Text style={styles.calloutHeader}>{markers[index].title}</Text>
+              <Text style={styles.calloutText}>{markers[index].address}</Text>
+              <Text style={styles.calloutText}>{markers[index].description}</Text>
+              <Text style={styles.calloutText}>Group: {markers[index].groups}</Text>
+              <Image style={styles.calloutImage} source={require('./Common/sbpete.png')}/>
+              <Button onPress={this.openMarker.bind(this)} text="I'm Going"></Button>
+            </CustomCallout>
+          </TouchableOpacity>
+        </MapView.Callout>
+      </MapView.Marker>
       )
     });
       return (
       <View style={styles.container}>
         <MapView style={styles.map} initialRegion={region} >
-        {list}
+        {markersList}
         </MapView>
 
         <View style={styles.buttonContainer}>
