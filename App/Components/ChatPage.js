@@ -46,7 +46,6 @@ var styles = StyleSheet.create({
     flexDirection: 'row'
   },
   plusButton: {
-    flex: 1,
     flexDirection: 'row',
     backgroundColor: '#6600ff',
     alignItems: 'center',
@@ -62,6 +61,7 @@ var styles = StyleSheet.create({
     color: 'white'
   },
   pluscontainer: {
+    flexDirection: 'row',
     paddingTop: 65,
     paddingBottom: 0,
     justifyContent: 'flex-end',
@@ -75,6 +75,10 @@ var styles = StyleSheet.create({
   messageStyle: {
     marginTop: 15,
     flex: 1,
+  },
+  errorMessage: {
+    fontSize: 14,
+    color: '#4d0000',
   }
 });
 
@@ -88,7 +92,7 @@ class ChatPage extends Component{
       dataSource: this.ds.cloneWithRows([{username: "Ralli Robot", message: "No body has said anything yet, be the first one!", avatarUrl: "http://www.gravatar.com/avatar/04da6ee5653a27ae038bebcdff7ea49c?s=90&r=g"}]),
       items: [],
       message: '',
-      error: '',
+      error: false,
       userName: ''
     }
   }
@@ -122,16 +126,18 @@ class ChatPage extends Component{
     usersApi.getUserByEmail(personEmail).then((res) => {
       // user id is Object.keys(res.val())[0]
       // group id is this.
-      console.log(this.props.groupData.id)
-      console.log(Object.keys(res.val())[0])
-
       groupsApi.joinGroup(this.props.groupData.id, Object.keys(res.val())[0], this.props.groupData.name);
+    }).catch((err) => {
+      this.setState({
+        error: "User Not Found"
+      })
     })
   }
 
   handleChange(e){
     this.setState({
-      message: e.nativeEvent.text
+      message: e.nativeEvent.text,
+      error: false
     })
   }
 
@@ -149,6 +155,9 @@ class ChatPage extends Component{
         </View>
     )
   }
+
+
+
   footer(){
     return (
       <View style={styles.footerContainer}>
@@ -167,10 +176,14 @@ class ChatPage extends Component{
     )
   }
   render(){
+    var showErr = (
+      this.state.error ? <Text style={styles.errorMessage}> {this.state.error} </Text> : <View></View>
+    );
     if (this.state.items.length > 0) {
       return (
         <View style={styles.container}>
           <View style={styles.pluscontainer}>
+            {showErr}
             <TouchableHighlight
             style={styles.plusButton}
             onPress={() => AlertIOS.prompt('Add a person by Email', null, this.saveResponse.bind(this))}
