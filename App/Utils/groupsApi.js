@@ -54,7 +54,7 @@ var groupsApi = {
           newMemberObject.push({id: groupId, name: groupName})
           (new Firebase('https://ralli.firebaseio.com/users/' + newMemberId)).update({groups: newMemberObject.slice(0)})
         }else {
-          (new Firebase('https://ralli.firebaseio.com/users/' + newMemberId)).update({groups: {id: groupId, name: groupName}})
+          (new Firebase('https://ralli.firebaseio.com/users/' + newMemberId)).update({groups: [{id: groupId, name: groupName}]})
         }
       })
     })
