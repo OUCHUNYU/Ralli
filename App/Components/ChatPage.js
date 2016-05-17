@@ -1,4 +1,7 @@
 'use strict';
+
+var groupsApi = require('../Utils/groupsApi.js');
+
 import Firebase from 'firebase'
 import React, { Component } from 'react';
 import Separator from './Helpers/Separator'
@@ -62,36 +65,43 @@ var styles = StyleSheet.create({
   }
 });
 
-var items = [{name: 'Previousely on group chat', message: '' }]
-
-const chatEndPoint = 'https://ralli.firebaseio.com/groups';
 
 class ChatPage extends Component{
   constructor(props){
     super(props);
+    this.chatEndPoint = 'https://ralli.firebaseio.com/groups/' + this.props.groupData.id;
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
     this.state = {
-      dataSource: this.ds.cloneWithRows(items),
+      dataSource: '',
       items: [],
       message: '',
       error: '',
-      userName: 'Bobbert'
+      userName: ''
     }
   }
 
   componentWillMount(){
     Firebase.enableLogging(true);
-    this.ref = new Firebase(chatEndPoint);
-    this.ref.on('value', function(snapshot) {
-      var items = [];
-      snapshot.forEach(function(child) {
-        items.push(child.val());
-      });
-      console.log(items);
-      this.setState({
-        items: items,
-        dataSource: this.ds.cloneWithRows(items.reverse())
-      });
+    this.ref = new Firebase(this.chatEndPoint);
+    this.ref.limitToLast(15).on('value', function(snapshot) {
+      if(snapshot) {
+        var items = [];
+        snapshot.forEach(function(child) {
+          items.push(child.val());
+        });
+        console.log(items);
+        this.setState({
+          items: items,
+          dataSource: this.ds.cloneWithRows(items.reverse()),
+          userName: this.props.userData.userName
+        });
+      }else {
+        this.setState({
+          items: [],
+          dataSource: this.ds.cloneWithRows([]),
+          userName: this.props.userData.userName
+        });
+      }
     }.bind(this));
   }
 
@@ -162,6 +172,9 @@ class ChatPage extends Component{
   }
 };
 
-
+ChatPage.propTypes = {
+  groupData: React.PropTypes.object.isRequired,
+  userData: React.PropTypes.object.isRequired
+};
 
 module.exports = ChatPage;
