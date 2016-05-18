@@ -6,6 +6,7 @@ var GroupsInvitePage = require('./GroupsInvitePage');
 var EventFeed = require('./EventFeed');
 var CreateMarker =require('./CreateMarker');
 var markersApi = require('../Utils/markersApi');
+var QuestionBox = require('./QuestionBox')
 'use strict';
 
 import {
@@ -97,8 +98,15 @@ class GoogleMap extends Component {
       }
     })
   }
-  onPressNext() {
-
+  onPressQuestion() {
+    this.props.navigator.push ({
+      title: 'Random Rally',
+      component: QuestionBox,
+      passProps: {
+        userId: this.props.userId,
+        userData: this.props.userData
+      }
+    })
   }
   openMarker() {
     LinkingIOS.openURL('http://google.com')
@@ -140,10 +148,10 @@ class GoogleMap extends Component {
               <View style={styles.wrapper}>
                 <Text style={styles.calloutHeader}>{markers[index].title}</Text>
               </View>
-              <Text style={styles.calloutText}>{markers[index].address}</Text>
-              <Text style={styles.calloutText}>{markers[index].description}</Text>
-              <Text style={styles.calloutText}>{markers[index].timeStart}</Text>
-              <Text style={styles.calloutText}>Group: {markers[index].groups}</Text>
+              <Text style={styles.calloutText}> {markers[index].address}</Text>
+              <Text style={styles.calloutText}> {markers[index].description}</Text>
+              <Text style={styles.calloutText}> {markers[index].timeStart}</Text>
+              <Text style={styles.calloutText}> Group: {markers[index].groups}</Text>
               <Image style={styles.calloutImage} source={require('./Common/sbpete.png')}/>
               <Button onPress={this.openMarker.bind(this)} text="I'm Going"></Button>
             </CustomCallout>
@@ -154,7 +162,10 @@ class GoogleMap extends Component {
     });
       return (
         <View style={styles.container}>
-          <MapView style={styles.map} initialRegion={region} >
+          <MapView style={styles.map}
+          initialRegion={region}
+          showsUserLocation={true}
+          followUserLocation={true}>
           {markersList}
           </MapView>
           <View style={styles.buttonContainer}>
@@ -170,7 +181,7 @@ class GoogleMap extends Component {
             <TouchableOpacity onPress={this.onPressFeed.bind(this)} style={[styles.bubble, styles.button]}>
               <Image source={require('./Common/activityfeed.png')} style={styles.icon} />
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.bubble, styles.button]}>
+            <TouchableOpacity onPress={this.onPressQuestion.bind(this)} style={[styles.bubble, styles.button]}>
               <Image source={require('./Common/question.png')} style={styles.icon} />
             </TouchableOpacity>
           </View>
@@ -221,7 +232,9 @@ var styles = StyleSheet.create({
   },
   calloutHeader: {
     fontSize: 24,
-    color: '#fff'
+    color: '#fff',
+    marginBottom: 5,
+    flex: 1
   },
   calloutText: {
     color: '#fff',
@@ -248,6 +261,8 @@ var styles = StyleSheet.create({
     width: width * .25,
     alignSelf: 'center',
     marginTop: 5,
+    borderRadius: 3,
+    borderWidth: 1,
   },
   wrapper: {
     flexDirection: 'row',
