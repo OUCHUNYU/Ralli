@@ -12,7 +12,9 @@ import {
 } from 'react-native';
 
 const styles = StyleSheet.create({
-
+  container: {
+    flex: 1
+  }
 })
 
 class SurpriseEvent extends Component{
@@ -21,6 +23,14 @@ class SurpriseEvent extends Component{
     this.state = {
       user: this.props.userData
     }
+  }
+  render(){
+    console.log(this.props.eventInfo, 'From the surprise event page props');
+    return(
+      <View style={styles.container}>
+        <Text > The event page not title {this.props.eventInfo.title} </Text>
+      </View>
+    )
   }
 }
 

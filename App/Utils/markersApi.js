@@ -54,8 +54,8 @@ var markersApi = {
   },
 
   getRandomMarker: function(markerId) {
-    url = FirebaseMarkersUrl + markerId
-    return fetch(url).then((res) =>  res.json());
+    // url = `${FirebaseMarkersUrl}/${markerId}`
+    return new Firebase(FirebaseMarkersUrl + "/" + markerId)
   },
 
   // getAllMarkers: function() {
