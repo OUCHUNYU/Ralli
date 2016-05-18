@@ -36,29 +36,29 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const SPACE = 0.01;
 
-var createMarkerList = function(marker, index) {
-  return
-  <MapView.Marker
-    ref="m3"
-    image={Marker}
-    coordinate={markers[index].coordinate}
-    calloutAnchor={{ x: 0.5, y: 0.4 }}
-    calloutOffset={{ x: -8, y: 28 }}
-  >
-    <MapView.Callout tooltip>
-      <TouchableOpacity onPress={this.markerCenter.bind(this)}>
-        <CustomCallout style={styles.calloutOpacity}>
-          <Text style={styles.calloutHeader}>{markers[index].title}</Text>
-          <Text style={styles.calloutText}>{markers[index].address}</Text>
-          <Text style={styles.calloutText}>{markers[index].description}</Text>
-          <Text style={styles.calloutText}>{markers[index].timeStart}</Text>
-          <Text style={styles.calloutText}>{markers[index].groups}</Text>
-          <Button onPress={this.openMarker.bind(this)} text="I'm Going"></Button>
-        </CustomCallout>
-      </TouchableOpacity>
-    </MapView.Callout>
-  </MapView.Marker>
-}
+// var createMarkerList = function(marker, index) {
+//   return
+//   <MapView.Marker
+//     ref="m3"
+//     image={Marker}
+//     coordinate={markers[index].coordinate}
+//     calloutAnchor={{ x: 0.5, y: 0.4 }}
+//     calloutOffset={{ x: -8, y: 28 }}
+//   >
+//     <MapView.Callout tooltip>
+//       <TouchableOpacity onPress={this.markerCenter.bind(this)}>
+//         <CustomCallout style={styles.calloutOpacity}>
+//           <Text style={styles.calloutHeader}>{markers[index].title}</Text>
+//           <Text style={styles.calloutText}>{markers[index].address}</Text>
+//           <Text style={styles.calloutText}>{markers[index].description}</Text>
+//           <Text style={styles.calloutText}>{markers[index].timeStart}</Text>
+//           <Text style={styles.calloutText}>{markers[index].groups}</Text>
+//           <Button onPress={this.openMarker.bind(this)} text="I'm Going"></Button>
+//         </CustomCallout>
+//       </TouchableOpacity>
+//     </MapView.Callout>
+//   </MapView.Marker>
+// }
 class GoogleMap extends Component {
  componentWillMount(){
   this.markerRef.on("value", function(res) {
@@ -69,6 +69,9 @@ class GoogleMap extends Component {
     this.setState({
       markers: allMarkers
     })
+
+    this.render()
+
   }.bind(this))
 
  }
@@ -274,36 +277,3 @@ GoogleMap.propTypes = {
 };
 
 module.exports = GoogleMap;
-
-
-
-// {
-//   coordinate: {
-//     latitude: LATITUDE + SPACE,
-//     longitude: LONGITUDE + SPACE,
-//   },
-//   title: 'PUB CRAWL',
-//   address: '2020 folsom',
-//   description: 'We gonna party!',
-//   groups: 'Krispy Fresh',
-// },
-// {
-//   coordinate: {
-//     latitude: LATITUDE,
-//     longitude: LONGITUDE,
-//   },
-//   title: 'HAve fun',
-//   address: '633 folsom',
-//   description: 'We got the goods!',
-//   groups: 'Krispy Rotten',
-// },
-// {
-//   coordinate: {
-//     latitude: LATITUDE + SPACE,
-//     longitude: LONGITUDE - SPACE,
-//   },
-//   title: 'Basketball',
-//   address: '2nd and Folsom',
-//   description: 'We gonna ball!',
-//   groups: 'Bball is Lyfe',
-// },
