@@ -96,7 +96,7 @@ class SignUp extends Component {
       usersApi.loginUser(this.state.email, this.state.password).then((res) => {
           this.db.push({
             username: this.state.username,
-            email: this.state.email,
+            email: this.state.email.toLowerCase(),
             avatarUrl: res.password.profileImageURL,
           })
         usersApi.getUserByEmail(this.state.email).then((res) => {
