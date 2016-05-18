@@ -41,7 +41,7 @@ var usersApi = {
   },
 
   getUserByEmail: function(email) {
-    return new Firebase('https://ralli.firebaseio.com').child('users').orderByChild('email').equalTo(email).once('value');
+    return new Firebase('https://ralli.firebaseio.com').child('users').orderByChild('email').equalTo(email.toLowerCase()).once('value');
   },
 
   getCurrentUser: function() {
@@ -65,8 +65,8 @@ module.exports = usersApi;
 //   console.log("*****************************************************");
 //   console.log(UsersRef.getAuth());
 // }));
-// usersApi.loginUser("gumerlock@yahoo.com", "gumerlock").then((res) => {console.log(res.password.email)});
-// console.log(usersApi.getUserByEmail("asdfsa@fadsf.com").then((res) => {console.log(Object.keys(res.val())[0])}).catch((err) => {console.log("user not found")}))
+// usersApi.loginUser("ouchunyu123@yahoo.com", "ouchunyu123").then((res) => {console.log(res)});
+// console.log(usersApi.getUserByEmail("Ouchunyu123@yahoo.com").then((res) => {console.log(Object.keys(res.val())[0])}).catch((err) => {console.log("user not found")}))
 
 // get the actuall user object
 // var obj = { first: 'someVal' };
