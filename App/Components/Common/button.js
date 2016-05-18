@@ -47,7 +47,6 @@ var styles = StyleSheet.create({
   },
 })
 
-
 class Button extends Component {
   render () {
     return (

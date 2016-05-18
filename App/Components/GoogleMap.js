@@ -6,6 +6,7 @@ var GroupsInvitePage = require('./GroupsInvitePage');
 var EventFeed = require('./EventFeed');
 var CreateMarker =require('./CreateMarker');
 var markersApi = require('../Utils/markersApi');
+var messagesApi = require('../Utils/messagesApi');
 'use strict';
 
 import {
@@ -98,11 +99,14 @@ class GoogleMap extends Component {
     })
   }
   onPressNext() {
+  }
 
+  iAmGoingButton(item) {
+    var eventOwnerId = item.creator;
+    var message = this.props.userData.username + " is going to your event: " + item.title
+    messagesApi.individualUserMessenger(eventOwnerId, message)
   }
-  openMarker() {
-    LinkingIOS.openURL('http://google.com')
-  }
+
   onRegionChange(region) {
     this.state.region = region;
   }
@@ -120,7 +124,6 @@ class GoogleMap extends Component {
     console.log("I clicked a marker")
   }
   render() {
-    console.log(this.props.userData)
     const { region, markers } = this.state;
     var markersList = this.state.markers.map((item, index) => {
     return (
@@ -145,7 +148,7 @@ class GoogleMap extends Component {
               <Text style={styles.calloutText}>{markers[index].timeStart}</Text>
               <Text style={styles.calloutText}>Group: {markers[index].groups}</Text>
               <Image style={styles.calloutImage} source={require('./Common/sbpete.png')}/>
-              <Button onPress={this.openMarker.bind(this)} text="I'm Going"></Button>
+              <Button onPress={this.iAmGoingButton.bind(this, item)} text="I'm Going"></Button>
             </CustomCallout>
           </TouchableOpacity>
         </MapView.Callout>
@@ -263,7 +266,6 @@ var styles = StyleSheet.create({
 
 
 });
-
 
 GoogleMap.propTypes = {
   userData: React.PropTypes.object.isRequired,

@@ -6,7 +6,6 @@ var messagesApi = require('./messagesApi');
 
 var markersApi = {
   createMarker: function(currentUserId, eventTitle, eventAddress, eventDescription, eventTime, invitedGroupId, publicEvent) {
-
     return this.getMarkerLatlng(eventAddress).then((res) => {
               if(publicEvent) {
                 MarkersRef.push({
@@ -57,10 +56,6 @@ var markersApi = {
     })
   },
 
-  // getAllMarkers: function() {
-  //   return MarkersRef.on('value').then((res) => {return res.val()});
-  // },
-
   getMarkerLatlng: function(address) {
     address = address.toLowerCase().trim();
     var url = "https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyBbHAonhDpbIIjc7a7qx5xJZRLrKAIksY0"
@@ -72,13 +67,3 @@ var markersApi = {
 
 module.exports = markersApi;
 
-
-// markersApi.createMarker("-KHqf2KiolbegdEhXHuy")
-// console.log(markersApi.getAllMarkers().then((res) => {console.log(res)}))
-
-// console.log(markersApi.getMarkerLatlng("633 folsom san francisco").then((res) => {console.log(res)}));
-
-// markersApi.getAllMarkers().then((res) => {console.log(res)})
-
-
-// markersApi.createMarker("-KHztU9SIUGph6ygz6Pl", "some event", "633 folsom san francisco", "NO description at all", "12:00", [], true).then((res) => {console.log("Create marker")}).catch((err) => {console.log("Failed creation")})
