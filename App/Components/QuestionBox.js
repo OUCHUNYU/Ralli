@@ -80,20 +80,18 @@ var styles = StyleSheet.create({
 
 class QuestionBox extends Component {
   render() {
+    console.log(this.props.eventInfo);
     return (
 
       <Image source={require('./Common/rally-loading-screen.png')} style={styles.container} >
 
         <View style={styles.body}>
-          <Text style={styles.title}>Some Event</Text>
+          <Text style={styles.title}>{this.props.eventInfo.title}</Text>
           <Image style={styles.image} source={require('./Common/sbpete.png')} />
-          <Text style={styles.label}>Some Address</Text>
-          <Text style={styles.label}>Some Description</Text>
-          <Text style={styles.label}>Some SomeTime</Text>
+          <Text style={styles.label}>{this.props.eventInfo.address}</Text>
+          <Text style={styles.label}>{this.props.eventInfo.description}</Text>
+          <Text style={styles.label}>{this.props.eventInfo.timeStart}</Text>
         </View>
-
-
-
 
       </Image>
     )

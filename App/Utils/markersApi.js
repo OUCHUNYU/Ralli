@@ -57,6 +57,11 @@ var markersApi = {
     })
   },
 
+  getRandomMarker: function(markerId) {
+    // url = `${FirebaseMarkersUrl}/${markerId}`
+    return new Firebase(FirebaseMarkersUrl + "/" + markerId)
+  },
+
   // getAllMarkers: function() {
   //   return MarkersRef.on('value').then((res) => {return res.val()});
   // },
