@@ -42,7 +42,7 @@ var styles = StyleSheet.create({
   rowContainer: {
     flex: 1,
     padding: 10,
-    backgroundColor: '#0d0d0d',
+    backgroundColor: 'rgba(0,0,0,0.6)',
     borderRadius: 8,
     paddingVertical: 20,
     marginVertical: 2,
@@ -50,7 +50,7 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     overflow: 'visible',
     borderWidth: 2,
-    borderColor: '#000000',
+    borderColor: 'white',
     opacity: .8
   },
   footerContainer: {

@@ -202,7 +202,6 @@ class GroupsInvitePage extends Component {
     return (
       <View>
         <View style={styles.rowContainer}>
-          <Image style={styles.groupImage} source={require('./Common/usergroup.png')} />
           <Text style={styles.name}>{rowData.name}</Text>
           <Switch
             onValueChange={(value) => this._inviteChange(value, sectionID)}

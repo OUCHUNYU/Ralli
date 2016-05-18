@@ -61,21 +61,17 @@ const SPACE = 0.01;
 // }
 class GoogleMap extends Component {
  componentWillMount(){
-  this.markerRef.on("value", function(res) {
-    var allMarkers = [];
-    for(var i in res.val()) {
-      allMarkers.push(res.val()[i])
-    }
-    this.setState({
-      markers: allMarkers
-    })
-
-    this.render()
-
-  }.bind(this))
-
- }
-
+    this.markerRef.on("value", function(res) {
+      var allMarkers = [];
+      for(var i in res.val()) {
+        allMarkers.push(res.val()[i])
+      }
+      this.setState({
+        markers: allMarkers
+      })
+      this.render()
+    }.bind(this))
+   }
   constructor(props) {
     super(props);
     this.markerRef = new Firebase('https://ralli.firebaseio.com/markers');
@@ -89,11 +85,9 @@ class GoogleMap extends Component {
       markers: ["placeholder"]
     };
   }
-
   onMarkerPress() {
     console.log("wagueaggukea")
   }
-
   onPressGroups() {
     this.props.navigator.push ({
       title: 'Groups Page',
@@ -126,20 +120,15 @@ class GoogleMap extends Component {
   onPressNext() {
     console.log("NEXT PIN BITCH")
   }
-
   openMarker() {
     LinkingIOS.openURL('http://google.com')
   }
-
   onRegionChange(region) {
     this.state.region = region;
   }
   markerCenter() {
     console.log("I clicked a marker")
-
   }
-
-
   render() {
     const { region, markers } = this.state;
     var markersList = this.state.markers.map((item, index) => {
