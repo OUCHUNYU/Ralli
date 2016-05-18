@@ -12,7 +12,7 @@ var {
 } = React;
 var SQUARE_DIMENSIONS = 30;
 var SPRING_CONFIG = {tension: 2, friction: 3}; //Soft spring
-var AnimatedSquare = React.createClass({
+var Animated = React.createClass({
   getInitialState: function() {
     return {
         pan: new Animated.ValueXY()

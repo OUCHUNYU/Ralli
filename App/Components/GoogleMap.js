@@ -7,7 +7,6 @@ var GroupsInvitePage = require('./GroupsInvitePage');
 var EventFeed = require('./EventFeed');
 var CreateMarker =require('./CreateMarker');
 var markersApi = require('../Utils/markersApi');
-var Animated = require('./Common/Animated.js');
 'use strict';
 
 import {
@@ -20,7 +19,8 @@ import {
   NavigatorIOS,
   Image,
   TouchableHighlight,
-  LinkingIOS
+  LinkingIOS,
+  Animated
 
 } from 'react-native';
 
@@ -78,6 +78,7 @@ class GoogleMap extends Component {
     super(props);
     this.markerRef = new Firebase('https://ralli.firebaseio.com/markers');
     this.state = {
+      bounceValue: new Animated.Value(0),
       region: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
@@ -89,7 +90,7 @@ class GoogleMap extends Component {
   }
 
   onMarkerPress() {
-    console.log("wagueaggukea")
+
   }
 
   onPressGroups() {
@@ -122,7 +123,7 @@ class GoogleMap extends Component {
     })
   }
   onPressNext() {
-    console.log("NEXT PIN BITCH")
+
   }
 
   openMarker() {
@@ -131,6 +132,16 @@ class GoogleMap extends Component {
 
   onRegionChange(region) {
     this.state.region = region;
+  }
+  onLikeButton() {
+    this.state.bounceValue.setValue(1.5);
+    Animated.spring(
+      this.state.bounceValue,
+      {
+        toValue: 0.8,
+        friction: 1,
+      }
+    ).start();
   }
   markerCenter() {
     console.log("I clicked a marker")
@@ -155,7 +166,12 @@ class GoogleMap extends Component {
         <MapView.Callout tooltip>
           <TouchableOpacity onPress={this.markerCenter.bind(this)}>
             <CustomCallout style={styles.calloutOpacity}>
-              <Text style={styles.calloutHeader}>{markers[index].title}</Text>
+              <View style={styles.wrapper}>
+                <Text style={styles.calloutHeader}>{markers[index].title}</Text>
+                <TouchableHighlight onPress={this.onLikeButton.bind(this)}>
+                  <Image style={styles.likebutton} source={require('./Common/likebutton.png')}/>
+                </TouchableHighlight>
+              </View>
               <Text style={styles.calloutText}>{markers[index].address}</Text>
               <Text style={styles.calloutText}>{markers[index].description}</Text>
               <Text style={styles.calloutText}>{markers[index].timeStart}</Text>
@@ -173,7 +189,6 @@ class GoogleMap extends Component {
           <MapView style={styles.map} initialRegion={region} >
           {markersList}
           </MapView>
-          <Animated />
           <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={this.onPressGroups.bind(this)} style={[styles.bubble, styles.button]}>
               <Image source={require('./Common/usergroup.png')} style={styles.icongood} />
@@ -265,6 +280,18 @@ var styles = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 5,
   },
+  wrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  likebutton: {
+    marginTop: -10,
+    flex: 1,
+    height: 32,
+    width: 22
+  }
+
 
 });
 
