@@ -3,39 +3,38 @@ var Firebase = require('firebase');
 var FirebaseMarkersUrl = 'https://ralli.firebaseio.com/markers';
 var MarkersRef = new Firebase(FirebaseMarkersUrl);
 
-
 var markersApi = {
-  createMarker: function(currentUserId, eventTitle, eventAddress, eventLat, eventLong, eventDescription, eventTime, invitedGroupId, publicEvent) {
+  createMarker: function(currentUserId, eventTitle, eventAddress, eventDescription, eventTime, invitedGroupId, publicEvent) {
 
-    if(publicEvent) {
-      MarkersRef.push({
-        creator: currentUserId,
-        title: eventTitle,
-        address: eventAddress,
-        latitude: eventLat,
-        longitude: eventLong,
-        description: eventDescription,
-        timeStart: eventTime,
-        isPublic: true
-      }).then((res) => {
-        this.updateUserMarker(res.key(), currentUserId);
-      })
+    return this.getMarkerLatlng(eventAddress).then((res) => {
+              if(publicEvent) {
+                MarkersRef.push({
+                  creator: currentUserId,
+                  title: eventTitle,
+                  coordinate: {latitude: res.results[0].geometry.location.lat, longitude: res.results[0].geometry.location.lng},
+                  address: eventAddress,
+                  description: eventDescription,
+                  timeStart: eventTime,
+                  isPublic: true
+                }).then((res) => {
+                  this.updateUserMarker(res.key(), currentUserId);
+                })
 
-    }else {
-      MarkersRef.push({
-        creator: currentUserId,
-        title: eventTitle,
-        address: eventAddress,
-        latitude: eventLat,
-        longitude: eventLong,
-        description: eventDescription,
-        timeStart: eventTime,
-        isPublic: false,
-        groupId: invitedGroupId
-      }).then((res) => {
-        this.updateUserMarker(res.key(), currentUserId);
-      })
-    }
+              }else {
+                MarkersRef.push({
+                  creator: currentUserId,
+                  title: eventTitle,
+                  address: eventAddress,
+                  coordinate: {latitude: res.results[0].geometry.location.lat, longitude: res.results[0].geometry.location.lng},
+                  description: eventDescription,
+                  timeStart: eventTime,
+                  isPublic: false,
+                  groupId: invitedGroupId
+                }).then((res) => {
+                  this.updateUserMarker(res.key(), currentUserId);
+                })
+              }
+            })
 
   },
 
@@ -54,9 +53,9 @@ var markersApi = {
     })
   },
 
-  getAllMarkers: function() {
-    return MarkersRef.once('value').then((res) => res.val());
-  },
+  // getAllMarkers: function() {
+  //   return MarkersRef.on('value').then((res) => {return res.val()});
+  // },
 
   getMarkerLatlng: function(address) {
     address = address.toLowerCase().trim();
@@ -75,7 +74,7 @@ module.exports = markersApi;
 
 // console.log(markersApi.getMarkerLatlng("633 folsom san francisco").then((res) => {console.log(res)}));
 
+// markersApi.getAllMarkers().then((res) => {console.log(res)})
 
 
-
-
+// markersApi.createMarker("-KHztU9SIUGph6ygz6Pl", "some event", "633 folsom san francisco", "NO description at all", "12:00", [], true).then((res) => {console.log("Create marker")}).catch((err) => {console.log("Failed creation")})

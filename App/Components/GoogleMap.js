@@ -4,9 +4,10 @@ var Marker = require('./Common/small-icon.png');
 var GroupsPage = require('./GroupsPage');
 var UserProfilePage = require('./UserProfilePage');
 var GroupsInvitePage = require('./GroupsInvitePage');
-var EventFeed = require('./EventFeed')
-var CreateMarker =require('./CreateMarker')
-
+var EventFeed = require('./EventFeed');
+var CreateMarker =require('./CreateMarker');
+var markersApi = require('../Utils/markersApi');
+var Animated = require('./Common/Animated.js');
 'use strict';
 
 import {
@@ -51,6 +52,7 @@ var createMarkerList = function(marker, index) {
           <Text style={styles.calloutHeader}>{markers[index].title}</Text>
           <Text style={styles.calloutText}>{markers[index].address}</Text>
           <Text style={styles.calloutText}>{markers[index].description}</Text>
+          <Text style={styles.calloutText}>{markers[index].timeStart}</Text>
           <Text style={styles.calloutText}>{markers[index].groups}</Text>
           <Button onPress={this.openMarker.bind(this)} text="I'm Going"></Button>
         </CustomCallout>
@@ -59,8 +61,22 @@ var createMarkerList = function(marker, index) {
   </MapView.Marker>
 }
 class GoogleMap extends Component {
+ componentWillMount(){
+  this.markerRef.on("value", function(res) {
+    var allMarkers = [];
+    for(var i in res.val()) {
+      allMarkers.push(res.val()[i])
+    }
+    this.setState({
+      markers: allMarkers
+    })
+  }.bind(this))
+
+ }
+
   constructor(props) {
     super(props);
+    this.markerRef = new Firebase('https://ralli.firebaseio.com/markers');
     this.state = {
       region: {
         latitude: LATITUDE,
@@ -68,38 +84,7 @@ class GoogleMap extends Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA,
       },
-      markers: [
-        {
-          coordinate: {
-            latitude: LATITUDE + SPACE,
-            longitude: LONGITUDE + SPACE,
-          },
-          title: 'PUB CRAWL',
-          address: '2020 folsom',
-          description: 'We gonna party!',
-          groups: 'Krispy Fresh',
-        },
-        {
-          coordinate: {
-            latitude: LATITUDE,
-            longitude: LONGITUDE,
-          },
-          title: 'HAve fun',
-          address: '633 folsom',
-          description: 'We got the goods!',
-          groups: 'Krispy Rotten',
-        },
-        {
-          coordinate: {
-            latitude: LATITUDE + SPACE,
-            longitude: LONGITUDE - SPACE,
-          },
-          title: 'Basketball',
-          address: '2nd and Folsom',
-          description: 'We gonna ball!',
-          groups: 'Bball is Lyfe',
-        },
-      ],
+      markers: ["placeholder"]
     };
   }
 
@@ -129,7 +114,11 @@ class GoogleMap extends Component {
   onPressCreateMarker () {
     this.props.navigator.push ({
       title: 'Make a Rally',
-      component: CreateMarker
+      component: CreateMarker,
+      passProps: {
+        userId: this.props.userId,
+        userData: this.props.userData
+      }
     })
   }
   onPressNext() {
@@ -144,11 +133,7 @@ class GoogleMap extends Component {
     this.state.region = region;
   }
   markerCenter() {
-    console.log("I clicked amarker")
-    this.state.region.latitude = this.state.markers[2].latitude
-    this.state.region.longitude = this.state.markers[2].longitude
-    this.state.region.latitudeDelta = 0.0922
-    this.state.region.longitudeDelta = 0.0421
+    console.log("I clicked a marker")
 
   }
 
@@ -161,6 +146,8 @@ class GoogleMap extends Component {
         ref="m3"
         key={index}
         image={Marker}
+        showsUserLocation={true}
+        followUserLocation={true}
         coordinate={markers[index].coordinate}
         calloutAnchor={{ x: 0.1, y: 0.1 }}
         calloutOffset={{ x: 1, y: 29 }}
@@ -171,6 +158,7 @@ class GoogleMap extends Component {
               <Text style={styles.calloutHeader}>{markers[index].title}</Text>
               <Text style={styles.calloutText}>{markers[index].address}</Text>
               <Text style={styles.calloutText}>{markers[index].description}</Text>
+              <Text style={styles.calloutText}>{markers[index].timeStart}</Text>
               <Text style={styles.calloutText}>Group: {markers[index].groups}</Text>
               <Image style={styles.calloutImage} source={require('./Common/sbpete.png')}/>
               <Button onPress={this.openMarker.bind(this)} text="I'm Going"></Button>
@@ -181,29 +169,29 @@ class GoogleMap extends Component {
       )
     });
       return (
-      <View style={styles.container}>
-        <MapView style={styles.map} initialRegion={region} >
-        {markersList}
-        </MapView>
-
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={this.onPressGroups.bind(this)} style={[styles.bubble, styles.button]}>
-            <Image source={require('./Common/usergroup.png')} style={styles.icongood} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.onPressProfile.bind(this)} style={[styles.bubble, styles.button]}>
-            <Image source={require('./Common/profile.png')} style={styles.icon}/>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.onPressCreateMarker.bind(this)} style={[styles.bubble, styles.button]}>
-            <Image source={require('./Common/Untitled.png')} style={styles.middleicon}/>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.onPressFeed.bind(this)} style={[styles.bubble, styles.button]}>
-            <Image source={require('./Common/activityfeed.png')} style={styles.icon} />
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.bubble, styles.button]}>
-            <Image source={require('./Common/next.png')} style={styles.icon} />
-          </TouchableOpacity>
+        <View style={styles.container}>
+          <MapView style={styles.map} initialRegion={region} >
+          {markersList}
+          </MapView>
+          <Animated />
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={this.onPressGroups.bind(this)} style={[styles.bubble, styles.button]}>
+              <Image source={require('./Common/usergroup.png')} style={styles.icongood} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.onPressProfile.bind(this)} style={[styles.bubble, styles.button]}>
+              <Image source={require('./Common/profile.png')} style={styles.icon}/>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.onPressCreateMarker.bind(this)} style={[styles.bubble, styles.button]}>
+              <Image source={require('./Common/Untitled.png')} style={styles.middleicon}/>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.onPressFeed.bind(this)} style={[styles.bubble, styles.button]}>
+              <Image source={require('./Common/activityfeed.png')} style={styles.icon} />
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.bubble, styles.button]}>
+              <Image source={require('./Common/next.png')} style={styles.icon} />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
       );
   }
 }
@@ -287,3 +275,36 @@ GoogleMap.propTypes = {
 };
 
 module.exports = GoogleMap;
+
+
+
+// {
+//   coordinate: {
+//     latitude: LATITUDE + SPACE,
+//     longitude: LONGITUDE + SPACE,
+//   },
+//   title: 'PUB CRAWL',
+//   address: '2020 folsom',
+//   description: 'We gonna party!',
+//   groups: 'Krispy Fresh',
+// },
+// {
+//   coordinate: {
+//     latitude: LATITUDE,
+//     longitude: LONGITUDE,
+//   },
+//   title: 'HAve fun',
+//   address: '633 folsom',
+//   description: 'We got the goods!',
+//   groups: 'Krispy Rotten',
+// },
+// {
+//   coordinate: {
+//     latitude: LATITUDE + SPACE,
+//     longitude: LONGITUDE - SPACE,
+//   },
+//   title: 'Basketball',
+//   address: '2nd and Folsom',
+//   description: 'We gonna ball!',
+//   groups: 'Bball is Lyfe',
+// },
