@@ -2,6 +2,7 @@ var usersApi = require('./usersApi');
 var Firebase = require('firebase');
 var FirebaseGroupsUrl = 'https://ralli.firebaseio.com/groups';
 var GroupRef = new Firebase(FirebaseGroupsUrl);
+var messagesApi = require('./messagesApi');
 
 
 var groupsApi = {
@@ -57,6 +58,8 @@ var groupsApi = {
           (new Firebase('https://ralli.firebaseio.com/users/' + newMemberId)).update({groups: [{id: groupId, name: groupName}]})
         }
       })
+
+      messagesApi.chatRoomMessenger(newMemberId, groupName);
     })
   },
 
