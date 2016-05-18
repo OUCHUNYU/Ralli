@@ -100,7 +100,8 @@ class GoogleMap extends Component {
   onPressProfile() {
     this.props.navigator.push ({
       title: 'Profile Page',
-      component: UserProfilePage
+      component: UserProfilePage,
+      passProps: {userData: this.props.userData, userId: this.props.userId}
     })
   }
   onPressFeed() {
@@ -142,6 +143,7 @@ class GoogleMap extends Component {
     console.log("I clicked a marker")
   }
   render() {
+    console.log(this.props.userData)
     const { region, markers } = this.state;
     var markersList = this.state.markers.map((item, index) => {
     return (
@@ -160,9 +162,6 @@ class GoogleMap extends Component {
             <CustomCallout style={styles.calloutOpacity}>
               <View style={styles.wrapper}>
                 <Text style={styles.calloutHeader}>{markers[index].title}</Text>
-                <TouchableHighlight onPress={this.onLikeButton.bind(this)}>
-                  <Image style={styles.likebutton} source={require('./Common/likebutton.png')}/>
-                </TouchableHighlight>
               </View>
               <Text style={styles.calloutText}>{markers[index].address}</Text>
               <Text style={styles.calloutText}>{markers[index].description}</Text>
@@ -195,7 +194,7 @@ class GoogleMap extends Component {
               <Image source={require('./Common/activityfeed.png')} style={styles.icon} />
             </TouchableOpacity>
             <TouchableOpacity style={[styles.bubble, styles.button]}>
-              <Image source={require('./Common/next.png')} style={styles.icon} />
+              <Image source={require('./Common/question.png')} style={styles.icon} />
             </TouchableOpacity>
           </View>
         </View>
@@ -244,11 +243,12 @@ var styles = StyleSheet.create({
 
   },
   calloutHeader: {
-    fontSize: 30,
+    fontSize: 24,
     color: '#fff'
   },
   calloutText: {
-    color: '#fff'
+    color: '#fff',
+    flex: 1
   },
   calloutOpacity: {
     borderRadius: 8,

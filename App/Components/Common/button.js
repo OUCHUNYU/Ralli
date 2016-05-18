@@ -19,15 +19,32 @@ var styles = StyleSheet.create({
     borderColor: 'white',
     marginTop: 10,
     marginHorizontal: 30,
+    alignSelf: 'center'
   },
 
   buttonText: {
     flex: 1,
-    fontSize: 10,
+    fontSize: 14,
     alignSelf: 'center',
     padding: 5,
-    color: 'white'
-  }
+    color: 'white',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  likebutton: {
+    flex: 1,
+    height: 28,
+    width: 20,
+    alignSelf: 'flex-start',
+    marginTop: 1.5
+  },
+  buttonWrapper: {
+    padding: 8,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
 })
 
 
@@ -38,7 +55,11 @@ class Button extends Component {
         style={styles.button}
         underlayColor='#b499ff'
         onPress={this.props.onPress}>
-        <Text style={styles.buttonText}>{this.props.text}</Text>
+        <View style={styles.buttonWrapper}>
+        <Image style={styles.likebutton} source={require('./likebutton.png')}/>
+        <Text style={styles.buttonText}> {this.props.text} </Text>
+        <Text>   </Text>
+        </View>
       </TouchableHighlight>
     )
   }

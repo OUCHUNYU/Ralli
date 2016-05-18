@@ -31,14 +31,16 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 50,
     padding: 20,
-    backgroundColor: '#ffffff',
+    width: null,
+    height: null
   },
   title: {
     fontSize: 30,
     alignSelf: 'flex-start',
     marginBottom: 30,
     marginTop: 25,
-    color: '#4320df'
+    color: 'white',
+    backgroundColor: 'rgba(0,0,0,0)'
   },
   buttonText: {
     fontSize: 18,
@@ -58,20 +60,24 @@ var styles = StyleSheet.create({
   input: {
     padding: 4,
     height: 40,
-    borderColor: 'gray',
+    borderColor: 'white',
     borderWidth: 1,
     borderRadius: 5,
     margin: 5,
     marginBottom: 20,
     flex: 1,
+    color: 'white',
     alignSelf: 'stretch',
-    borderColor: "lightsteelblue"
+    backgroundColor: 'rgba(0,0,0,0.4)'
   },
   label: {
-    fontSize: 14
+    fontSize: 14,
+    backgroundColor: 'rgba(0,0,0,0)',
+    color: 'white'
   },
   spacer: {
-    marginVertical: 100
+    marginVertical: 100,
+    backgroundColor: 'rgba(0,0,0,0)'
   },
   headerbar: {
     flex: 1,
@@ -117,40 +123,42 @@ class SignUp extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View style={styles.headerbar}>
-        <Image style={styles.image} source={require('./Common/small-icon.png')} />
-        <Text style={styles.title}> Create Rally Account</Text>
+      <Image source={require('./Common/bokeh-lights.png')} style={styles.container}>
+        <View>
+          <View style={styles.headerbar}>
+          <Image style={styles.image} source={require('./Common/small-icon.png')} />
+          <Text style={styles.title}> Create Rally Account</Text>
 
+          </View>
+
+          <Text style={styles.label}>Username:</Text>
+
+          <TextInput
+           style={styles.input}
+           value={this.state.username}
+           onChangeText={(text) => this.setState({username: text})}/>
+
+           <Text style={styles.label}>Email:</Text>
+
+           <TextInput
+            style={styles.input}
+            value={this.state.email}
+            onChangeText={(text) => this.setState({email: text})}/>
+
+          <Text style={styles.label}>Password:</Text>
+
+          <TextInput
+           secureTextEntry={true}
+           style={styles.input}
+           value={this.state.password}
+           onChangeText={(text) => this.setState({password: text})}/>
+
+           <TouchableHighlight style={styles.button} onPress={this.signupOnPress.bind(this)} underlayColor='#99d9f4'>
+             <Text style={styles.buttonText}>Create Account</Text>
+           </TouchableHighlight>
+           <Text style={styles.spacer}> </Text>
         </View>
-
-        <Text style={styles.label}>Username:</Text>
-
-        <TextInput
-         style={styles.input}
-         value={this.state.username}
-         onChangeText={(text) => this.setState({username: text})}/>
-
-         <Text style={styles.label}>Email:</Text>
-
-         <TextInput
-          style={styles.input}
-          value={this.state.email}
-          onChangeText={(text) => this.setState({email: text})}/>
-
-        <Text style={styles.label}>Password:</Text>
-
-        <TextInput
-         secureTextEntry={true}
-         style={styles.input}
-         value={this.state.password}
-         onChangeText={(text) => this.setState({password: text})}/>
-
-         <TouchableHighlight style={styles.button} onPress={this.signupOnPress.bind(this)} underlayColor='#99d9f4'>
-           <Text style={styles.buttonText}>Create Account</Text>
-         </TouchableHighlight>
-         <Text style={styles.spacer}> </Text>
-      </View>
+      </Image>
     )
   }
 }

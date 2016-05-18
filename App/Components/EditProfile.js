@@ -44,8 +44,8 @@ var styles = StyleSheet.create({
   },
   button: {
     height: 36,
-    backgroundColor: '#48BBEC',
-    borderColor: '#48BBEC',
+    backgroundColor: '#6600ff',
+    borderColor: '#6600ff',
     borderWidth: 1,
     borderRadius: 8,
     marginBottom: 10,
@@ -102,7 +102,7 @@ class EditProfile extends Component {
         <TextInput
          style={styles.input}
          value={this.state.username}
-         placeholder="*Current Username*"
+      
          onChangeText={(text) => this.setState({username: text})}/>
 
          <Text style={styles.label}>Email:</Text>
@@ -110,7 +110,7 @@ class EditProfile extends Component {
          <TextInput
           style={styles.input}
           value={this.state.email}
-          placeholder="*Current User Email*"
+
           onChangeText={(text) => this.setState({email: text})}/>
 
         <Text style={styles.label}>Change Password:</Text>

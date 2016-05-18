@@ -159,7 +159,7 @@ var styles = StyleSheet.create({
      borderColor: '#6600ff',
      borderWidth: 1,
      borderRadius: 8,
-     marginBottom: 10,
+     marginVertical: 10,
      marginHorizontal: 10,
      alignSelf: 'stretch',
      justifyContent: 'center'
@@ -193,6 +193,9 @@ var styles = StyleSheet.create({
   arrow: {
     fontSize: 25,
     color: '#b3b3b3',
+  },
+  spacer: {
+    marginVertical: 20
   }
 });
 
@@ -274,9 +277,19 @@ class GroupsInvitePage extends Component {
      })
    }
    onMakePublic() {
+     this._grabGroupIds(this.state.groupsInfo)
+     var groupIds = this.state.groupIDs
+     var dateString = this.props.eventInfo.date.toLocaleDateString() + ' ' + this.props.eventInfo.date.toLocaleTimeString();
+
+     markersApi.createMarker(this.props.userId, this.props.eventInfo.eventTitle, this.props.eventInfo.address, this.props.eventInfo.description, dateString, groupIds, true).then((res) => {console.log("Create marker")}).catch((err) => {console.log("Failed creation")})
+
      this.props.navigator.pop({
        title: 'Map Page',
        component: GoogleMap,
+       passProps: {
+        userId: this.props.userId,
+        userData: this.props.userData
+       }
      })
    }
 
@@ -296,10 +309,12 @@ class GroupsInvitePage extends Component {
   }
 
   render() {
+    var contentOffset = {x: 0, y: 0}
     return(
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.container} contentOffset={contentOffset}>
+        <Text style={styles.spacer}></Text>
         <TouchableHighlight style={styles.button} onPress={this.onMakePublic.bind(this)} underlayColor='#99d9f4'>
-           <Text style={styles.buttonText}> Make Public Rally </Text>
+           <Text style={styles.buttonText}> Make a Public Rally </Text>
         </TouchableHighlight>
         <View style={styles.listviewbox}>
         <ListView
