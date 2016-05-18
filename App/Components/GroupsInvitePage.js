@@ -200,34 +200,7 @@ var styles = StyleSheet.create({
 });
 
 
-// var groupsData = [
-//     {name: 'Group 1', invited: false},
-//     {name: 'Group 2', invited: false},
-//     {name: 'Group 3', invited: false},
-//     {name: 'Group 4', invited: false},
-//     {name: 'Group 5', invited: false},
-//   ]
-
 class GroupsInvitePage extends Component {
-  // componentWillMount() {
-  //   // when a group is added
-  //   this.userRef.on('value', ((dataSnapshot) => {
-  //     if (dataSnapshot && dataSnapshot.val().groups) {
-  //       this.setState({
-  //         groups : dataSnapshot.val().groups,
-  //         dataSource: this.ds.cloneWithRows(dataSnapshot.val().groups),
-  //         userData: dataSnapshot.val()
-  //       });
-  //     }else {
-  //       this.setState({
-  //         groups : [],
-  //         dataSource: this.ds.cloneWithRows(this.state.groups),
-  //         userData: dataSnapshot.val()
-  //       });
-  //     }
-  //   }));
-  // }
-
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
@@ -243,7 +216,6 @@ class GroupsInvitePage extends Component {
     this.state.groupsInfo[index].invited = val
     this.setState({
       dataSource: this.ds.cloneWithRows(this.state.groupsInfo)
-
     })
   }
 
