@@ -196,7 +196,6 @@ var styles = StyleSheet.create({
   }
 });
 
-// var passedUser = {username: 'ouchunyu', email: 'ouchunyu@yahoo.com', avatarUrl: "https://secure.gravatar.com/avatar/47fc607a6ee96a95f4a431b810dffbe2?d=retro"};
 
 var groupsData = [
     {name: 'Group 1', invited: false},
@@ -227,9 +226,7 @@ class GroupsInvitePage extends Component {
   // }
 
   constructor(props){
-    console.log("constructor first")
     super(props);
-    // this.userRef = new Firebase('https://ralli.firebaseio.com/users/-KHqf2KiolbegdEhXHuy');
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
     this.state = {
       groupIDs: [],
@@ -246,19 +243,16 @@ class GroupsInvitePage extends Component {
   }
 
   _inviteChange(val, index){
-    console.log('the val and ind', val, index)
     this.state.groupsInfo[index].invited = val
     this.setState({
       dataSource: this.ds.cloneWithRows(this.state.groupsInfo)
 
     })
-    console.log(this.state.groupsInfo);
   }
 
   _grabGroupIds(groups){
     for (var i = 0; i < groups.length; i++) {
       if (groups[i].invited === true) {
-        console.log(this.state.groupIDs);
         this.state.groupIDs.push(i)
       }
     }
@@ -266,17 +260,17 @@ class GroupsInvitePage extends Component {
   onStartRally() {
      this._grabGroupIds(this.state.groupsInfo)
      var groupIds = this.state.groupIDs
-     console.log(groupIds);
-     this.props.eventInfo
-     console.log(this.props.eventInfo)
+     var dateString = this.props.eventInfo.date.toLocaleDateString() + ' ' + this.props.eventInfo.date.toLocaleTimeString();
 
-     markersApi.createMarker(this.props.userId, this.props.eventInfo.eventTitle, this.props.eventInfo.address, this.props.eventInfo.description, this.props.eventInfo.date, groupIds, false).then((res) => {console.log("Create marker")}).catch((err) => {console.log("Failed creation")})
-
-
+     markersApi.createMarker(this.props.userId, this.props.eventInfo.eventTitle, this.props.eventInfo.address, this.props.eventInfo.description, dateString, groupIds, false).then((res) => {console.log("Create marker")}).catch((err) => {console.log("Failed creation")})
 
      this.props.navigator.pop({
        title: 'Map Page',
        component: GoogleMap,
+       passProps: {
+        userId: this.props.userId,
+        userData: this.props.userData
+       }
      })
    }
    onMakePublic() {
@@ -290,7 +284,6 @@ class GroupsInvitePage extends Component {
     return (
       <View>
         <View style={styles.rowContainer}>
-          <Image style={styles.groupImage} source={require('./Common/usergroup.png')} />
           <Text style={styles.name}>{rowData.name}</Text>
           <Switch
             onValueChange={(value) => this._inviteChange(value, sectionID)}
@@ -303,7 +296,6 @@ class GroupsInvitePage extends Component {
   }
 
   render() {
-    console.log(this.props)
     return(
       <ScrollView style={styles.container}>
         <TouchableHighlight style={styles.button} onPress={this.onMakePublic.bind(this)} underlayColor='#99d9f4'>
@@ -321,5 +313,11 @@ class GroupsInvitePage extends Component {
     )
   }
 }
+
+GroupsInvitePage.propTypes = {
+  userData: React.PropTypes.object.isRequired,
+  userId: React.PropTypes.string.isRequired
+};
+
 
 module.exports = GroupsInvitePage;
