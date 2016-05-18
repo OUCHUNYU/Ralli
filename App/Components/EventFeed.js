@@ -1,4 +1,5 @@
 var Firebase = require('firebase');
+var { width, height } = Dimensions.get('window');
 
 'use strict';
 import React, { Component } from 'react';
@@ -11,7 +12,8 @@ import {
   NavigatorIOS,
   TextInput,
   TouchableHighlight,
-  Image
+  Image,
+  Dimensions
 } from 'react-native';
 
 var styles = StyleSheet.create({
@@ -20,8 +22,8 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     paddingHorizontal: 20,
     backgroundColor: '#cccccc',
-    width: null,
-    height: null
+    width: width,
+    height: height
   },
   buttonText: {
     fontSize: 18,
@@ -63,6 +65,10 @@ var styles = StyleSheet.create({
   rowText: {
     flex: 1,
     color: 'white',
+  },
+  spacer: {
+    marginVertical: 1,
+    backgroundColor: 'rgba(0,0,0,0)',
   },
 });
 
@@ -112,6 +118,7 @@ class EventFeed extends Component{
     console.log(this.props);
     return (
       <Image source={require('./Common/clouds.gif')} style={styles.container}>
+        <Text style={styles.spacer}> </Text>
           <ListView
             dataSource={this.state.dataSource}
             renderRow={this.renderRow} />
