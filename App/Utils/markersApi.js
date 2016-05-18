@@ -3,7 +3,6 @@ var Firebase = require('firebase');
 var FirebaseMarkersUrl = 'https://ralli.firebaseio.com/markers';
 var MarkersRef = new Firebase(FirebaseMarkersUrl);
 
-
 var markersApi = {
   createMarker: function(currentUserId, eventTitle, eventAddress, eventDescription, eventTime, invitedGroupId, publicEvent) {
 
@@ -54,9 +53,9 @@ var markersApi = {
     })
   },
 
-  getAllMarkers: function() {
-    return MarkersRef.on('value').then((res) => {return res.val()});
-  },
+  // getAllMarkers: function() {
+  //   return MarkersRef.on('value').then((res) => {return res.val()});
+  // },
 
   getMarkerLatlng: function(address) {
     address = address.toLowerCase().trim();

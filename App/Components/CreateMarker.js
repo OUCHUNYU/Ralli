@@ -120,15 +120,22 @@ var CreateMarker = React.createClass({
   },
 
   onDateChange: function(date) {
-    this.setState({date: date});
+    this.setState({date: date.toLocaleDateString() +
+            ' ' +
+            date.toLocaleTimeString()});
   },
 
   onInviteButton() {
+    console.log(this.state.eventInfo)
     this.props.navigator.replace({
       title: 'Invite Groups',
       component: GroupsInvitePage,
       rightButtonIcon: require('./Common/small-icon.png'),
-      passProps: {eventInfo: this.state}
+      passProps: {
+        eventInfo: this.state,
+        userId: this.props.userId,
+        userData: this.props.userData
+    }
     })
   },
 
