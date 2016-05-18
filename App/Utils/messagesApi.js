@@ -21,4 +21,4 @@ var messagesApi = {
 module.exports = messagesApi;
 
 
-messagesApi.chatRoomMessenger("-KI4AVqDgmxvxsmVo4dD", "Awesome group")
+// messagesApi.chatRoomMessenger("-KI4AVqDgmxvxsmVo4dD", "Awesome group")

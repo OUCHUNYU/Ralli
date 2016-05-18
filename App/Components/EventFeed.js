@@ -76,8 +76,13 @@ class EventFeed extends Component{
         this.setState({
           dataSource: this.ds.cloneWithRows(feedMessageArr),
         });
+      }else {
+        this.setState({
+          dataSource: this.ds.cloneWithRows([{desc:'You have no notificiations'}]),
+        });
       }
     }.bind(this));
+
   }
 
   constructor(props){
@@ -85,7 +90,7 @@ class EventFeed extends Component{
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
     this.userFeedRef = new Firebase('https://ralli.firebaseio.com/users/' + this.props.userId + '/feed')
     this.state = {
-      dataSource: this.ds.cloneWithRows([]),
+      dataSource: this.ds.cloneWithRows([{desc:'You have no notificiations'}]),
       error: '',
       user: this.props.userData
     }
