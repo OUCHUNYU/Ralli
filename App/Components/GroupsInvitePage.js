@@ -1,8 +1,11 @@
 'use strict';
 var Firebase = require('firebase');
 var groupsApi = require('../Utils/groupsApi.js');
+
+
 import markersApi from '../Utils/markersApi'
 import GoogleMap from './GoogleMap'
+
 var { width, height } = Dimensions.get('window');
 import React, { Component } from 'react';
 import {
@@ -21,10 +24,13 @@ import {
   Switch,
 } from 'react-native';
 
+var groupIDS = []
+
 var styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#cccccc',
+
   },
   wrapper: {
     flex: 1
@@ -71,13 +77,89 @@ var styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 10
   },
+  buttonText: {
+    color: '#6600ff'
+  },
+  pluscontainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingBottom: 10
+  },
+  rowContainer: {
+    padding: 5,
+    backgroundColor: 'white',
+    borderRadius: 8,
+    paddingVertical: 20,
+    marginVertical: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    overflow: 'visible',
+    borderWidth: 2,
+    borderColor: '#bfbfbf'
+  },
+  listviewbox: {
+    paddingHorizontal: 10
+  },
+  arrow: {
+    fontSize: 25,
+    color: '#b3b3b3',
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#F5FCFF',
+    paddingVertical: 10
+
+  },
+  wrapper: {
+    flex: 1
+  },
+  name: {
+    color: '#666666',
+    fontSize: 18,
+    paddingBottom: 5,
+    fontWeight: 'bold'
+  },
+  label: {
+    fontSize: 14
+  },
+  input: {
+    padding: 4,
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    margin: 5,
+    width: 200,
+    alignSelf: 'center'
+  },
+  rowTitle: {
+    color: '#48BBEC',
+    fontSize: 16
+  },
+  rowContent: {
+    fontSize: 19
+  },
+  plusButton: {
+    flex: 1,
+    flexDirection: 'row',
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: '#4700b3',
+    borderWidth: 1.5,
+    width: width * .30,
+    height: 30,
+    borderRadius: 8,
+    marginBottom: 10
+  },
   button: {
      height: 36,
      backgroundColor: '#6600ff',
      borderColor: '#6600ff',
      borderWidth: 1,
      borderRadius: 8,
-     marginBottom: 10,
+     marginVertical: 10,
      marginHorizontal: 10,
      alignSelf: 'stretch',
      justifyContent: 'center'
@@ -111,6 +193,9 @@ var styles = StyleSheet.create({
   arrow: {
     fontSize: 25,
     color: '#b3b3b3',
+  },
+  spacer: {
+    marginVertical: 20
   }
 });
 
@@ -158,6 +243,7 @@ class GroupsInvitePage extends Component {
     this.state.groupsInfo[index].invited = val
     this.setState({
       dataSource: this.ds.cloneWithRows(this.state.groupsInfo)
+
     })
   }
 
@@ -168,7 +254,6 @@ class GroupsInvitePage extends Component {
       }
     }
   }
-
   onStartRally() {
      this._grabGroupIds(this.state.groupsInfo)
      var groupIds = this.state.groupIDs
@@ -218,10 +303,12 @@ class GroupsInvitePage extends Component {
   }
 
   render() {
+    var contentOffset = {x: 0, y: 0}
     return(
-      <ScrollView style={styles.container}>
+      <ScrollView style={styles.container} contentOffset={contentOffset}>
+        <Text style={styles.spacer}></Text>
         <TouchableHighlight style={styles.button} onPress={this.onMakePublic.bind(this)} underlayColor='#99d9f4'>
-           <Text style={styles.buttonText}> Make Public Rally </Text>
+           <Text style={styles.buttonText}> Make a Public Rally </Text>
         </TouchableHighlight>
         <View style={styles.listviewbox}>
         <ListView

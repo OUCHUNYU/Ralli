@@ -114,6 +114,10 @@ class LoginPage extends Component {
     };
   }
 
+  onFacebookPress() {
+
+  }
+
   render() {
       return (
         <Image source={require('./Common/bridge-giphy.gif')} style={styles.container}>
@@ -141,7 +145,7 @@ class LoginPage extends Component {
            <TouchableHighlight style={styles.button} onPress={this.loginOnPress.bind(this)} underlayColor='#99d9f4'>
              <Text style={styles.buttonText}>Log In</Text>
            </TouchableHighlight>
-           <TouchableHighlight style={styles.buttonFacebook} underlayColor='#6878ca'>
+           <TouchableHighlight style={styles.buttonFacebook} onPress={this.onFacebookPress} underlayColor='#6878ca'>
            <View style={styles.FacebookContainer}>
              <Image style={styles.FacebookImage} source={require('./Common/Facebook-48.png')} />
              <Text style={styles.buttonText}>Sign in with Facebook</Text>
@@ -164,7 +168,8 @@ class LoginPage extends Component {
             this.props.navigator.push({
             title: 'Rallies Nearby',
             component: GoogleMap,
-            passProps: {userData: res.val()[Object.keys(res.val())[0]], userId: Object.keys(res.val())[0]}
+            passProps: {userData: res.val()[Object.keys(res.val())[0]], userId: Object.keys(res.val())[0]},
+            leftButtonTitle: ' '
           })
         })
       })
