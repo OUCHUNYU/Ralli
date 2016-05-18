@@ -49,10 +49,10 @@ var groupsApi = {
 
 
       (new Firebase('https://ralli.firebaseio.com/users/' + newMemberId)).once("value").then((res) => {
-        var newMemberObject = res.val().groups;
+        var newMemberObject = res.val().groups.slice(0);
         if(newMemberObject) {
           newMemberObject.push({id: groupId, name: groupName})
-          (new Firebase('https://ralli.firebaseio.com/users/' + newMemberId)).update({groups: newMemberObject.slice(0)})
+          (new Firebase('https://ralli.firebaseio.com/users/' + newMemberId)).update({groups: newMemberObject})
         }else {
           (new Firebase('https://ralli.firebaseio.com/users/' + newMemberId)).update({groups: [{id: groupId, name: groupName}]})
         }
