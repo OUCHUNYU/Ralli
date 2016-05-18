@@ -86,6 +86,8 @@ class GoogleMap extends Component {
     };
   }
   onMarkerPress() {
+    console.log(this.props.userData);
+    console.log(markersApi.getRandomMarker())
     console.log("wagueaggukea")
   }
   onPressGroups() {
@@ -117,7 +119,7 @@ class GoogleMap extends Component {
       }
     })
   }
-  onPressNext() {
+  onPressSurprise() {
     console.log("NEXT PIN BITCH")
   }
   openMarker() {
@@ -178,7 +180,7 @@ class GoogleMap extends Component {
             <TouchableOpacity onPress={this.onPressFeed.bind(this)} style={[styles.bubble, styles.button]}>
               <Image source={require('./Common/activityfeed.png')} style={styles.icon} />
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.bubble, styles.button]}>
+            <TouchableOpacity onPress={this.onPressSurprise.bind(this)} style={[styles.bubble, styles.button]}>
               <Image source={require('./Common/next.png')} style={styles.icon} />
             </TouchableOpacity>
           </View>
