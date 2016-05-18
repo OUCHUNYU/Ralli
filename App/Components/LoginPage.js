@@ -61,15 +61,15 @@ var styles = StyleSheet.create({
   input: {
     padding: 4,
     height: 40,
-    borderColor: 'gray',
+    borderColor: 'white',
     borderWidth: 1,
     borderRadius: 5,
     margin: 5,
     marginBottom: 20,
     flex: 1,
+    color: 'white',
     alignSelf: 'stretch',
-    borderColor: '#bfbfbf',
-    backgroundColor: '#d9d9d9'
+    backgroundColor: 'rgba(0,0,0,0.4)'
   },
   label: {
     fontSize: 14,
