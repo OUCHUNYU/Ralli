@@ -57,8 +57,7 @@ class Button extends Component {
         onPress={this.props.onPress}>
         <View style={styles.buttonWrapper}>
         <Image style={styles.likebutton} source={require('./likebutton.png')}/>
-        <Text style={styles.buttonText}> {this.props.text} </Text>
-        <Text>   </Text>
+        <Text style={styles.buttonText}>  {this.props.text} </Text>
         </View>
       </TouchableHighlight>
     )
