@@ -121,7 +121,6 @@ class ChatPage extends Component{
     // api call to add user to current chat
     this.setState({ promptValue: promptValue })
     var personEmail = this.state.promptValue;
-    // console.log(promptValue);
     usersApi.getUserByEmail(personEmail).then((res) => {
       // user id is Object.keys(res.val())[0]
       // group id is this.

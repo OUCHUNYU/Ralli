@@ -99,7 +99,7 @@ class SignUp extends Component {
             email: this.state.email.toLowerCase(),
             avatarUrl: res.password.profileImageURL,
           })
-        usersApi.getUserByEmail(this.state.email).then((res) => {
+        usersApi.getUserByEmail(this.state.email.toLowerCase()).then((res) => {
           this.props.navigator.push({
             title: 'Rallies Nearby',
             component: GoogleMap,
