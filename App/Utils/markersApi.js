@@ -2,6 +2,7 @@ var usersApi = require('./usersApi');
 var Firebase = require('firebase');
 var FirebaseMarkersUrl = 'https://ralli.firebaseio.com/markers';
 var MarkersRef = new Firebase(FirebaseMarkersUrl);
+var messagesApi = require('./messagesApi');
 
 var markersApi = {
   createMarker: function(currentUserId, eventTitle, eventAddress, eventDescription, eventTime, invitedGroupId, publicEvent) {
@@ -32,6 +33,9 @@ var markersApi = {
                   groupId: invitedGroupId
                 }).then((res) => {
                   this.updateUserMarker(res.key(), currentUserId);
+
+                  messagesApi.groupInvitationMessenger(invitedGroupId, eventTitle, eventTime)
+
                 })
               }
             })

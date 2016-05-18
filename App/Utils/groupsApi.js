@@ -43,19 +43,19 @@ var groupsApi = {
           throw new Error('this user is in the group')
         }
         targetGroup.push(newMemberId);
-        (new Firebase(FirebaseGroupsUrl + '/' + groupId)).update({members: targetGroup.slice(0)})
+        new Firebase(FirebaseGroupsUrl + '/' + groupId).update({members: targetGroup.slice(0)})
       }else {
-        (new Firebase(FirebaseGroupsUrl + '/' + groupId)).update({members: [newMemberId]})
+        new Firebase(FirebaseGroupsUrl + '/' + groupId).update({members: [newMemberId]})
       }
 
 
-      (new Firebase('https://ralli.firebaseio.com/users/' + newMemberId)).once("value").then((res) => {
-        var newMemberObject = res.val().groups.slice(0);
+      new Firebase('https://ralli.firebaseio.com/users/' + newMemberId).once("value").then((res) => {
+        var newMemberObject = res.val().groups.slice(0)
         if(newMemberObject) {
           newMemberObject.push({id: groupId, name: groupName})
-          (new Firebase('https://ralli.firebaseio.com/users/' + newMemberId)).update({groups: newMemberObject})
+          new Firebase('https://ralli.firebaseio.com/users/' + newMemberId).update({groups: newMemberObject.slice(0)})
         }else {
-          (new Firebase('https://ralli.firebaseio.com/users/' + newMemberId)).update({groups: [{id: groupId, name: groupName}]})
+          new Firebase('https://ralli.firebaseio.com/users/' + newMemberId).update({groups: [{id: groupId, name: groupName}]})
         }
       })
 

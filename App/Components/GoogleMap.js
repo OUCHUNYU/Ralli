@@ -7,8 +7,8 @@ var GroupsInvitePage = require('./GroupsInvitePage');
 var EventFeed = require('./EventFeed');
 var CreateMarker =require('./CreateMarker');
 var markersApi = require('../Utils/markersApi');
-import SurpriseEvent from './SurpriseEvent'
 var Firebase = require('firebase');
+var QuestionBox = require('./QuestionBox')
 'use strict';
 
 import {
@@ -21,7 +21,8 @@ import {
   NavigatorIOS,
   Image,
   TouchableHighlight,
-  LinkingIOS
+  LinkingIOS,
+  Animated
 
 } from 'react-native';
 
@@ -78,6 +79,7 @@ class GoogleMap extends Component {
     super(props);
     this.markerRef = new Firebase('https://ralli.firebaseio.com/markers');
     this.state = {
+      bounceValue: new Animated.Value(0),
       region: {
         latitude: LATITUDE,
         longitude: LONGITUDE,
@@ -88,7 +90,7 @@ class GoogleMap extends Component {
     };
   }
   onMarkerPress() {
-    console.log("wagueaggukea")
+
   }
   onPressGroups() {
     this.props.navigator.push ({
@@ -119,6 +121,7 @@ class GoogleMap extends Component {
       }
     })
   }
+
   onPressSurprise() {
     // function to get a a random number between range because js
     function getRandomIntInclusive(min, max) {
@@ -135,7 +138,7 @@ class GoogleMap extends Component {
       .then((res) =>
       this.props.navigator.push ({
         title: 'Surprise',
-        component: SurpriseEvent,
+        component: QuestionBox,
         passProps: {
           userId: this.props.userId,
           userData: this.props.userData,
@@ -143,7 +146,6 @@ class GoogleMap extends Component {
         }
       })
     )
-
   }
   openMarker() {
     LinkingIOS.openURL('http://google.com')
@@ -151,10 +153,21 @@ class GoogleMap extends Component {
   onRegionChange(region) {
     this.state.region = region;
   }
+  onLikeButton() {
+    this.state.bounceValue.setValue(1.5);
+    Animated.spring(
+      this.state.bounceValue,
+      {
+        toValue: 0.8,
+        friction: 1,
+      }
+    ).start();
+  }
   markerCenter() {
     console.log("I clicked a marker")
   }
   render() {
+    console.log(this.props.userData)
     const { region, markers } = this.state;
     var markersList = this.state.markers.map((item, index) => {
     return (
@@ -171,11 +184,13 @@ class GoogleMap extends Component {
         <MapView.Callout tooltip>
           <TouchableOpacity onPress={this.markerCenter.bind(this)}>
             <CustomCallout style={styles.calloutOpacity}>
-              <Text style={styles.calloutHeader}>{markers[index].title}</Text>
-              <Text style={styles.calloutText}>{markers[index].address}</Text>
-              <Text style={styles.calloutText}>{markers[index].description}</Text>
-              <Text style={styles.calloutText}>{markers[index].timeStart}</Text>
-              <Text style={styles.calloutText}>Group: {markers[index].groups}</Text>
+              <View style={styles.wrapper}>
+                <Text style={styles.calloutHeader}>{markers[index].title}</Text>
+              </View>
+              <Text style={styles.calloutText}> {markers[index].address}</Text>
+              <Text style={styles.calloutText}> {markers[index].description}</Text>
+              <Text style={styles.calloutText}> {markers[index].timeStart}</Text>
+              <Text style={styles.calloutText}> Group: {markers[index].groups}</Text>
               <Image style={styles.calloutImage} source={require('./Common/sbpete.png')}/>
               <Button onPress={this.openMarker.bind(this)} text="I'm Going"></Button>
             </CustomCallout>
@@ -186,10 +201,12 @@ class GoogleMap extends Component {
     });
       return (
         <View style={styles.container}>
-          <MapView style={styles.map} initialRegion={region} >
+          <MapView style={styles.map}
+          initialRegion={region}
+          showsUserLocation={true}
+          followUserLocation={true}>
           {markersList}
           </MapView>
-
           <View style={styles.buttonContainer}>
             <TouchableOpacity onPress={this.onPressGroups.bind(this)} style={[styles.bubble, styles.button]}>
               <Image source={require('./Common/usergroup.png')} style={styles.icongood} />
@@ -204,7 +221,7 @@ class GoogleMap extends Component {
               <Image source={require('./Common/activityfeed.png')} style={styles.icon} />
             </TouchableOpacity>
             <TouchableOpacity onPress={this.onPressSurprise.bind(this)} style={[styles.bubble, styles.button]}>
-              <Image source={require('./Common/next.png')} style={styles.icon} />
+              <Image source={require('./Common/question.png')} style={styles.icon} />
             </TouchableOpacity>
           </View>
         </View>
@@ -253,11 +270,14 @@ var styles = StyleSheet.create({
 
   },
   calloutHeader: {
-    fontSize: 30,
-    color: '#fff'
+    fontSize: 24,
+    color: '#fff',
+    marginBottom: 5,
+    flex: 1
   },
   calloutText: {
-    color: '#fff'
+    color: '#fff',
+    flex: 1
   },
   calloutOpacity: {
     borderRadius: 8,
@@ -280,7 +300,21 @@ var styles = StyleSheet.create({
     width: width * .25,
     alignSelf: 'center',
     marginTop: 5,
+    borderRadius: 3,
+    borderWidth: 1,
   },
+  wrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between'
+  },
+  likebutton: {
+    marginTop: -10,
+    flex: 1,
+    height: 32,
+    width: 22
+  }
+
 
 });
 
