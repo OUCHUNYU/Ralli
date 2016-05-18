@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 var Button = require('./Common/button');
-var Marker = require('./Common/small-icon.png');
 var GroupsPage = require('./GroupsPage');
 var UserProfilePage = require('./UserProfilePage');
 var GroupsInvitePage = require('./GroupsInvitePage');
@@ -36,29 +35,6 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const SPACE = 0.01;
 
-// var createMarkerList = function(marker, index) {
-//   return
-//   <MapView.Marker
-//     ref="m3"
-//     image={Marker}
-//     coordinate={markers[index].coordinate}
-//     calloutAnchor={{ x: 0.5, y: 0.4 }}
-//     calloutOffset={{ x: -8, y: 28 }}
-//   >
-//     <MapView.Callout tooltip>
-//       <TouchableOpacity onPress={this.markerCenter.bind(this)}>
-//         <CustomCallout style={styles.calloutOpacity}>
-//           <Text style={styles.calloutHeader}>{markers[index].title}</Text>
-//           <Text style={styles.calloutText}>{markers[index].address}</Text>
-//           <Text style={styles.calloutText}>{markers[index].description}</Text>
-//           <Text style={styles.calloutText}>{markers[index].timeStart}</Text>
-//           <Text style={styles.calloutText}>{markers[index].groups}</Text>
-//           <Button onPress={this.openMarker.bind(this)} text="I'm Going"></Button>
-//         </CustomCallout>
-//       </TouchableOpacity>
-//     </MapView.Callout>
-//   </MapView.Marker>
-// }
 class GoogleMap extends Component {
  componentWillMount(){
     this.markerRef.on("value", function(res) {
@@ -71,7 +47,7 @@ class GoogleMap extends Component {
       })
       this.render()
     }.bind(this))
-   }
+  }
   constructor(props) {
     super(props);
     this.markerRef = new Firebase('https://ralli.firebaseio.com/markers');
@@ -100,13 +76,15 @@ class GoogleMap extends Component {
   onPressProfile() {
     this.props.navigator.push ({
       title: 'Profile Page',
-      component: UserProfilePage
+      component: UserProfilePage,
+      passProps: {userData: this.props.userData, userId: this.props.userId}
     })
   }
   onPressFeed() {
     this.props.navigator.push ({
       title: 'Feed',
-      component: EventFeed
+      component: EventFeed,
+      passProps: {userData: this.props.userData, userId: this.props.userId}
     })
   }
   onPressCreateMarker () {
@@ -138,7 +116,7 @@ class GoogleMap extends Component {
       <MapView.Marker
         ref="m3"
         key={index}
-        image={Marker}
+        image={require('./Common/small-icon.png')}
         showsUserLocation={true}
         followUserLocation={true}
         coordinate={markers[index].coordinate}

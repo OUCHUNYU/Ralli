@@ -1,3 +1,5 @@
+var Firebase = require('firebase');
+
 'use strict';
 import React, { Component } from 'react';
 import Separator from './Helpers/Separator'
@@ -64,27 +66,38 @@ var styles = StyleSheet.create({
   },
 });
 
-// all event objects a user has been invited to (array) MVP
-var userEventsData = [{title: 'Party in hell', desc: 'The last pary you will ever go to'}, {title: 'A funeral', desc: 'Hope they had angel mail'}, {title: 'Drug Deal Gone Wrong', desc: 'Same old shit'}]
 
 class EventFeed extends Component{
+
+  componentWillMount(){
+    this.userFeedRef.on('value', function(snapshot) {
+      var feedMessageArr = snapshot.val()
+      if(feedMessageArr) {
+        this.setState({
+          dataSource: this.ds.cloneWithRows(feedMessageArr),
+        });
+      }
+    }.bind(this));
+  }
+
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
+    this.userFeedRef = new Firebase('https://ralli.firebaseio.com/users/' + this.props.userId + '/feed')
     this.state = {
-      dataSource: this.ds.cloneWithRows(userEventsData),
-      message: '',
+      dataSource: this.ds.cloneWithRows([]),
       error: '',
       user: this.props.userData
     }
   }
+
 
   renderRow(rowData){
     return (
       <View>
         <View style={styles.rowContainer}>
           <Image source={require('./Common/small-icon.png')} />
-          <Text style={styles.rowText}> {rowData.title}: {rowData.desc} </Text>
+          <Text style={styles.rowText}> {rowData.desc} </Text>
         </View>
 
       </View>
@@ -100,6 +113,12 @@ class EventFeed extends Component{
       </Image>
     )
   }
+};
+
+
+EventFeed.propTypes = {
+  userData: React.PropTypes.object.isRequired,
+  userId: React.PropTypes.string.isRequired
 };
 
 module.exports = EventFeed;
