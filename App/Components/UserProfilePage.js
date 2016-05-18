@@ -15,27 +15,20 @@ import {
 } from 'react-native';
 
 var styles = StyleSheet.create({
-  header: {
-    marginBottom: 20,
-    fontSize: 18,
-    textAlign: 'center',
-    color: 'black'
-  },
-  wrapper: {
-    flex: 1
-  },
   container: {
     justifyContent: 'center',
-    marginTop: 50,
     padding: 20,
-    backgroundColor: '#ffffff',
+    width: null,
+    height: null,
+    flex: 1
   },
   title: {
     fontSize: 30,
     alignSelf: 'flex-start',
     marginBottom: 30,
-    marginTop:50,
-    color: '#4320df'
+    marginTop: 48,
+    color: 'white',
+    backgroundColor: 'rgba(0,0,0,0)'
   },
   buttonText: {
     fontSize: 18,
@@ -52,29 +45,24 @@ var styles = StyleSheet.create({
     alignSelf: 'stretch',
     justifyContent: 'center'
   },
-  input: {
-    padding: 4,
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
-    margin: 5,
-    marginBottom: 20,
-    flex: 1,
-    alignSelf: 'stretch',
-    borderColor: "lightsteelblue"
-  },
   label: {
     fontSize: 14,
-    marginBottom: 20
+    marginBottom: 20,
+    color: 'white',
+    backgroundColor: 'rgba(0,0,0,0)'
   },
-  spacer: {
-    marginVertical: 100
+  image: {
+    height: 60,
+    width: 60,
+    borderRadius: 30,
+    marginTop: 25,
+
   },
   headerbar: {
-    flex: 1,
+    flexDirection: 'row',
+    marginTop: -350,
     alignItems: 'center',
-    flexDirection: 'row'
+
   }
 });
 
@@ -83,21 +71,23 @@ var styles = StyleSheet.create({
 class UserProfilePage extends Component {
   render() {
     return (
-      <View style={styles.container}>
+
+      <Image source={require('./Common/purple.png')} style={styles.container} >
+
+
+
         <View style={styles.headerbar}>
-        <Image style={styles.image} source={require('./Common/small-icon.png')} />
-        <Text style={styles.title}> Username </Text>
-
+          <Image style={styles.image} source={{uri: this.props.userData.avatarUrl}} />
+          <Text style={styles.title}>  {this.props.userData.username}</Text>
         </View>
+        <Text style={styles.label}>Email: {this.props.userData.email}</Text>
 
-        <Text style={styles.label}>Email</Text>
-
-        <Text style={styles.label}>Groups</Text>
 
         <TouchableHighlight style={styles.button} onPress={this.editUserInfo.bind(this)} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Edit Profile</Text>
         </TouchableHighlight>
-      </View>
+
+      </Image>
     )
   }
   editUserInfo() {

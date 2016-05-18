@@ -22,8 +22,9 @@ class Ralli extends Component {
       <NavigatorIOS
       style={styles.wrapper}
       initialRoute = {{
-        title: 'Rally',
-        component: LoginPage
+        title: 'Login',
+        component: LoginPage,
+
       }} />
     );
   }
