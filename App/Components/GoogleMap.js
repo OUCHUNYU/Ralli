@@ -4,9 +4,9 @@ var Marker = require('./Common/small-icon.png');
 var GroupsPage = require('./GroupsPage');
 var UserProfilePage = require('./UserProfilePage');
 var GroupsInvitePage = require('./GroupsInvitePage');
-var EventFeed = require('./EventFeed')
-var CreateMarker =require('./CreateMarker')
-
+var EventFeed = require('./EventFeed');
+var CreateMarker =require('./CreateMarker');
+var markersApi = require('../Utils/markersApi');
 'use strict';
 
 import {
@@ -59,6 +59,19 @@ var createMarkerList = function(marker, index) {
   </MapView.Marker>
 }
 class GoogleMap extends Component {
+ componentWillMount(){
+  markersApi.getAllMarkers().then((res) => {
+    var allMarkers = [];
+    for(var i in res) {
+      allMarkers.push(res[i])
+    }
+    this.setState({
+      markers: allMarkers
+    })
+  })
+    // markersApi.createMarker("-KHztU9SIUGph6ygz6Pl", "some event", "633 folsom san francisco", "NO description at all", "12:00", [], true).then((res) => {console.log("Create marker")}).catch((err) => {console.log("Failed creation")})
+ }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -69,36 +82,36 @@ class GoogleMap extends Component {
         longitudeDelta: LONGITUDE_DELTA,
       },
       markers: [
-        {
-          coordinate: {
-            latitude: LATITUDE + SPACE,
-            longitude: LONGITUDE + SPACE,
-          },
-          title: 'PUB CRAWL',
-          address: '2020 folsom',
-          description: 'We gonna party!',
-          groups: 'Krispy Fresh',
-        },
-        {
-          coordinate: {
-            latitude: LATITUDE,
-            longitude: LONGITUDE,
-          },
-          title: 'HAve fun',
-          address: '633 folsom',
-          description: 'We got the goods!',
-          groups: 'Krispy Rotten',
-        },
-        {
-          coordinate: {
-            latitude: LATITUDE + SPACE,
-            longitude: LONGITUDE - SPACE,
-          },
-          title: 'Basketball',
-          address: '2nd and Folsom',
-          description: 'We gonna ball!',
-          groups: 'Bball is Lyfe',
-        },
+        // {
+        //   coordinate: {
+        //     latitude: LATITUDE + SPACE,
+        //     longitude: LONGITUDE + SPACE,
+        //   },
+        //   title: 'PUB CRAWL',
+        //   address: '2020 folsom',
+        //   description: 'We gonna party!',
+        //   groups: 'Krispy Fresh',
+        // },
+        // {
+        //   coordinate: {
+        //     latitude: LATITUDE,
+        //     longitude: LONGITUDE,
+        //   },
+        //   title: 'HAve fun',
+        //   address: '633 folsom',
+        //   description: 'We got the goods!',
+        //   groups: 'Krispy Rotten',
+        // },
+        // {
+        //   coordinate: {
+        //     latitude: LATITUDE + SPACE,
+        //     longitude: LONGITUDE - SPACE,
+        //   },
+        //   title: 'Basketball',
+        //   address: '2nd and Folsom',
+        //   description: 'We gonna ball!',
+        //   groups: 'Bball is Lyfe',
+        // },
       ],
     };
   }
@@ -185,29 +198,29 @@ class GoogleMap extends Component {
       )
     });
       return (
-      <View style={styles.container}>
-        <MapView style={styles.map} initialRegion={region} >
-        {markersList}
-        </MapView>
+        <View style={styles.container}>
+          <MapView style={styles.map} initialRegion={region} >
+          {markersList}
+          </MapView>
 
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity onPress={this.onPressGroups.bind(this)} style={[styles.bubble, styles.button]}>
-            <Image source={require('./Common/usergroup.png')} style={styles.icongood} />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.onPressProfile.bind(this)} style={[styles.bubble, styles.button]}>
-            <Image source={require('./Common/profile.png')} style={styles.icon}/>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.onPressCreateMarker.bind(this)} style={[styles.bubble, styles.button]}>
-            <Image source={require('./Common/Untitled.png')} style={styles.middleicon}/>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={this.onPressFeed.bind(this)} style={[styles.bubble, styles.button]}>
-            <Image source={require('./Common/activityfeed.png')} style={styles.icon} />
-          </TouchableOpacity>
-          <TouchableOpacity style={[styles.bubble, styles.button]}>
-            <Image source={require('./Common/next.png')} style={styles.icon} />
-          </TouchableOpacity>
+          <View style={styles.buttonContainer}>
+            <TouchableOpacity onPress={this.onPressGroups.bind(this)} style={[styles.bubble, styles.button]}>
+              <Image source={require('./Common/usergroup.png')} style={styles.icongood} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.onPressProfile.bind(this)} style={[styles.bubble, styles.button]}>
+              <Image source={require('./Common/profile.png')} style={styles.icon}/>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.onPressCreateMarker.bind(this)} style={[styles.bubble, styles.button]}>
+              <Image source={require('./Common/Untitled.png')} style={styles.middleicon}/>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.onPressFeed.bind(this)} style={[styles.bubble, styles.button]}>
+              <Image source={require('./Common/activityfeed.png')} style={styles.icon} />
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.bubble, styles.button]}>
+              <Image source={require('./Common/next.png')} style={styles.icon} />
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
       );
   }
 }

@@ -124,7 +124,7 @@ class LoginPage extends Component {
         <Image source={require('./Common/bridge-giphy.gif')} style={styles.container}>
           <View style={styles.headerbar}>
           <Image style={styles.image} source={require('./Common/small-icon.png')} />
-          <Text style={styles.title}> Log In</Text>
+          <Text style={styles.title}> Rally</Text>
 
           </View>
 
