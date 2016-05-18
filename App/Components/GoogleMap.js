@@ -82,36 +82,36 @@ class GoogleMap extends Component {
         longitudeDelta: LONGITUDE_DELTA,
       },
       markers: [
-        {
-          coordinate: {
-            latitude: LATITUDE + SPACE,
-            longitude: LONGITUDE + SPACE,
-          },
-          title: 'PUB CRAWL',
-          address: '2020 folsom',
-          description: 'We gonna party!',
-          groups: 'Krispy Fresh',
-        },
-        {
-          coordinate: {
-            latitude: LATITUDE,
-            longitude: LONGITUDE,
-          },
-          title: 'HAve fun',
-          address: '633 folsom',
-          description: 'We got the goods!',
-          groups: 'Krispy Rotten',
-        },
-        {
-          coordinate: {
-            latitude: LATITUDE + SPACE,
-            longitude: LONGITUDE - SPACE,
-          },
-          title: 'Basketball',
-          address: '2nd and Folsom',
-          description: 'We gonna ball!',
-          groups: 'Bball is Lyfe',
-        },
+        // {
+        //   coordinate: {
+        //     latitude: LATITUDE + SPACE,
+        //     longitude: LONGITUDE + SPACE,
+        //   },
+        //   title: 'PUB CRAWL',
+        //   address: '2020 folsom',
+        //   description: 'We gonna party!',
+        //   groups: 'Krispy Fresh',
+        // },
+        // {
+        //   coordinate: {
+        //     latitude: LATITUDE,
+        //     longitude: LONGITUDE,
+        //   },
+        //   title: 'HAve fun',
+        //   address: '633 folsom',
+        //   description: 'We got the goods!',
+        //   groups: 'Krispy Rotten',
+        // },
+        // {
+        //   coordinate: {
+        //     latitude: LATITUDE + SPACE,
+        //     longitude: LONGITUDE - SPACE,
+        //   },
+        //   title: 'Basketball',
+        //   address: '2nd and Folsom',
+        //   description: 'We gonna ball!',
+        //   groups: 'Bball is Lyfe',
+        // },
       ],
     };
   }

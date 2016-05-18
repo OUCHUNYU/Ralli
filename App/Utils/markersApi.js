@@ -55,7 +55,7 @@ var markersApi = {
   },
 
   getAllMarkers: function() {
-    return MarkersRef.once('value').then((res) => {return res.val()});
+    return MarkersRef.on('value').then((res) => {return res.val()});
   },
 
   getMarkerLatlng: function(address) {
