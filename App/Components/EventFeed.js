@@ -68,32 +68,27 @@ var styles = StyleSheet.create({
 
 
 class EventFeed extends Component{
-  constructor(props){
-    super(props);
-    this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
-    this.userFeedRef = new Firebase('https://ralli.firebaseio.com/users/' + this.props.userId + '/feed')
-    this.state = {
-      dataSource: this.ds.cloneWithRows(userEventsData),
-      error: '',
-      user: this.props.userData
-    }
-  }
 
   componentWillMount(){
     this.userFeedRef.on('value', function(snapshot) {
       var feedMessageArr = snapshot.val()
       if(feedMessageArr) {
-      //   this.setState({
-      //     items: messages,
-      //     dataSource: this.ds.cloneWithRows(messages),
-      //     userName: this.props.userData.username
-      //   });
-      }else {
-      //   this.setState({
-      //     userName: this.props.userData.username
-      //   });
+        this.setState({
+          dataSource: this.ds.cloneWithRows(feedMessageArr),
+        });
       }
     }.bind(this));
+  }
+
+  constructor(props){
+    super(props);
+    this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
+    this.userFeedRef = new Firebase('https://ralli.firebaseio.com/users/' + this.props.userId + '/feed')
+    this.state = {
+      dataSource: this.ds.cloneWithRows([]),
+      error: '',
+      user: this.props.userData
+    }
   }
 
 
