@@ -64,15 +64,15 @@ var styles = StyleSheet.create({
     backgroundColor: 'white',
     alignItems: 'center',
     justifyContent: 'center',
-    borderColor: '#4700b3',
     borderWidth: 1.5,
     width: width * .30,
     height: 30,
     borderRadius: 8,
-    marginBottom: 10
+    marginBottom: 10,
+    borderColor: 'white'
   },
   buttonText: {
-    color: '#6600ff'
+    color: '#666666'
   },
   pluscontainer: {
     justifyContent: 'center',
@@ -178,7 +178,6 @@ class GroupsPage extends Component {
         onPress={this.goToChat.bind(this, rowData)}
         underlayColor='#48BBEC'>
         <View style={styles.rowContainer}>
-          <Image style={styles.groupImage} source={require('./Common/usergroup.png')} />
           <Text style={styles.name}>{rowData.name}</Text>
           <Text style={styles.arrow}> > </Text>
         </View>
@@ -222,7 +221,7 @@ class GroupsPage extends Component {
             </TouchableHighlight>
           </View>
           <View style={styles.listviewbox}>
-            </View>
+          </View>
         </ScrollView>
       )
     }
