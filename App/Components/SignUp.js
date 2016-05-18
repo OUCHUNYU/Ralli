@@ -1,3 +1,8 @@
+var usersApi = require('../Utils/usersApi');
+var GoogleMap = require('./GoogleMap');
+var Firebase = require('firebase');
+
+
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -75,16 +80,40 @@ var styles = StyleSheet.create({
   }
 });
 
-
-
 class SignUp extends Component {
   constructor(props) {
     super(props);
+    this.db = new Firebase('https://ralli.firebaseio.com/users');
     this.state = {
       username: '',
+      email:    '',
       password: ''
     };
   }
+
+  signupOnPress() {
+    usersApi.createNewUser(this.state.email, this.state.password, this.state.username).then((res) => {
+      usersApi.loginUser(this.state.email, this.state.password).then((res) => {
+          this.db.push({
+            username: this.state.username,
+            email: this.state.email,
+            avatarUrl: res.password.profileImageURL,
+          })
+        usersApi.getUserByEmail(this.state.email).then((res) => {
+          this.props.navigator.push({
+            title: 'Rallies Nearby',
+            component: GoogleMap,
+            passProps: {userData: res.val()[Object.keys(res.val())[0]], userId: Object.keys(res.val())[0]}
+          })
+        })
+        this.setState({
+          username: '',
+          email:    '',
+          password: ''
+        });
+      })
+  })
+}
 
   render() {
     return (
@@ -117,7 +146,7 @@ class SignUp extends Component {
          value={this.state.password}
          onChangeText={(text) => this.setState({password: text})}/>
 
-         <TouchableHighlight style={styles.button} underlayColor='#99d9f4'>
+         <TouchableHighlight style={styles.button} onPress={this.signupOnPress.bind(this)} underlayColor='#99d9f4'>
            <Text style={styles.buttonText}>Create Account</Text>
          </TouchableHighlight>
          <Text style={styles.spacer}> </Text>
