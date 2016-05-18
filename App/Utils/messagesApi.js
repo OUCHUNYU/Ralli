@@ -15,6 +15,27 @@ var messagesApi = {
         new Firebase(FBUrl + "users/" + newMemberId).update({feed: [{desc: feedMessage}]})
       }
     })
+  },
+
+  groupInvitationMessenger: function(idArray, eventName, startTime) {
+    idArray.forEach((groupId) => {
+      new Firebase(FBUrl + "groups/" + groupId).once("value").then((res) => {
+        var userIdArr = res.val().members;
+        userIdArr.forEach((userId) => {
+          var feedMessage = "You are invited to join event: " + eventName + " , starts at " + startTime + "."
+          new Firebase(FBUrl + "users/" + userId + "/feed").once("value").then((res) => {
+            if(res.val()) {
+              var feedArr = res.val();
+              feedArr.push({desc: feedMessage})
+              new Firebase(FBUrl + "users/" + userId).update({feed: feedArr})
+            }else {
+              new Firebase(FBUrl + "users/" + userId).update({feed: [{desc: feedMessage}]})
+            }
+          })
+        })
+      })
+    })
+
   }
 }
 

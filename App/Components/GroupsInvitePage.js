@@ -115,13 +115,13 @@ var styles = StyleSheet.create({
 });
 
 
-var groupsData = [
-    {name: 'Group 1', invited: false},
-    {name: 'Group 2', invited: false},
-    {name: 'Group 3', invited: false},
-    {name: 'Group 4', invited: false},
-    {name: 'Group 5', invited: false},
-  ]
+// var groupsData = [
+//     {name: 'Group 1', invited: false},
+//     {name: 'Group 2', invited: false},
+//     {name: 'Group 3', invited: false},
+//     {name: 'Group 4', invited: false},
+//     {name: 'Group 5', invited: false},
+//   ]
 
 class GroupsInvitePage extends Component {
   // componentWillMount() {
@@ -148,15 +148,9 @@ class GroupsInvitePage extends Component {
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
     this.state = {
       groupIDs: [],
-      dataSource: this.ds.cloneWithRows(groupsData),
+      dataSource: this.ds.cloneWithRows(this.props.userData.groups),
       userData: '',
-      groupsInfo: [
-          {name: 'Group 1', invited: false},
-          {name: 'Group 2', invited: false},
-          {name: 'Group 3', invited: false},
-          {name: 'Group 4', invited: false},
-          {name: 'Group 5', invited: false},
-      ]
+      groupsInfo: this.props.userData.groups.slice(0)
     }
   }
 
@@ -170,7 +164,7 @@ class GroupsInvitePage extends Component {
   _grabGroupIds(groups){
     for (var i = 0; i < groups.length; i++) {
       if (groups[i].invited === true) {
-        this.state.groupIDs.push(i)
+        this.state.groupIDs.push(groups[i].id)
       }
     }
   }
@@ -192,9 +186,19 @@ class GroupsInvitePage extends Component {
      })
    }
    onMakePublic() {
+     this._grabGroupIds(this.state.groupsInfo)
+     var groupIds = this.state.groupIDs
+     var dateString = this.props.eventInfo.date.toLocaleDateString() + ' ' + this.props.eventInfo.date.toLocaleTimeString();
+
+     markersApi.createMarker(this.props.userId, this.props.eventInfo.eventTitle, this.props.eventInfo.address, this.props.eventInfo.description, dateString, groupIds, true).then((res) => {console.log("Create marker")}).catch((err) => {console.log("Failed creation")})
+
      this.props.navigator.pop({
        title: 'Map Page',
        component: GoogleMap,
+       passProps: {
+        userId: this.props.userId,
+        userData: this.props.userData
+       }
      })
    }
 
@@ -234,7 +238,8 @@ class GroupsInvitePage extends Component {
 
 GroupsInvitePage.propTypes = {
   userData: React.PropTypes.object.isRequired,
-  userId: React.PropTypes.string.isRequired
+  userId: React.PropTypes.string.isRequired,
+  eventInfo: React.PropTypes.object.isRequired
 };
 
 
