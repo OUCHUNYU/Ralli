@@ -190,7 +190,7 @@ class GroupsInvitePage extends Component {
 
       // markersApi.getMarkerLatlng(this.props.eventInfo.address).then((res) => {
       //   res.results[0].geometry.location
-      //   markersApi.createMarker(this.props.userId, this.props.eventInfo.eventTitle, this.props.eventInfo.address, this.props.)
+        markersApi.createMarker(this.props.userId, this.props.eventInfo.eventTitle, this.props.eventInfo.address, this.props.eventInfo.description)
       // })
 
 
