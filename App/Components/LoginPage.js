@@ -105,8 +105,6 @@ var styles = StyleSheet.create({
   }
 });
 
-
-
 class LoginPage extends Component {
   constructor(props) {
     super(props);
@@ -117,9 +115,6 @@ class LoginPage extends Component {
   }
 
   render() {
-    // if (usersApi.getCurrentUser()) {
-    //   return (<View onLayout={this.loggedInUserRedirect.bind(this)}></View>)
-    // }else {
       return (
         <Image source={require('./Common/bridge-giphy.gif')} style={styles.container}>
           <View style={styles.headerbar}>
@@ -146,7 +141,7 @@ class LoginPage extends Component {
            <TouchableHighlight style={styles.button} onPress={this.loginOnPress.bind(this)} underlayColor='#99d9f4'>
              <Text style={styles.buttonText}>Log In</Text>
            </TouchableHighlight>
-           <TouchableHighlight style={styles.buttonFacebook} onPress={console.log("YO")} underlayColor='#6878ca'>
+           <TouchableHighlight style={styles.buttonFacebook} underlayColor='#6878ca'>
            <View style={styles.FacebookContainer}>
              <Image style={styles.FacebookImage} source={require('./Common/Facebook-48.png')} />
              <Text style={styles.buttonText}>Sign in with Facebook</Text>
@@ -159,15 +154,6 @@ class LoginPage extends Component {
           </TouchableHighlight>
         </Image>
       )
-    // }
-  }
-
-  gotoMarker() {
-    console.log(this.props)
-    this.props.navigator.push ({
-      title: 'Create Marker',
-      component: CreateMarker
-    })
   }
 
   loginOnPress() {
@@ -187,8 +173,6 @@ class LoginPage extends Component {
         password: ''
       });
     }
-
-
 
   signupOnPress() {
     this.props.navigator.push({
@@ -215,8 +199,6 @@ class LoginPage extends Component {
       title: 'Map Page',
       component: GoogleMap,
       passProps: {response: usersApi.getCurrentUser()}
-
-
     })
   }
 

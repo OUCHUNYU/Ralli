@@ -23,16 +23,7 @@ var usersApi = {
             if (err) {
               console.log("Fail sigup");
             }
-          }).then((res) => {
-            return this.loginUser(userEmail, userPassword)
-          }).then((res) => {
-            UsersRef.push({
-              username: userName,
-              email: userEmail,
-              avatarUrl: res.password.profileImageURL,
-              groups: []
-            })
-          });
+          })
   },
 
   loginUser: function(userEmail, userPassword) {
