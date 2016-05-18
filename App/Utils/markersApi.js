@@ -74,8 +74,3 @@ module.exports = markersApi;
 // console.log(markersApi.getAllMarkers().then((res) => {console.log(res)}))
 
 // console.log(markersApi.getMarkerLatlng("633 folsom san francisco").then((res) => {console.log(res)}));
-
-
-
-
-

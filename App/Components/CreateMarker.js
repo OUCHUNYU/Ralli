@@ -128,7 +128,11 @@ var CreateMarker = React.createClass({
       title: 'Invite Groups',
       component: GroupsInvitePage,
       rightButtonIcon: require('./Common/small-icon.png'),
-      passProps: {eventInfo: this.state}
+      passProps: {
+        eventInfo: this.state,
+        userId: this.props.userId,
+        userData: this.props.userData
+    }
     })
   },
 

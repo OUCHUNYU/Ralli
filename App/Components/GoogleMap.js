@@ -129,7 +129,11 @@ class GoogleMap extends Component {
   onPressCreateMarker () {
     this.props.navigator.push ({
       title: 'Make a Rally',
-      component: CreateMarker
+      component: CreateMarker,
+      passProps: {
+        userId: this.props.userId,
+        userData: this.props.userData
+      }
     })
   }
   onPressNext() {

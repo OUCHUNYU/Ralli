@@ -1,7 +1,8 @@
 'use strict';
 var Firebase = require('firebase');
 var groupsApi = require('../Utils/groupsApi.js');
-
+import markersApi from '../Utils/markersApi'
+import GoogleMap from './GoogleMap'
 var { width, height } = Dimensions.get('window');
 import React, { Component } from 'react';
 import {
@@ -70,9 +71,22 @@ var styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 10
   },
-  buttonText: {
-    color: '#6600ff'
-  },
+  button: {
+     height: 36,
+     backgroundColor: '#6600ff',
+     borderColor: '#6600ff',
+     borderWidth: 1,
+     borderRadius: 8,
+     marginBottom: 10,
+     marginHorizontal: 10,
+     alignSelf: 'stretch',
+     justifyContent: 'center'
+   },
+   buttonText: {
+     fontSize: 18,
+     color: 'white',
+     alignSelf: 'center'
+   },
   pluscontainer: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -135,34 +149,94 @@ class GroupsInvitePage extends Component {
     super(props);
     // this.userRef = new Firebase('https://ralli.firebaseio.com/users/-KHqf2KiolbegdEhXHuy');
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
-    this.setSwitchInitialStates()
     this.state = {
-      groups: [],
+      groupIDs: [],
       dataSource: this.ds.cloneWithRows(groupsData),
       userData: '',
+      groupsInfo: [
+          {name: 'Group 1', invited: false},
+          {name: 'Group 2', invited: false},
+          {name: 'Group 3', invited: false},
+          {name: 'Group 4', invited: false},
+          {name: 'Group 5', invited: false},
+      ]
     }
   }
 
-  renderRow(rowData){
+  _inviteChange(val, index){
+    console.log('the val and ind', val, index)
+    this.state.groupsInfo[index].invited = val
+    this.setState({
+      dataSource: this.ds.cloneWithRows(this.state.groupsInfo)
+    })
+    console.log(this.state.groupsInfo);
+  }
+
+  _grabGroupIds(groups){
+    for (var i = 0; i < groups.length; i++) {
+      if (groups[i].invited === true) {
+        console.log(this.state.groupIDs);
+        this.state.groupIDs.push(i)
+      }
+    }
+  }
+
+  onStartRally() {
+     this._grabGroupIds(this.state.groupsInfo)
+     var groupIds = this.state.groupIDs
+     console.log(groupIds);
+     this.props.eventInfo
+
+
+      // markersApi.getMarkerLatlng(this.props.eventInfo.address).then((res) => {
+      //   res.results[0].geometry.location
+      //   markersApi.createMarker(this.props.userId, this.props.eventInfo.eventTitle, this.props.eventInfo.address, this.props.)
+      // })
+
+
+     this.props.navigator.pop({
+       title: 'Map Page',
+       component: GoogleMap,
+     })
+   }
+   onMakePublic() {
+     this.props.navigator.pop({
+       title: 'Map Page',
+       component: GoogleMap,
+     })
+   }
+
+  renderRow(rowData, rowID ,sectionID){
     return (
       <View>
         <View style={styles.rowContainer}>
           <Image style={styles.groupImage} source={require('./Common/usergroup.png')} />
           <Text style={styles.name}>{rowData.name}</Text>
+          <Switch
+            onValueChange={(value) => this._inviteChange(value, sectionID)}
+            style={{marginBottom: 10}}
+            value={rowData.invited}
+          />
         </View>
       </View>
     )
   }
 
   render() {
-    console.log(this.state)
+    console.log(this.props)
     return(
       <ScrollView style={styles.container}>
+        <TouchableHighlight style={styles.button} onPress={this.onMakePublic.bind(this)} underlayColor='#99d9f4'>
+           <Text style={styles.buttonText}> Make Public Rally </Text>
+        </TouchableHighlight>
         <View style={styles.listviewbox}>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderRow.bind(this)} />
           </View>
+          <TouchableHighlight style={styles.button} onPress={this.onStartRally.bind(this)} underlayColor='#99d9f4'>
+            <Text style={styles.buttonText}> Start Rally </Text>
+          </TouchableHighlight>
       </ScrollView>
     )
   }
