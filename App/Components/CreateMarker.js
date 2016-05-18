@@ -120,9 +120,7 @@ var CreateMarker = React.createClass({
   },
 
   onDateChange: function(date) {
-    this.setState({date: date.toLocaleDateString() +
-            ' ' +
-            date.toLocaleTimeString()});
+    this.setState({date: date});
   },
 
   onInviteButton() {
