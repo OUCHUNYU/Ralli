@@ -41,7 +41,7 @@ var usersApi = {
   },
 
   getUserByEmail: function(email) {
-    return new Firebase('https://ralli.firebaseio.com').child('users').orderByChild('email').equalTo(email).once('value');
+    return new Firebase('https://ralli.firebaseio.com').child('users').orderByChild('email').equalTo(email.toLowerCase()).once('value');
   },
 
   getCurrentUser: function() {
