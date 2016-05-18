@@ -1,6 +1,7 @@
 'use strict';
 var Firebase = require('firebase');
 var groupsApi = require('../Utils/groupsApi.js');
+var GoogleMap = require('./GoogleMap')
 
 var { width, height } = Dimensions.get('window');
 import React, { Component } from 'react';
@@ -19,6 +20,8 @@ import {
   Dimensions,
   Switch,
 } from 'react-native';
+
+var groupIDS = []
 
 var styles = StyleSheet.create({
   container: {
@@ -97,7 +100,62 @@ var styles = StyleSheet.create({
   arrow: {
     fontSize: 25,
     color: '#b3b3b3',
-  }
+  },
+  container: {
+    flex: 1,
+    backgroundColor: '#F5FCFF',
+    paddingVertical: 10
+  },
+  wrapper: {
+    flex: 1
+  },
+  name: {
+    color: '#666666',
+    fontSize: 18,
+    paddingBottom: 5,
+    alignSelf: 'flex-start'
+  },
+  label: {
+    fontSize: 14
+  },
+  input: {
+    padding: 4,
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    margin: 5,
+    width: 200,
+    alignSelf: 'center'
+  },
+  rowContainer: {
+    padding: 10,
+    flexDirection: 'row',
+    alignItems: 'stretch'
+  },
+  rowTitle: {
+    color: '#48BBEC',
+    fontSize: 16
+  },
+  rowContent: {
+    fontSize: 19
+  },
+  button: {
+    height: 36,
+    backgroundColor: '#6600ff',
+    borderColor: '#6600ff',
+    borderWidth: 1,
+    borderRadius: 8,
+    marginBottom: 10,
+    marginHorizontal: 10,
+    alignSelf: 'stretch',
+    justifyContent: 'center'
+  },
+  buttonText: {
+    fontSize: 18,
+    color: 'white',
+    alignSelf: 'center'
+  },
 });
 
 // var passedUser = {username: 'ouchunyu', email: 'ouchunyu@yahoo.com', avatarUrl: "https://secure.gravatar.com/avatar/47fc607a6ee96a95f4a431b810dffbe2?d=retro"};
@@ -142,9 +200,11 @@ class GroupsInvitePage extends Component {
     }
   }
   onStartRally() {
+
     this.props.navigator.pop({
       title: 'Map Page',
       component: GoogleMap,
+      passProps: 
     })
   }
   onMakePublic() {
@@ -154,14 +214,38 @@ class GroupsInvitePage extends Component {
     })
   }
 
-  renderRow(rowData){
+  componentWillMount() {
+    this._pressData = {};
+  }
+
+  _pressData ({}: {[key: number]: boolean}){}
+
+  _genRows(pressData: {[key: number]: boolean}): Array<string> {
+    var dataBlob = [];
+    for (var ii = 0; ii < 100; ii++) {
+      var pressedText = pressData[ii] ? ' (pressed)' : '';
+      dataBlob.push('Row ' + ii + pressedText);
+    }
+    return dataBlob;
+  }
+
+  _pressRow(sectionID: number) {
+    console.log(sectionID)
+    this.state.groups.push(sectionID)
+    console.log(this.state.groups)
+  }
+
+  renderRow(rowData, rowID, sectionID){
     return (
-      <View>
-        <View style={styles.rowContainer}>
-          <Image style={styles.groupImage} source={require('./Common/usergroup.png')} />
-          <Text style={styles.name}>{rowData.name}</Text>
+        <View>
+          <TouchableHighlight onPress={() => this._pressRow(sectionID)}>
+          <View style={styles.rowContainer}>
+            <Image style={styles.groupImage} source={require('./Common/usergroup.png')} />
+            <Text style={styles.name}>    {rowData.name}</Text>
+          </View>
+          </TouchableHighlight>
         </View>
-      </View>
+
     )
   }
 
