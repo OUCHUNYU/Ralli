@@ -186,12 +186,10 @@ class GroupsInvitePage extends Component {
      var groupIds = this.state.groupIDs
      console.log(groupIds);
      this.props.eventInfo
+     console.log(this.props.eventInfo)
 
+     markersApi.createMarker(this.props.userId, this.props.eventInfo.eventTitle, this.props.eventInfo.address, this.props.eventInfo.description, this.props.eventInfo.date, groupIds, false).then((res) => {console.log("Create marker")}).catch((err) => {console.log("Failed creation")})
 
-      // markersApi.getMarkerLatlng(this.props.eventInfo.address).then((res) => {
-      //   res.results[0].geometry.location
-        markersApi.createMarker(this.props.userId, this.props.eventInfo.eventTitle, this.props.eventInfo.address, this.props.eventInfo.description)
-      // })
 
 
      this.props.navigator.pop({
