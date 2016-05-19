@@ -1,7 +1,6 @@
 var Firebase = require('firebase');
 var FBUrl = 'https://ralli.firebaseio.com/'
 
-
 var messagesApi = {
   chatRoomMessenger: function(newMemberId, groupName) {
     var feedMessage = "You have now been added to the group named: " + groupName;
@@ -35,11 +34,19 @@ var messagesApi = {
         })
       })
     })
+  },
 
+  individualUserMessenger: function(userId, message) {
+    new Firebase(FBUrl + "users/" + userId + "/feed").once("value").then((res) => {
+      if(res.val()) {
+        var feedArr = res.val();
+        feedArr.push({desc: message})
+        new Firebase(FBUrl + "users/" + userId).update({feed: feedArr})
+      }else {
+        new Firebase(FBUrl + "users/" + userId).update({feed: [{desc: message}]})
+      }
+    })
   }
 }
 
 module.exports = messagesApi;
-
-
-// messagesApi.chatRoomMessenger("-KI4AVqDgmxvxsmVo4dD", "Awesome group")

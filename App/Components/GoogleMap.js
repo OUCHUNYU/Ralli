@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 var Button = require('./Common/button');
+var Marker = require('./Common/small-icon.png');
 var GroupsPage = require('./GroupsPage');
 var UserProfilePage = require('./UserProfilePage');
 var GroupsInvitePage = require('./GroupsInvitePage');
 var EventFeed = require('./EventFeed');
 var CreateMarker =require('./CreateMarker');
 var markersApi = require('../Utils/markersApi');
+var messagesApi = require('../Utils/messagesApi');
+var Firebase = require('firebase');
 var QuestionBox = require('./QuestionBox')
 'use strict';
 
@@ -49,7 +52,7 @@ class GoogleMap extends Component {
       })
       this.render()
     }.bind(this))
-  }
+   }
   constructor(props) {
     super(props);
     this.markerRef = new Firebase('https://ralli.firebaseio.com/markers');
@@ -98,19 +101,39 @@ class GoogleMap extends Component {
       }
     })
   }
-  onPressQuestion() {
-    this.props.navigator.push ({
-      title: 'Random Rally',
-      component: QuestionBox,
-      passProps: {
-        userId: this.props.userId,
-        userData: this.props.userData
-      }
-    })
+
+  onPressSurprise() {
+    // function to get a a random number between range because js
+    function getRandomIntInclusive(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+    // need latest array of user markers (realtime)
+    var len = this.props.userData.markers.length
+    var eventIndex = getRandomIntInclusive(0, len)
+    var randEventId = this.props.userData.markers[eventIndex]
+    console.log('random event ID', randEventId);
+
+    new Firebase('https://ralli.firebaseio.com/markers/' + randEventId)
+      .once("value")
+      .then((res) =>
+      this.props.navigator.push ({
+        title: 'Surprise',
+        component: QuestionBox,
+        passProps: {
+          userId: this.props.userId,
+          userData: this.props.userData,
+          eventInfo: res.val()
+        }
+      })
+    )
   }
-  openMarker() {
-    LinkingIOS.openURL('http://google.com')
+
+  iAmGoingButton(item) {
+    var eventOwnerId = item.creator;
+    var message = this.props.userData.username + " is going to your event: " + item.title
+    messagesApi.individualUserMessenger(eventOwnerId, message)
   }
+
   onRegionChange(region) {
     this.state.region = region;
   }
@@ -128,14 +151,13 @@ class GoogleMap extends Component {
     console.log("I clicked a marker")
   }
   render() {
-    console.log(this.props.userData)
     const { region, markers } = this.state;
     var markersList = this.state.markers.map((item, index) => {
     return (
       <MapView.Marker
         ref="m3"
         key={index}
-        image={require('./Common/small-icon.png')}
+        image={Marker}
         showsUserLocation={true}
         followUserLocation={true}
         coordinate={markers[index].coordinate}
@@ -153,7 +175,7 @@ class GoogleMap extends Component {
               <Text style={styles.calloutText}> {markers[index].timeStart}</Text>
               <Text style={styles.calloutText}> Group: {markers[index].groups}</Text>
               <Image style={styles.calloutImage} source={require('./Common/sbpete.png')}/>
-              <Button onPress={this.openMarker.bind(this)} text="I'm Going"></Button>
+              <Button onPress={this.iAmGoingButton.bind(this, item)} text="I'm Going"></Button>
             </CustomCallout>
           </TouchableOpacity>
         </MapView.Callout>
@@ -181,7 +203,7 @@ class GoogleMap extends Component {
             <TouchableOpacity onPress={this.onPressFeed.bind(this)} style={[styles.bubble, styles.button]}>
               <Image source={require('./Common/activityfeed.png')} style={styles.icon} />
             </TouchableOpacity>
-            <TouchableOpacity onPress={this.onPressQuestion.bind(this)} style={[styles.bubble, styles.button]}>
+            <TouchableOpacity onPress={this.onPressSurprise.bind(this)} style={[styles.bubble, styles.button]}>
               <Image source={require('./Common/question.png')} style={styles.icon} />
             </TouchableOpacity>
           </View>
@@ -278,7 +300,6 @@ var styles = StyleSheet.create({
 
 
 });
-
 
 GoogleMap.propTypes = {
   userData: React.PropTypes.object.isRequired,
