@@ -72,7 +72,7 @@ class UserProfilePage extends Component {
   render() {
     return (
 
-      <Image source={require('./Common/purple.png')} style={styles.container} >
+      <Image source={require('./Common/rally-loading-screen.png')} style={styles.container} >
 
 
 
