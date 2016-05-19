@@ -80,7 +80,7 @@ var styles = StyleSheet.create({
 
 class QuestionBox extends Component {
   render() {
-    console.log(this.props.eventInfo);
+    console.log(this.props.userData.markers);
     return (
 
       <Image source={require('./Common/rally-loading-screen.png')} style={styles.container} >
