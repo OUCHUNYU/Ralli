@@ -131,7 +131,7 @@ class GoogleMap extends Component {
       )
     } else {
       AlertIOS.alert(
-       'Hey',
+       'Sorry ' + this.props.userData.username,
        "Looks like you've not been invited to any events."
       )
     }
