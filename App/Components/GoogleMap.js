@@ -157,13 +157,14 @@ class GoogleMap extends Component {
       <MapView.Marker
         ref="m3"
         key={index}
-        image={Marker}
+        image={this.state.iconLoaded ? 'markerLoaded' : 'marker'}
         showsUserLocation={true}
         followUserLocation={true}
         coordinate={markers[index].coordinate}
         calloutAnchor={{ x: 0.1, y: 0.1 }}
         calloutOffset={{ x: 1, y: 29 }}
       >
+        <Image source={require('./Common/other-small-icon.png')} onLoadEnd={() => {if (!this.state.iconLoaded) this.setState({iconLoaded: true});}}/>
         <MapView.Callout tooltip>
           <TouchableOpacity onPress={this.markerCenter.bind(this)}>
             <CustomCallout style={styles.calloutOpacity}>
@@ -180,6 +181,7 @@ class GoogleMap extends Component {
           </TouchableOpacity>
         </MapView.Callout>
       </MapView.Marker>
+
       )
     });
       return (
