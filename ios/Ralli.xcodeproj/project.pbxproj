@@ -379,7 +379,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						DevelopmentTeam = GVUDWE9NDA;
+						DevelopmentTeam = KJ8K44A5G6;
 					};
 				};
 			};
@@ -656,7 +656,7 @@
 				INFOPLIST_FILE = Ralli/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.Ralli.iOS;
 				PRODUCT_NAME = Ralli;
 				PROVISIONING_PROFILE = "";
 			};
@@ -678,7 +678,7 @@
 				INFOPLIST_FILE = Ralli/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = org.reactjs.native.example.Ralli.iOS;
 				PRODUCT_NAME = Ralli;
 				PROVISIONING_PROFILE = "";
 			};
