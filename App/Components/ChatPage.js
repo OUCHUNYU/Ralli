@@ -122,6 +122,7 @@ class ChatPage extends Component{
     var personEmail = this.state.promptValue;
     usersApi.getUserByEmail(personEmail).then((res) => {
       // user id is Object.keys(res.val())[0]
+      console.log(Object.keys(res.val())[0]);
       // group id is this.
       groupsApi.joinGroup(this.props.groupData.id, Object.keys(res.val())[0], this.props.groupData.name);
     }).catch((err) => {
@@ -222,4 +223,3 @@ ChatPage.propTypes = {
 };
 
 module.exports = ChatPage;
-
