@@ -5,7 +5,6 @@ var usersApi = require('../Utils/usersApi.js');
 
 import Firebase from 'firebase'
 import React, { Component } from 'react';
-// import Separator from './Helpers/Separator'
 import {
   StyleSheet,
   Text,
@@ -97,7 +96,6 @@ class ChatPage extends Component{
     }
   }
   componentWillMount(){
-    // Firebase.enableLogging(true);
     this.chatRef.on('value', function(snapshot) {
       if(snapshot.val()) {
         var messages = [];
@@ -224,5 +222,3 @@ ChatPage.propTypes = {
 
 module.exports = ChatPage;
 
-// scrollTo={0, 5}
-// enableEmptySections={false}

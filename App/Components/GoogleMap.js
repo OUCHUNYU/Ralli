@@ -7,6 +7,7 @@ var GroupsInvitePage = require('./GroupsInvitePage');
 var EventFeed = require('./EventFeed');
 var CreateMarker =require('./CreateMarker');
 var markersApi = require('../Utils/markersApi');
+var messagesApi = require('../Utils/messagesApi');
 var Firebase = require('firebase');
 var QuestionBox = require('./QuestionBox')
 'use strict';
@@ -39,29 +40,6 @@ const LATITUDE_DELTA = 0.0922;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 const SPACE = 0.01;
 
-// var createMarkerList = function(marker, index) {
-//   return
-//   <MapView.Marker
-//     ref="m3"
-//     image={Marker}
-//     coordinate={markers[index].coordinate}
-//     calloutAnchor={{ x: 0.5, y: 0.4 }}
-//     calloutOffset={{ x: -8, y: 28 }}
-//   >
-//     <MapView.Callout tooltip>
-//       <TouchableOpacity onPress={this.markerCenter.bind(this)}>
-//         <CustomCallout style={styles.calloutOpacity}>
-//           <Text style={styles.calloutHeader}>{markers[index].title}</Text>
-//           <Text style={styles.calloutText}>{markers[index].address}</Text>
-//           <Text style={styles.calloutText}>{markers[index].description}</Text>
-//           <Text style={styles.calloutText}>{markers[index].timeStart}</Text>
-//           <Text style={styles.calloutText}>{markers[index].groups}</Text>
-//           <Button onPress={this.openMarker.bind(this)} text="I'm Going"></Button>
-//         </CustomCallout>
-//       </TouchableOpacity>
-//     </MapView.Callout>
-//   </MapView.Marker>
-// }
 class GoogleMap extends Component {
  componentWillMount(){
     this.markerRef.on("value", function(res) {
@@ -102,13 +80,15 @@ class GoogleMap extends Component {
   onPressProfile() {
     this.props.navigator.push ({
       title: 'Profile Page',
-      component: UserProfilePage
+      component: UserProfilePage,
+      passProps: {userData: this.props.userData, userId: this.props.userId}
     })
   }
   onPressFeed() {
     this.props.navigator.push ({
       title: 'Feed',
-      component: EventFeed
+      component: EventFeed,
+      passProps: {userData: this.props.userData, userId: this.props.userId}
     })
   }
   onPressCreateMarker () {
@@ -147,9 +127,13 @@ class GoogleMap extends Component {
       })
     )
   }
-  openMarker() {
-    LinkingIOS.openURL('http://google.com')
+
+  iAmGoingButton(item) {
+    var eventOwnerId = item.creator;
+    var message = this.props.userData.username + " is going to your event: " + item.title
+    messagesApi.individualUserMessenger(eventOwnerId, message)
   }
+
   onRegionChange(region) {
     this.state.region = region;
   }
@@ -167,7 +151,6 @@ class GoogleMap extends Component {
     console.log("I clicked a marker")
   }
   render() {
-    console.log(this.props.userData)
     const { region, markers } = this.state;
     var markersList = this.state.markers.map((item, index) => {
     return (
@@ -192,7 +175,7 @@ class GoogleMap extends Component {
               <Text style={styles.calloutText}> {markers[index].timeStart}</Text>
               <Text style={styles.calloutText}> Group: {markers[index].groups}</Text>
               <Image style={styles.calloutImage} source={require('./Common/sbpete.png')}/>
-              <Button onPress={this.openMarker.bind(this)} text="I'm Going"></Button>
+              <Button onPress={this.iAmGoingButton.bind(this, item)} text="I'm Going"></Button>
             </CustomCallout>
           </TouchableOpacity>
         </MapView.Callout>
@@ -317,7 +300,6 @@ var styles = StyleSheet.create({
 
 
 });
-
 
 GoogleMap.propTypes = {
   userData: React.PropTypes.object.isRequired,

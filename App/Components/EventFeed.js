@@ -80,7 +80,7 @@ class EventFeed extends Component{
       var feedMessageArr = snapshot.val()
       if(feedMessageArr) {
         this.setState({
-          dataSource: this.ds.cloneWithRows(feedMessageArr),
+          dataSource: this.ds.cloneWithRows(feedMessageArr.reverse()),
         });
       }else {
         this.setState({
