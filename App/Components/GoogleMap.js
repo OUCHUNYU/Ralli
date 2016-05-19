@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 var Button = require('./Common/button');
+var Marker = require('./Common/small-icon.png');
 var GroupsPage = require('./GroupsPage');
 var UserProfilePage = require('./UserProfilePage');
 var GroupsInvitePage = require('./GroupsInvitePage');
@@ -7,6 +8,8 @@ var EventFeed = require('./EventFeed');
 var CreateMarker =require('./CreateMarker');
 var markersApi = require('../Utils/markersApi');
 var messagesApi = require('../Utils/messagesApi');
+var Firebase = require('firebase');
+var QuestionBox = require('./QuestionBox')
 'use strict';
 
 import {
@@ -49,7 +52,7 @@ class GoogleMap extends Component {
       })
       this.render()
     }.bind(this))
-  }
+   }
   constructor(props) {
     super(props);
     this.markerRef = new Firebase('https://ralli.firebaseio.com/markers');
@@ -98,7 +101,31 @@ class GoogleMap extends Component {
       }
     })
   }
-  onPressNext() {
+
+  onPressSurprise() {
+    // function to get a a random number between range because js
+    function getRandomIntInclusive(min, max) {
+      return Math.floor(Math.random() * (max - min)) + min;
+    }
+    // need latest array of user markers (realtime)
+    var len = this.props.userData.markers.length
+    var eventIndex = getRandomIntInclusive(0, len)
+    var randEventId = this.props.userData.markers[eventIndex]
+    console.log('random event ID', randEventId);
+
+    new Firebase('https://ralli.firebaseio.com/markers/' + randEventId)
+      .once("value")
+      .then((res) =>
+      this.props.navigator.push ({
+        title: 'Surprise',
+        component: QuestionBox,
+        passProps: {
+          userId: this.props.userId,
+          userData: this.props.userData,
+          eventInfo: res.val()
+        }
+      })
+    )
   }
 
   iAmGoingButton(item) {
@@ -130,7 +157,7 @@ class GoogleMap extends Component {
       <MapView.Marker
         ref="m3"
         key={index}
-        image={require('./Common/small-icon.png')}
+        image={Marker}
         showsUserLocation={true}
         followUserLocation={true}
         coordinate={markers[index].coordinate}
@@ -143,10 +170,10 @@ class GoogleMap extends Component {
               <View style={styles.wrapper}>
                 <Text style={styles.calloutHeader}>{markers[index].title}</Text>
               </View>
-              <Text style={styles.calloutText}>{markers[index].address}</Text>
-              <Text style={styles.calloutText}>{markers[index].description}</Text>
-              <Text style={styles.calloutText}>{markers[index].timeStart}</Text>
-              <Text style={styles.calloutText}>Group: {markers[index].groups}</Text>
+              <Text style={styles.calloutText}> {markers[index].address}</Text>
+              <Text style={styles.calloutText}> {markers[index].description}</Text>
+              <Text style={styles.calloutText}> {markers[index].timeStart}</Text>
+              <Text style={styles.calloutText}> Group: {markers[index].groups}</Text>
               <Image style={styles.calloutImage} source={require('./Common/sbpete.png')}/>
               <Button onPress={this.iAmGoingButton.bind(this, item)} text="I'm Going"></Button>
             </CustomCallout>
@@ -157,7 +184,10 @@ class GoogleMap extends Component {
     });
       return (
         <View style={styles.container}>
-          <MapView style={styles.map} initialRegion={region} >
+          <MapView style={styles.map}
+          initialRegion={region}
+          showsUserLocation={true}
+          followUserLocation={true}>
           {markersList}
           </MapView>
           <View style={styles.buttonContainer}>
@@ -173,7 +203,7 @@ class GoogleMap extends Component {
             <TouchableOpacity onPress={this.onPressFeed.bind(this)} style={[styles.bubble, styles.button]}>
               <Image source={require('./Common/activityfeed.png')} style={styles.icon} />
             </TouchableOpacity>
-            <TouchableOpacity style={[styles.bubble, styles.button]}>
+            <TouchableOpacity onPress={this.onPressSurprise.bind(this)} style={[styles.bubble, styles.button]}>
               <Image source={require('./Common/question.png')} style={styles.icon} />
             </TouchableOpacity>
           </View>
@@ -224,7 +254,9 @@ var styles = StyleSheet.create({
   },
   calloutHeader: {
     fontSize: 24,
-    color: '#fff'
+    color: '#fff',
+    marginBottom: 5,
+    flex: 1
   },
   calloutText: {
     color: '#fff',
@@ -251,6 +283,8 @@ var styles = StyleSheet.create({
     width: width * .25,
     alignSelf: 'center',
     marginTop: 5,
+    borderRadius: 3,
+    borderWidth: 1,
   },
   wrapper: {
     flexDirection: 'row',
