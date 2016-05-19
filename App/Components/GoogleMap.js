@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 var Button = require('./Common/button');
-var Marker = require('./Common/small-icon.png');
+
 var GroupsPage = require('./GroupsPage');
 var UserProfilePage = require('./UserProfilePage');
 var GroupsInvitePage = require('./GroupsInvitePage');
@@ -171,7 +171,7 @@ class GoogleMap extends Component {
         followUserLocation={true}
         coordinate={markers[index].coordinate}
         calloutAnchor={{ x: 0.1, y: 0.1 }}
-        calloutOffset={{ x: 1, y: 29 }}
+        calloutOffset={{ x: -8, y: 29 }}
       >
         <Image source={require('./Common/other-small-icon.png')} onLoadEnd={() => {if (!this.state.iconLoaded) this.setState({iconLoaded: true});}}/>
         <MapView.Callout tooltip>
