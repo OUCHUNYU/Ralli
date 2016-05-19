@@ -102,6 +102,7 @@ class ChatPage extends Component{
         for(var i in snapshot.val()) {
           messages.push(snapshot.val()[i]);
         }
+        messages = messages.reverse();
         this.setState({
           items: messages,
           dataSource: this.ds.cloneWithRows(messages),
@@ -121,6 +122,7 @@ class ChatPage extends Component{
     var personEmail = this.state.promptValue;
     usersApi.getUserByEmail(personEmail).then((res) => {
       // user id is Object.keys(res.val())[0]
+      console.log(Object.keys(res.val())[0]);
       // group id is this.
       groupsApi.joinGroup(this.props.groupData.id, Object.keys(res.val())[0], this.props.groupData.name);
     }).catch((err) => {
@@ -196,6 +198,7 @@ class ChatPage extends Component{
     }else {
       return (
         <View style={styles.container}>
+
           <View style={styles.pluscontainer}>
             <TouchableHighlight
             style={styles.plusButton}
@@ -206,8 +209,7 @@ class ChatPage extends Component{
           </View>
           <ListView
             dataSource={this.state.dataSource}
-            renderRow={this.renderRow}
-          />
+            renderRow={this.renderRow}/>
           {this.footer()}
         </View>
       )
@@ -221,4 +223,3 @@ ChatPage.propTypes = {
 };
 
 module.exports = ChatPage;
-

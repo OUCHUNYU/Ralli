@@ -20,6 +20,7 @@ import {
   Dimensions,
   TouchableOpacity,
   NavigatorIOS,
+  AlertIOS,
   Image,
   TouchableHighlight,
   LinkingIOS,
@@ -104,28 +105,36 @@ class GoogleMap extends Component {
 
   onPressSurprise() {
     // function to get a a random number between range because js
-    function getRandomIntInclusive(min, max) {
-      return Math.floor(Math.random() * (max - min)) + min;
-    }
-    // need latest array of user markers (realtime)
-    var len = this.props.userData.markers.length
-    var eventIndex = getRandomIntInclusive(0, len)
-    var randEventId = this.props.userData.markers[eventIndex]
-    console.log('random event ID', randEventId);
+    console.log(this.props.userData);
+    if (this.props.userData.markers) {
+      function getRandomIntInclusive(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+      }
+      // need latest array of user markers (realtime)
+      var len = this.props.userData.markers.length
+      var eventIndex = getRandomIntInclusive(0, len)
+      var randEventId = this.props.userData.markers[eventIndex]
+      console.log('random event ID', randEventId);
 
-    new Firebase('https://ralli.firebaseio.com/markers/' + randEventId)
-      .once("value")
-      .then((res) =>
-      this.props.navigator.push ({
-        title: 'Surprise',
-        component: QuestionBox,
-        passProps: {
-          userId: this.props.userId,
-          userData: this.props.userData,
-          eventInfo: res.val()
-        }
-      })
-    )
+      new Firebase('https://ralli.firebaseio.com/markers/' + randEventId)
+        .once("value")
+        .then((res) =>
+        this.props.navigator.push ({
+          title: 'Surprise',
+          component: QuestionBox,
+          passProps: {
+            userId: this.props.userId,
+            userData: this.props.userData,
+            eventInfo: res.val()
+          }
+        })
+      )
+    } else {
+      AlertIOS.alert(
+       'Sorry ' + this.props.userData.username,
+       "Looks like you've not been invited to any events."
+      )
+    }
   }
 
   iAmGoingButton(item) {
