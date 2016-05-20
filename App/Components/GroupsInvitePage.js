@@ -201,14 +201,27 @@ var styles = StyleSheet.create({
 
 
 class GroupsInvitePage extends Component {
+  componentWillMount() {
+    new Firebase('https://ralli.firebaseio.com/users/' + this.props.userId).once("value")
+      .then((res) => {
+        console.log(res.val())
+        if(res.val().groups) {
+          this.setState({
+            dataSource: this.ds.cloneWithRows(res.val().groups),
+            groupsInfo: res.val().groups
+          })
+        }
+      })
+  }
+
   constructor(props){
     super(props);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
     this.state = {
       groupIDs: [],
-      dataSource: this.ds.cloneWithRows(this.props.userData.groups),
+      dataSource: this.ds.cloneWithRows([]),
       userData: '',
-      groupsInfo: this.props.userData.groups.slice(0)
+      groupsInfo: false
     }
   }
 
@@ -276,22 +289,35 @@ class GroupsInvitePage extends Component {
 
   render() {
     var contentOffset = {x: 0, y: 0}
-    return(
-      <ScrollView style={styles.container} contentOffset={contentOffset}>
-        <Text style={styles.spacer}></Text>
-        <TouchableHighlight style={styles.button} onPress={this.onMakePublic.bind(this)} underlayColor='#99d9f4'>
-           <Text style={styles.buttonText}> Make a Public Rally </Text>
-        </TouchableHighlight>
-        <View style={styles.listviewbox}>
-        <ListView
-          dataSource={this.state.dataSource}
-          renderRow={this.renderRow.bind(this)} />
-          </View>
-          <TouchableHighlight style={styles.button} onPress={this.onStartRally.bind(this)} underlayColor='#99d9f4'>
-            <Text style={styles.buttonText}> Start Rally </Text>
+    if(this.state.groupsInfo) {
+      return(
+        <ScrollView style={styles.container} contentOffset={contentOffset}>
+          <Text style={styles.spacer}></Text>
+          <TouchableHighlight style={styles.button} onPress={this.onMakePublic.bind(this)} underlayColor='#99d9f4'>
+             <Text style={styles.buttonText}> Make a Public Rally </Text>
           </TouchableHighlight>
-      </ScrollView>
-    )
+          <View style={styles.listviewbox}>
+          <ListView
+            dataSource={this.state.dataSource}
+            renderRow={this.renderRow.bind(this)} />
+            </View>
+            <TouchableHighlight style={styles.button} onPress={this.onStartRally.bind(this)} underlayColor='#99d9f4'>
+              <Text style={styles.buttonText}> Start Rally </Text>
+            </TouchableHighlight>
+        </ScrollView>
+      )
+    }else {
+      return(
+        <ScrollView style={styles.container} contentOffset={contentOffset}>
+          <Text style={styles.spacer}></Text>
+          <TouchableHighlight style={styles.button} onPress={this.onMakePublic.bind(this)} underlayColor='#99d9f4'>
+             <Text style={styles.buttonText}> Make a Public Rally </Text>
+          </TouchableHighlight>
+          <View style={styles.listviewbox}>
+          </View>
+        </ScrollView>
+      )
+    }
   }
 }
 
