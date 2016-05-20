@@ -123,7 +123,6 @@ var CreateMarker = React.createClass({
   },
 
   onInviteButton() {
-    console.log(this.state.eventInfo)
     this.props.navigator.replace({
       title: 'Invite Groups',
       component: GroupsInvitePage,
@@ -132,7 +131,7 @@ var CreateMarker = React.createClass({
         eventInfo: this.state,
         userId: this.props.userId,
         userData: this.props.userData
-    }
+      }
     })
   },
 
@@ -172,8 +171,7 @@ var CreateMarker = React.createClass({
             date={this.state.date}
             mode="datetime"
             timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
-            onDateChange={this.onDateChange}
-          />
+            onDateChange={this.onDateChange}/>
 
          <TouchableHighlight style={styles.button} onPress={this.onInviteButton} underlayColor='#99d9f4'>
            <Text style={styles.buttonText}> Invite Groups </Text>
