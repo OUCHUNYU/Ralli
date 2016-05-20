@@ -204,7 +204,6 @@ class GroupsInvitePage extends Component {
   componentWillMount() {
     new Firebase('https://ralli.firebaseio.com/users/' + this.props.userId).once("value")
       .then((res) => {
-        console.log(res.val())
         if(res.val().groups) {
           this.setState({
             dataSource: this.ds.cloneWithRows(res.val().groups),
