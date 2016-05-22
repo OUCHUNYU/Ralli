@@ -13,8 +13,17 @@
   - Attending events
   - Suprise button which takes user to an existing event
 
-####Login page
+####Loading page
+<img src="./readme-images/loading-screen.png" height="700">
 
+####Login/Singup page
+
+<img src="./readme-images/login.png" height="700">
+<img src="./readme-images/signup.png" height="700">
+
+####Ralli marker map page
+<img src="./readme-images/main-map.png" height="700">
+<img src="./readme-images/marker.png" height="700">
 
 ## Collaborators: 
 - Eric 
