@@ -2,7 +2,7 @@
 Rally is a geolocation-based social event planning mobile app built by a team of five Dev Bootcamp students as our final project. The concept around Rally was to make social event planning easier, users can create events by placing markers on a map at the event's physical address complete with event details such as start time and description. The app was built using the React-Native framework and uses Firebase on the backend. It features real time geo-location marker rendering, group chat, news-feed notifications, and group creation. 
 
 ## Watch the demo
-[Demo](https://www.youtube.com/watch?v=_Ny1eIW7BKU&feature=youtu.be)
+<a href="https://www.youtube.com/watch?v=_Ny1eIW7BKU&feature=youtu.be"><img src="./readme-images/youtube-demo.png" height="250"></a>
 
 ## Core Features
   - Facebook authentication
@@ -15,9 +15,6 @@ Rally is a geolocation-based social event planning mobile app built by a team of
   - Attending events
   - Invite your groups or friends
   - Suprise button offers randomized event look up
-
-####Loading page
-<img src="./readme-images/loading-screen.png" height="700">
 
 ####Login/Singup page
 
@@ -61,11 +58,11 @@ Firebase
 
 
 ## Collaborators
-- Eric 
-- Miqueas
-- Kevin
-- Blair
-- Chunyu
+- [Eric](https://github.com/egumerlock)
+- [Miqueas](https://github.com/MiqueasLH)
+- [Kevin](https://github.com/kevniu)
+- [Blair](https://github.com/BlairWhite)
+- [Chunyu](https://github.com/OUCHUNYU)
 
 
 
