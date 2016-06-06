@@ -6,28 +6,21 @@ var messagesApi = require('./messagesApi');
 
 
 var groupsApi = {
-  createGroup: function(currentUser, newGroupName) {
-    // var currentUser = usersApi.getCurrentUser();
-    // var currentUserObj = usersApi.getUserByEmail(currentUser.password.email);
+  createGroup: function(currentUser, newGroupName, currentUserId) {
+    // push a new group to the database
     return GroupRef.push({
       groupName: newGroupName,
-      creator: currentUser.email
+      creator: currentUser.email,
+      members: [currentUserId]
     }).then((res) => {
+      // updating the user group array
       var groupId = res.key();
       if (currentUser.groups) {
-        usersApi.getUserByEmail(currentUser.email).then((res) => {
-          currentUser.groups.push({name: newGroupName, id: groupId});
-          var userId = Object.keys(res.val())[0];
-
-          (new Firebase('https://ralli.firebaseio.com/users/' + userId)).update({groups: currentUser.groups.slice(0)});
-        })
+        currentUser.groups.push({name: newGroupName, id: groupId});
+        (new Firebase(`https://ralli.firebaseio.com/users/${currentUserId}`)).update({groups: currentUser.groups.slice(0)});
       }else {
-        usersApi.getUserByEmail(currentUser.email).then((res) => {
-          var userId = Object.keys(res.val())[0];
-          (new Firebase('https://ralli.firebaseio.com/users/' + userId)).update({groups: [{name: newGroupName, id: groupId}]});
-        })
+        (new Firebase(`https://ralli.firebaseio.com/users/${currentUserId}`)).update({groups: [{name: newGroupName, id: groupId}]});
       }
-
     });
   },
 
@@ -37,29 +30,31 @@ var groupsApi = {
 
   joinGroup: function(groupId, newMemberId, groupName) {
     return new Firebase(FirebaseGroupsUrl + '/' + groupId).once("value").then((res) => {
-      var targetGroup = res.val().members;
-      if (targetGroup) {
-        if (targetGroup.indexOf(newMemberId) !== -1) {
-          throw new Error('this user is in the group')
-        }
-        targetGroup.push(newMemberId);
-        new Firebase(FirebaseGroupsUrl + '/' + groupId).update({members: targetGroup.slice(0)})
+      // getting all members of the group
+      var groupMembers = res.val().members;
+      // checking if the person being added in the group already
+      if (groupMembers.indexOf(newMemberId) !== -1) {
+        throw new Error('this user is in the group')
       }else {
-        new Firebase(FirebaseGroupsUrl + '/' + groupId).update({members: [newMemberId]})
+        groupMembers.push(newMemberId);
+        new Firebase(FirebaseGroupsUrl + '/' + groupId).update({members: groupMembers.slice(0)})
+
+        // creating user ref to update
+        var userRef = new Firebase('https://ralli.firebaseio.com/users/' + newMemberId)
+        // updating the user's joined group
+        userRef.once("value").then((res) => {
+          // get all the groups of the user
+          var newMemberObject = res.val().groups.slice(0)
+          if(newMemberObject) {
+            newMemberObject.push({id: groupId, name: groupName})
+            userRef.update({groups: newMemberObject})
+          }else {
+            userRef.update({groups: [{id: groupId, name: groupName}]})
+          }
+        })
+        // sending the feed
+        messagesApi.chatRoomMessenger(newMemberId, groupName);
       }
-
-
-      new Firebase('https://ralli.firebaseio.com/users/' + newMemberId).once("value").then((res) => {
-        var newMemberObject = res.val().groups.slice(0)
-        if(newMemberObject) {
-          newMemberObject.push({id: groupId, name: groupName})
-          new Firebase('https://ralli.firebaseio.com/users/' + newMemberId).update({groups: newMemberObject.slice(0)})
-        }else {
-          new Firebase('https://ralli.firebaseio.com/users/' + newMemberId).update({groups: [{id: groupId, name: groupName}]})
-        }
-      })
-
-      messagesApi.chatRoomMessenger(newMemberId, groupName);
     })
   },
 
@@ -89,16 +84,3 @@ var groupsApi = {
 
 module.exports = groupsApi;
 
-// console.log(groupsApi.createGroup());
-
-// var theUser;
-// console.log(usersApi.loginUser('ouchunyu@yahoo.com', 'ouchunyu').then((res) => {
-//   usersApi.getUserByEmail("ouchunyu@yahoo.com").then((res) => {theUser = res.val(); console.log(theUser); console.log(groupsApi.leaveGroup('-KHqf2KiolbegdEhXHuy', '-KHqnEDOZooM73dbntxm'))})
-
-//   console.log("*****************************************************");
-//   // console.log();
-// }));
-
-// new Firebase('https://ralli.firebaseio.com/users/-KHqf2KiolbegdEhXHuy').once("value").then((res) => {
-//       groupsApi.createGroup(res.val(), "asdfjlsdfsafssdafdasdsafsad");
-//     })
