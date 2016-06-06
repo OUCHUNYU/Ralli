@@ -1,10 +1,10 @@
-'use strict';
-var Firebase = require('firebase');
-var groupsApi = require('../Utils/groupsApi.js');
+import Firebase   from 'firebase'
+import groupsApi  from '../Utils/groupsApi.js'
+import Badge      from './Helpers/Badge'
+import ChatPage   from './ChatPage'
 
 var { width, height } = Dimensions.get('window');
-import Badge from './Helpers/Badge';
-import ChatPage from './ChatPage';
+
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -21,7 +21,7 @@ import {
   Dimensions
 } from 'react-native';
 
-var styles = StyleSheet.create({
+let styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#cccccc',
@@ -125,7 +125,6 @@ class GroupsPage extends Component {
     super(props);
     this.userRef = new Firebase('https://ralli.firebaseio.com/users/' + this.props.userId);
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
-
     this.state = {
       groups: [],
       dataSource: '',
@@ -136,20 +135,21 @@ class GroupsPage extends Component {
   saveResponse(promptValue){
     // api call to create group with promptValue(the name is stored in prompt value)
     this.setState({ promptValue: promptValue })
-    var group = this.state.promptValue
+    let group = this.state.promptValue
     groupsApi.createGroup(this.props.userData, group, this.props.userId);
   }
 
   addToGroup(groupName){
     AlertIOS.prompt('Add User Email', null, this.saveResponse.bind(this))
-  };
+  }
+
   goToChat(row){
     this.props.navigator.push({
       component: ChatPage,
       title: row.name,
       passProps: {groupData: row, userData: this.state.userData}
     })
-  };
+  }
 
   renderRow(rowData){
     return (
@@ -167,44 +167,24 @@ class GroupsPage extends Component {
   }
 
   render() {
-    if (this.state.groups.length > 0) {
-      return(
-        <ScrollView style={styles.container}>
-          <Badge userData={this.state.userData} />
-          <View
-          style={styles.pluscontainer}>
-            <TouchableHighlight
-            style={styles.plusButton}
-            onPress={() => AlertIOS.prompt('Enter Group name:', null, this.saveResponse.bind(this))}
-            underlayColor='gray'>
-              <Text style={styles.buttonText}>Create Group</Text>
-            </TouchableHighlight>
-          </View>
-          <View style={styles.listviewbox}>
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={this.renderRow.bind(this)} />
-            </View>
-        </ScrollView>
-      )
-    }else {
-      return(
-        <ScrollView style={styles.container}>
-          <Badge userData={this.state.userData} />
-          <View
-          style={styles.pluscontainer}>
-            <TouchableHighlight
-            style={styles.plusButton}
-            onPress={() => AlertIOS.prompt('Enter Group name:', null, this.saveResponse.bind(this))}
-            underlayColor='gray'>
-              <Text style={styles.buttonText}>Create Group</Text>
-            </TouchableHighlight>
-          </View>
-          <View style={styles.listviewbox}>
-          </View>
-        </ScrollView>
-      )
-    }
+    let listViewData = (this.state.groups.length > 0) ? <ListView dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} /> : <Text></Text>
+    return(
+      <ScrollView style={styles.container}>
+        <Badge userData={this.state.userData} />
+        <View
+        style={styles.pluscontainer}>
+          <TouchableHighlight
+          style={styles.plusButton}
+          onPress={() => AlertIOS.prompt('Enter Group name:', null, this.saveResponse.bind(this))}
+          underlayColor='gray'>
+            <Text style={styles.buttonText}>Create Group</Text>
+          </TouchableHighlight>
+        </View>
+        <View style={styles.listviewbox}>
+          {listViewData}
+        </View>
+      </ScrollView>
+    )
   }
 };
 

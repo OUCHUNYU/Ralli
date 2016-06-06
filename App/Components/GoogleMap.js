@@ -69,9 +69,9 @@ class GoogleMap extends Component {
       markers: ["placeholder"]
     };
   }
-  onMarkerPress() {
 
-  }
+  onMarkerPress() {}
+
   onPressGroups() {
     this.props.navigator.push ({
       title: 'Groups Page',
@@ -79,6 +79,7 @@ class GoogleMap extends Component {
       passProps: {userData: this.props.userData, userId: this.props.userId}
     })
   }
+
   onPressProfile() {
     this.props.navigator.push ({
       title: 'Profile Page',
@@ -86,6 +87,7 @@ class GoogleMap extends Component {
       passProps: {userData: this.props.userData, userId: this.props.userId}
     })
   }
+
   onPressFeed() {
     this.props.navigator.push ({
       title: 'Feed',
@@ -93,6 +95,7 @@ class GoogleMap extends Component {
       passProps: {userData: this.props.userData, userId: this.props.userId}
     })
   }
+
   onPressCreateMarker () {
     this.props.navigator.push ({
       title: 'Make a Rally',
@@ -145,6 +148,7 @@ class GoogleMap extends Component {
   onRegionChange(region) {
     this.state.region = region;
   }
+
   onLikeButton() {
     this.state.bounceValue.setValue(1.5);
     Animated.spring(
@@ -155,8 +159,10 @@ class GoogleMap extends Component {
       }
     ).start();
   }
+
   markerCenter() {
   }
+
   render() {
     const { region, markers } = this.state;
     let markersList = this.state.markers.map((item, index) => {
@@ -220,6 +226,7 @@ class GoogleMap extends Component {
       );
   }
 }
+
 let styles = StyleSheet.create({
   container: {
     position: 'absolute',
@@ -306,8 +313,6 @@ let styles = StyleSheet.create({
     height: 32,
     width: 22
   }
-
-
 });
 
 GoogleMap.propTypes = {
