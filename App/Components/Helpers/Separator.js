@@ -4,7 +4,7 @@ import {
   View
 } from 'react-native';
 
-var styles = StyleSheet.create({
+let styles = StyleSheet.create({
   separator: {
     height: 1,
     backgroundColor: '#E4E4E4',

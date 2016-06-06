@@ -1,5 +1,5 @@
-var GoogleMap = require('./App/Components/GoogleMap');
-var LoginPage = require('./App/Components/LoginPage');
+import GoogleMap from './App/Components/GoogleMap'
+import LoginPage from './App/Components/LoginPage'
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -9,14 +9,13 @@ import {
   NavigatorIOS
 } from 'react-native';
 
-var styles = StyleSheet.create({
+let styles = StyleSheet.create({
   wrapper: {
     flex: 1
   }
 })
 
 class Ralli extends Component {
-
   render() {
     return (
       <NavigatorIOS
@@ -24,7 +23,6 @@ class Ralli extends Component {
       initialRoute = {{
         title: 'Login',
         component: LoginPage,
-
       }} />
     );
   }
