@@ -1,13 +1,13 @@
-var Firebase = require('firebase');
-var FBUrl = 'https://ralli.firebaseio.com/'
+let Firebase = require('firebase');
+let FBUrl = 'https://ralli.firebaseio.com/'
 
-var messagesApi = {
+const messagesApi = {
   chatRoomMessenger(newMemberId, groupName) {
-    var feedMessage = "You have now been added to the group named: " + groupName;
-    var userRef = new Firebase(FBUrl + "users/" + newMemberId);
+    let feedMessage = "You have now been added to the group named: " + groupName;
+    let userRef = new Firebase(FBUrl + "users/" + newMemberId);
     new Firebase(FBUrl + "users/" + newMemberId + "/feed").once("value").then((res) => {
       if(res.val()) {
-        var feedArr = res.val();
+        let feedArr = res.val();
         feedArr.push({desc: feedMessage})
         userRef.update({feed: feedArr})
       }else {
@@ -19,13 +19,13 @@ var messagesApi = {
   groupInvitationMessenger(idArray, eventName, startTime) {
     idArray.forEach((groupId) => {
       new Firebase(FBUrl + "groups/" + groupId).once("value").then((res) => {
-        var userIdArr = res.val().members;
+        let userIdArr = res.val().members;
         userIdArr.forEach((userId) => {
-          var feedMessage = "You are invited to join event: " + eventName + " , starts at " + startTime + "."
+          let feedMessage = "You are invited to join event: " + eventName + " , starts at " + startTime + "."
           new Firebase(FBUrl + "users/" + userId + "/feed").once("value").then((res) => {
-            var userRef = new Firebase(FBUrl + "users/" + userId);
+            let userRef = new Firebase(FBUrl + "users/" + userId);
             if(res.val()) {
-              var feedArr = res.val();
+              let feedArr = res.val();
               feedArr.push({desc: feedMessage})
               userRef.update({feed: feedArr})
             }else {
@@ -39,9 +39,9 @@ var messagesApi = {
 
   individualUserMessenger(userId, message) {
     new Firebase(FBUrl + "users/" + userId + "/feed").once("value").then((res) => {
-      var userRef = new Firebase(FBUrl + "users/" + userId);
+      let userRef = new Firebase(FBUrl + "users/" + userId);
       if(res.val()) {
-        var feedArr = res.val();
+        let feedArr = res.val();
         feedArr.push({desc: message})
         userRef.update({feed: feedArr})
       }else {

@@ -1,6 +1,6 @@
-var Firebase = require('firebase');
-var FirebaseUsersUrl = 'https://ralli.firebaseio.com/users';
-var UsersRef = new Firebase(FirebaseUsersUrl);
+import Firebase from 'firebase'
+let FirebaseUsersUrl = 'https://ralli.firebaseio.com/users';
+let UsersRef = new Firebase(FirebaseUsersUrl);
 
 // To check user login state:
 // firebase provides function #getAuth(), you can invoke it
