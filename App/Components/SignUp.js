@@ -1,6 +1,6 @@
-var usersApi = require('../Utils/usersApi');
-var GoogleMap = require('./GoogleMap');
-var Firebase = require('firebase');
+import usersApi   from '../Utils/usersApi'
+import GoogleMap  from './GoogleMap'
+import Firebase   from 'firebase'
 
 
 import React, { Component } from 'react';
@@ -17,7 +17,7 @@ import {
 } from 'react-native';
 
 
-var styles = StyleSheet.create({
+let styles = StyleSheet.create({
   header: {
     marginBottom: 20,
     fontSize: 18,
@@ -163,4 +163,5 @@ class SignUp extends Component {
   }
 }
 
-module.exports = SignUp;
+export default SignUp
+

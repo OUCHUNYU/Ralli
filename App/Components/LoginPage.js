@@ -1,9 +1,7 @@
-var usersApi = require('../Utils/usersApi');
-
-var SignUp = require('./SignUp');
-var CreateMarker = require('./CreateMarker')
-var GoogleMap = require('./GoogleMap')
-
+import usersApi       from '../Utils/usersApi'
+import SignUp         from './SignUp'
+import CreateMarker   from'./CreateMarker'
+import GoogleMap      from './GoogleMap'
 
 import React, { Component } from 'react';
 import {
@@ -17,8 +15,7 @@ import {
 } from 'react-native';
 
 
-
-var styles = StyleSheet.create({
+let styles = StyleSheet.create({
   header: {
     marginBottom: 20,
     fontSize: 18,
@@ -114,9 +111,7 @@ class LoginPage extends Component {
     };
   }
 
-  onFacebookPress() {
-
-  }
+  onFacebookPress() {}
 
   render() {
       return (
@@ -208,4 +203,5 @@ class LoginPage extends Component {
   }
 
 }
-module.exports = LoginPage;
+
+export default LoginPage

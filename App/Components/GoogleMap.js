@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
-var Button = require('./Common/button');
+import Button               from './Common/button'
 
-var GroupsPage = require('./GroupsPage');
-var UserProfilePage = require('./UserProfilePage');
-var GroupsInvitePage = require('./GroupsInvitePage');
-var EventFeed = require('./EventFeed');
-var CreateMarker =require('./CreateMarker');
-var markersApi = require('../Utils/markersApi');
-var messagesApi = require('../Utils/messagesApi');
-var Firebase = require('firebase');
-var QuestionBox = require('./QuestionBox')
-'use strict';
+import GroupsPage           from './GroupsPage'
+import UserProfilePage      from './UserProfilePage'
+import GroupsInvitePage     from './GroupsInvitePage'
+import EventFeed            from './EventFeed'
+import CreateMarker         from './CreateMarker'
+import markersApi           from '../Utils/markersApi'
+import messagesApi          from '../Utils/messagesApi'
+import Firebase             from 'firebase'
+import QuestionBox          from './QuestionBox'
+
+import MapView              from 'react-native-maps'
+import PriceMarker          from './PriceMarker'
+import CustomCallout        from './CustomCallout'
 
 import {
   StyleSheet,
@@ -28,9 +31,6 @@ import {
 
 } from 'react-native';
 
-var MapView = require('react-native-maps');
-var PriceMarker = require('./PriceMarker');
-var CustomCallout = require('./CustomCallout');
 
 var { width, height } = Dimensions.get('window');
 
@@ -54,6 +54,7 @@ class GoogleMap extends Component {
       this.render()
     }.bind(this))
    }
+
   constructor(props) {
     super(props);
     this.markerRef = new Firebase('https://ralli.firebaseio.com/markers');
@@ -105,16 +106,14 @@ class GoogleMap extends Component {
 
   onPressSurprise() {
     // function to get a a random number between range because js
-    console.log(this.props.userData);
     if (this.props.userData.markers) {
       function getRandomIntInclusive(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
       }
       // need latest array of user markers (realtime)
-      var len = this.props.userData.markers.length
-      var eventIndex = getRandomIntInclusive(0, len)
-      var randEventId = this.props.userData.markers[eventIndex]
-      console.log('random event ID', randEventId);
+      let len = this.props.userData.markers.length
+      let eventIndex = getRandomIntInclusive(0, len)
+      let randEventId = this.props.userData.markers[eventIndex]
 
       new Firebase('https://ralli.firebaseio.com/markers/' + randEventId)
         .once("value")
@@ -138,8 +137,8 @@ class GoogleMap extends Component {
   }
 
   iAmGoingButton(item) {
-    var eventOwnerId = item.creator;
-    var message = this.props.userData.username + " is going to your event: " + item.title
+    let eventOwnerId = item.creator;
+    let message = this.props.userData.username + " is going to your event: " + item.title
     messagesApi.individualUserMessenger(eventOwnerId, message)
   }
 
@@ -157,11 +156,10 @@ class GoogleMap extends Component {
     ).start();
   }
   markerCenter() {
-    console.log("I clicked a marker")
   }
   render() {
     const { region, markers } = this.state;
-    var markersList = this.state.markers.map((item, index) => {
+    let markersList = this.state.markers.map((item, index) => {
     return (
       <MapView.Marker
         ref="m3"
@@ -222,7 +220,7 @@ class GoogleMap extends Component {
       );
   }
 }
-var styles = StyleSheet.create({
+let styles = StyleSheet.create({
   container: {
     position: 'absolute',
     top: 0,
@@ -317,4 +315,4 @@ GoogleMap.propTypes = {
   userId: React.PropTypes.string.isRequired
 };
 
-module.exports = GoogleMap;
+export default GoogleMap
