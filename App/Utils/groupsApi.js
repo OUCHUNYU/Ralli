@@ -1,9 +1,8 @@
 var usersApi = require('./usersApi');
 var Firebase = require('firebase');
+var messagesApi = require('./messagesApi');
 var FirebaseGroupsUrl = 'https://ralli.firebaseio.com/groups';
 var GroupRef = new Firebase(FirebaseGroupsUrl);
-var messagesApi = require('./messagesApi');
-
 
 var groupsApi = {
   createGroup(currentUser, newGroupName, currentUserId) {
