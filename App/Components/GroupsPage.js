@@ -101,29 +101,11 @@ var styles = StyleSheet.create({
   }
 });
 
-// var passedUser = {username: 'ouchunyu', email: 'ouchunyu@yahoo.com', avatarUrl: "https://secure.gravatar.com/avatar/47fc607a6ee96a95f4a431b810dffbe2?d=retro"};
-
-// var groupsData = [
-//     {name: 'Group 1'},
-//     {name: 'Group 2'},
-//     {name: 'Group 3'},
-//     {name: 'Group 4'},
-//     {name: 'Group 5'}
-//   ];
-
 class GroupsPage extends Component {
   componentWillMount() {
     // when a group is added
-    console.log(this.props.userData)
     this.userRef.on('value', ((dataSnapshot) => {
-      console.log(dataSnapshot.val().groups)
       if (dataSnapshot && dataSnapshot.val().groups) {
-
-        // var groups = [];
-        // for(var i in snapshot.val()) {
-        //   messages.push(snapshot.val()[i]);
-        // }
-
         this.setState({
           groups : dataSnapshot.val().groups,
           dataSource: this.ds.cloneWithRows(dataSnapshot.val().groups),
@@ -155,9 +137,7 @@ class GroupsPage extends Component {
     // api call to create group with promptValue(the name is stored in prompt value)
     this.setState({ promptValue: promptValue })
     var group = this.state.promptValue
-    this.userRef.once("value").then((res) => {
-      groupsApi.createGroup(res.val(), group);
-    })
+    groupsApi.createGroup(this.props.userData, group, this.props.userId);
   }
 
   addToGroup(groupName){
