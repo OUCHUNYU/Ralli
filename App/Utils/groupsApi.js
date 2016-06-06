@@ -1,12 +1,11 @@
 var usersApi = require('./usersApi');
 var Firebase = require('firebase');
+var messagesApi = require('./messagesApi');
 var FirebaseGroupsUrl = 'https://ralli.firebaseio.com/groups';
 var GroupRef = new Firebase(FirebaseGroupsUrl);
-var messagesApi = require('./messagesApi');
-
 
 var groupsApi = {
-  createGroup: function(currentUser, newGroupName, currentUserId) {
+  createGroup(currentUser, newGroupName, currentUserId) {
     // push a new group to the database
     return GroupRef.push({
       groupName: newGroupName,
@@ -24,11 +23,11 @@ var groupsApi = {
     });
   },
 
-  destroyGroup: function() {
+  destroyGroup() {
 
   },
 
-  joinGroup: function(groupId, newMemberId, groupName) {
+  joinGroup(groupId, newMemberId, groupName) {
     return new Firebase(FirebaseGroupsUrl + '/' + groupId).once("value").then((res) => {
       // getting all members of the group
       var groupMembers = res.val().members;
@@ -58,7 +57,7 @@ var groupsApi = {
     })
   },
 
-  leaveGroup: function(currentUserId, groupId) {
+  leaveGroup(currentUserId, groupId) {
     // delete group from user's joined group
     new Firebase('https://ralli.firebaseio.com/users/' + currentUserId).once('value').then((res) => {
       var myGroups = res.val().joinedGroups;
@@ -75,12 +74,11 @@ var groupsApi = {
 
   },
 
-  addMessage: function(message, userId, chatRoomRef) {
+  addMessage(message, userId, chatRoomRef) {
     chatRoomRef.push({userId: userId, message: message});
   }
 
 };
-
 
 module.exports = groupsApi;
 

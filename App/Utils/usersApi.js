@@ -14,8 +14,8 @@ var UsersRef = new Firebase(FirebaseUsersUrl);
 // npm <FILENAME> to see
 
 
-var usersApi = {
-  createNewUser: function(userEmail, userPassword, userName) {
+const usersApi = {
+  createNewUser(userEmail, userPassword, userName) {
    return UsersRef.createUser({
             email    : userEmail,
             password : userPassword
@@ -26,11 +26,11 @@ var usersApi = {
           })
   },
 
-  loginUser: function(userEmail, userPassword) {
+  loginUser(userEmail, userPassword) {
     return UsersRef.authWithPassword({
               email    : userEmail,
               password : userPassword
-            }, function(error, authData) {
+            }, (error, authData) => {
               if (error) {
                 console.log("Login Failed");
               }else {
@@ -40,11 +40,11 @@ var usersApi = {
             });
   },
 
-  getUserByEmail: function(email) {
+  getUserByEmail(email) {
     return new Firebase('https://ralli.firebaseio.com').child('users').orderByChild('email').equalTo(email.toLowerCase()).once('value');
   },
 
-  getCurrentUser: function() {
+  getCurrentUser() {
     return UsersRef.getAuth();
   }
 }
