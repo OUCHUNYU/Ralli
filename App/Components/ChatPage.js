@@ -1,9 +1,7 @@
-'use strict';
-
-var groupsApi = require('../Utils/groupsApi.js');
-var usersApi = require('../Utils/usersApi.js');
-
+import groupsApi from'../Utils/groupsApi.js'
+import usersApi  from'../Utils/usersApi.js'
 import Firebase from 'firebase'
+
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -16,7 +14,7 @@ import {
   Image,
 } from 'react-native';
 
-var styles = StyleSheet.create({
+let styles = StyleSheet.create({
   container: {
     flex: 1
   },
@@ -95,10 +93,11 @@ class ChatPage extends Component{
       userName: ''
     }
   }
+
   componentWillMount(){
     this.chatRef.on('value', function(snapshot) {
       if(snapshot.val()) {
-        var messages = [];
+        let messages = [];
         for(var i in snapshot.val()) {
           messages.push(snapshot.val()[i]);
         }
@@ -119,10 +118,9 @@ class ChatPage extends Component{
   saveResponse(promptValue){
     // api call to add user to current chat
     this.setState({ promptValue: promptValue })
-    var personEmail = this.state.promptValue;
+    let personEmail = this.state.promptValue;
     usersApi.getUserByEmail(personEmail).then((res) => {
       // user id is Object.keys(res.val())[0]
-      console.log(Object.keys(res.val())[0]);
       // group id is this.
       groupsApi.joinGroup(this.props.groupData.id, Object.keys(res.val())[0], this.props.groupData.name);
     }).catch((err) => {
@@ -145,18 +143,17 @@ class ChatPage extends Component{
       message: ''
     })
   }
+
   renderRow(rowData){
     return (
         <View style={styles.rowContainer}>
           <Image style={styles.avatar} source={{uri: rowData.avatarUrl}} />
           <Text style={styles.messageStyle} > {rowData.username}: {rowData.message}</Text>
         </View>
-    )
+    );
   }
 
-
-
-  footer(){
+  footer() {
     return (
       <View style={styles.footerContainer}>
         <TextInput
@@ -173,47 +170,26 @@ class ChatPage extends Component{
       </View>
     )
   }
-  render(){
-    var showErr = (
-      this.state.error ? <Text style={styles.errorMessage}> {this.state.error} </Text> : <View></View>
-    );
-    if (this.state.items.length > 0) {
-      return (
-        <View style={styles.container}>
-          <View style={styles.pluscontainer}>
-            {showErr}
-            <TouchableHighlight
-            style={styles.plusButton}
-            onPress={() => AlertIOS.prompt('Add a person by Email', null, this.saveResponse.bind(this))}
-            underlayColor='black'>
-              <Text style={styles.buttonText}> + </Text>
-            </TouchableHighlight>
-          </View>
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={this.renderRow} />
-          {this.footer()}
-        </View>
-      )
-    }else {
-      return (
-        <View style={styles.container}>
 
-          <View style={styles.pluscontainer}>
-            <TouchableHighlight
-            style={styles.plusButton}
-            onPress={() => AlertIOS.prompt('Add a person by Email', null, this.saveResponse.bind(this))}
-            underlayColor='black'>
-              <Text style={styles.buttonText}> + </Text>
-            </TouchableHighlight>
-          </View>
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={this.renderRow}/>
-          {this.footer()}
+  render() {
+    let showErr = this.state.error ? <Text style={styles.errorMessage}> {this.state.error} </Text> : <View></View>
+    return (
+      <View style={styles.container}>
+        <View style={styles.pluscontainer}>
+          {showErr}
+          <TouchableHighlight
+          style={styles.plusButton}
+          onPress={() => AlertIOS.prompt('Add a person by Email', null, this.saveResponse.bind(this))}
+          underlayColor='black'>
+            <Text style={styles.buttonText}> + </Text>
+          </TouchableHighlight>
         </View>
-      )
-    }
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow} />
+        {this.footer()}
+      </View>
+    )
   }
 };
 
