@@ -1,7 +1,4 @@
-var Firebase = require('firebase');
-var { width, height } = Dimensions.get('window');
-
-'use strict';
+import Firebase from 'firebase'
 import React, { Component } from 'react';
 import Separator from './Helpers/Separator'
 import {
@@ -16,7 +13,9 @@ import {
   Dimensions
 } from 'react-native';
 
-var styles = StyleSheet.create({
+let { width, height } = Dimensions.get('window');
+
+let styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
@@ -72,12 +71,10 @@ var styles = StyleSheet.create({
   },
 });
 
-
 class EventFeed extends Component{
-
   componentWillMount(){
     this.userFeedRef.on('value', function(snapshot) {
-      var feedMessageArr = snapshot.val()
+      let feedMessageArr = snapshot.val()
       if(feedMessageArr) {
         this.setState({
           dataSource: this.ds.cloneWithRows(feedMessageArr.reverse()),
@@ -88,7 +85,6 @@ class EventFeed extends Component{
         });
       }
     }.bind(this));
-
   }
 
   constructor(props){
@@ -96,12 +92,11 @@ class EventFeed extends Component{
     this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2})
     this.userFeedRef = new Firebase('https://ralli.firebaseio.com/users/' + this.props.userId + '/feed')
     this.state = {
-      dataSource: this.ds.cloneWithRows([{desc:'You have no notificiations'}]),
+      dataSource: this.ds.cloneWithRows([{desc:''}]),
       error: '',
       user: this.props.userData
     }
   }
-
 
   renderRow(rowData){
     return (
@@ -110,27 +105,26 @@ class EventFeed extends Component{
           <Image source={require('./Common/small-icon.png')} />
           <Text style={styles.rowText}> {rowData.desc} </Text>
         </View>
-
       </View>
     )
   }
+
   render(){
     console.log(this.props);
     return (
       <Image source={require('./Common/clouds.gif')} style={styles.container}>
         <Text style={styles.spacer}> </Text>
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={this.renderRow} />
+        <ListView
+          dataSource={this.state.dataSource}
+          renderRow={this.renderRow} />
       </Image>
     )
   }
 };
-
 
 EventFeed.propTypes = {
   userData: React.PropTypes.object.isRequired,
   userId: React.PropTypes.string.isRequired
 };
 
-module.exports = EventFeed;
+export default EventFeed;
