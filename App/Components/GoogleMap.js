@@ -12,7 +12,6 @@ import Firebase             from 'firebase'
 import QuestionBox          from './QuestionBox'
 
 import MapView              from 'react-native-maps'
-import PriceMarker          from './PriceMarker'
 import CustomCallout        from './CustomCallout'
 
 import {
@@ -28,7 +27,6 @@ import {
   TouchableHighlight,
   LinkingIOS,
   Animated
-
 } from 'react-native';
 
 
