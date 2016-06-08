@@ -1,12 +1,11 @@
-'use strict';
-var Firebase = require('firebase');
-var groupsApi = require('../Utils/groupsApi.js');
+import Firebase   from 'firebase'
+import groupsApi  from '../Utils/groupsApi.js'
 
 
 import markersApi from '../Utils/markersApi'
 import GoogleMap from './GoogleMap'
 
-var { width, height } = Dimensions.get('window');
+let { width, height } = Dimensions.get('window');
 import React, { Component } from 'react';
 import {
   StyleSheet,
@@ -24,9 +23,9 @@ import {
   Switch,
 } from 'react-native';
 
-var groupIDS = []
+let groupIDS = []
 
-var styles = StyleSheet.create({
+let styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#cccccc',
@@ -199,8 +198,18 @@ var styles = StyleSheet.create({
   }
 });
 
-
 class GroupsInvitePage extends Component {
+  constructor(props){
+    super(props);
+    this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
+    this.state = {
+      groupIDs: [],
+      dataSource: this.ds.cloneWithRows([]),
+      userData: '',
+      groupsInfo: false
+    }
+  }
+
   componentWillMount() {
     new Firebase('https://ralli.firebaseio.com/users/' + this.props.userId).once("value")
       .then((res) => {
@@ -211,17 +220,6 @@ class GroupsInvitePage extends Component {
           })
         }
       })
-  }
-
-  constructor(props){
-    super(props);
-    this.ds = new ListView.DataSource({rowHasChanged: (row1, row2) => row1 !== row2});
-    this.state = {
-      groupIDs: [],
-      dataSource: this.ds.cloneWithRows([]),
-      userData: '',
-      groupsInfo: false
-    }
   }
 
   _inviteChange(val, index){

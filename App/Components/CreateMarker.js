@@ -1,6 +1,6 @@
-var Button = require('./Common/button');
-var DatePicker = require('./Common/DatePicker');
-var GroupsInvitePage = require('./GroupsInvitePage');
+import Button            from'./Common/button'
+import DatePicker        from'./Common/DatePicker'
+import GroupsInvitePage  from'./GroupsInvitePage'
 
 import React, { Component } from 'react';
 import {
@@ -15,7 +15,7 @@ import {
   ScrollView
 } from 'react-native';
 
-var styles = StyleSheet.create({
+let styles = StyleSheet.create({
   header: {
     marginBottom: 20,
     fontSize: 18,
@@ -100,27 +100,21 @@ var styles = StyleSheet.create({
 });
 
 
-var CreateMarker = React.createClass({
-  getDefaultProps: function () {
-    return {
+class CreateMarker extends Component {
+  constructor() {
+    super();
+    this.state = {
       date: new Date(),
       timeZoneOffsetInHours: (-1) * (new Date()).getTimezoneOffset() / 60,
-    };
-  },
-
-  getInitialState: function() {
-    return {
-      date: this.props.date,
-      timeZoneOffsetInHours: this.props.timeZoneOffsetInHours,
       eventTitle: '',
       address: '',
       description: '',
-    };
-  },
+    }
+  }
 
-  onDateChange: function(date) {
+  onDateChange(date) {
     this.setState({date: date});
-  },
+  }
 
   onInviteButton() {
     this.props.navigator.replace({
@@ -133,11 +127,9 @@ var CreateMarker = React.createClass({
         userData: this.props.userData
       }
     })
-  },
+  }
 
-  render: function() {
-    // Ideally, the timezone input would be a picker rather than a
-    // text input, but we don't have any pickers yet :(
+  render() {
     return (
       <ScrollView>
         <View style={styles.headerbar}>
@@ -171,33 +163,15 @@ var CreateMarker = React.createClass({
             date={this.state.date}
             mode="datetime"
             timeZoneOffsetInMinutes={this.state.timeZoneOffsetInHours * 60}
-            onDateChange={this.onDateChange}/>
+            onDateChange={this.onDateChange.bind(this)}/>
 
-         <TouchableHighlight style={styles.button} onPress={this.onInviteButton} underlayColor='#99d9f4'>
+         <TouchableHighlight style={styles.button} onPress={this.onInviteButton.bind(this)} underlayColor='#99d9f4'>
            <Text style={styles.buttonText}> Invite Groups </Text>
          </TouchableHighlight>
 
       </ScrollView>
     );
-  },
-});
+  }
+}
 
-      // usersApi.createMarker(this.state.eventTitle, this.state.address, this.state.description)
-      //   .then((res) => {
-      //       console.log(res)
-      //       this.props.navigator.push({
-      //       title: 'Map Page',
-      //       component: MapPage,
-      //       passProps: {response: res},
-      //       rightButtonIcon: require('./Common/small-icon.png'),
-      //       onRightButtonPress: this.gotoMarker.bind(this)
-      //     })
-      //   });
-      // this.setState({
-      //   eventTitle: '',
-      //   address: '',
-      //   description: ''
-      // });
-
-
-module.exports = CreateMarker;
+export default CreateMarker;

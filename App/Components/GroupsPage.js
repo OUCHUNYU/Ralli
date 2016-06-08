@@ -193,6 +193,4 @@ GroupsPage.propTypes = {
   userId: React.PropTypes.string.isRequired
 };
 
-
-
-module.exports = GroupsPage;
+export default GroupsPage
