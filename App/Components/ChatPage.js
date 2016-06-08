@@ -146,10 +146,10 @@ class ChatPage extends Component{
 
   renderRow(rowData){
     return (
-        <View style={styles.rowContainer}>
-          <Image style={styles.avatar} source={{uri: rowData.avatarUrl}} />
-          <Text style={styles.messageStyle} > {rowData.username}: {rowData.message}</Text>
-        </View>
+      <View style={styles.rowContainer}>
+        <Image style={styles.avatar} source={{uri: rowData.avatarUrl}} />
+        <Text style={styles.messageStyle} > {rowData.username}: {rowData.message}</Text>
+      </View>
     );
   }
 

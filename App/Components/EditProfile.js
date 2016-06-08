@@ -1,4 +1,4 @@
-var UserProfilePage = require('./UserProfilePage')
+import UserProfilePage from './UserProfilePage'
 
 import React, { Component } from 'react';
 import {
@@ -13,8 +13,7 @@ import {
   AppRegistry
 } from 'react-native';
 
-
-var styles = StyleSheet.create({
+let styles = StyleSheet.create({
   header: {
     marginBottom: 20,
     fontSize: 18,
@@ -92,9 +91,8 @@ class EditProfile extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.headerbar}>
-        <Image style={styles.image} source={require('./Common/small-icon.png')} />
-        <Text style={styles.title}> Edit Information</Text>
-
+          <Image style={styles.image} source={require('./Common/small-icon.png')} />
+          <Text style={styles.title}> Edit Information</Text>
         </View>
 
         <Text style={styles.label}>Username:</Text>
@@ -102,16 +100,14 @@ class EditProfile extends Component {
         <TextInput
          style={styles.input}
          value={this.state.username}
-      
-         onChangeText={(text) => this.setState({username: text})}/>
+         onChangeText={(text) => this.setState({username: text})} />
 
-         <Text style={styles.label}>Email:</Text>
+        <Text style={styles.label}>Email:</Text>
 
-         <TextInput
+        <TextInput
           style={styles.input}
           value={this.state.email}
-
-          onChangeText={(text) => this.setState({email: text})}/>
+          onChangeText={(text) => this.setState({email: text})} />
 
         <Text style={styles.label}>Change Password:</Text>
 
@@ -119,7 +115,7 @@ class EditProfile extends Component {
          secureTextEntry={true}
          style={styles.input}
          value={this.state.password}
-         onChangeText={(text) => this.setState({password: text})}/>
+         onChangeText={(text) => this.setState({password: text})} />
 
          <TouchableHighlight style={styles.button} underlayColor='#99d9f4'>
            <Text style={styles.buttonText}>Save Details</Text>
@@ -130,4 +126,4 @@ class EditProfile extends Component {
   }
 }
 
-module.exports = EditProfile;
+export default EditProfile;

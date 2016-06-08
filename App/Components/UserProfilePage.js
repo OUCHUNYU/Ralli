@@ -1,6 +1,6 @@
-var Button = require('./Common/button');
-import Badge from './Helpers/Badge';
-var EditProfile = require('./EditProfile')
+import Button       from'./Common/button'
+import Badge        from './Helpers/Badge'
+import EditProfile  from'./EditProfile'
 
 import React, { Component } from 'react';
 import {
@@ -11,10 +11,9 @@ import {
   TextInput,
   TouchableHighlight,
   Image,
-  TabBarIOS
 } from 'react-native';
 
-var styles = StyleSheet.create({
+let styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     padding: 20,
@@ -56,13 +55,11 @@ var styles = StyleSheet.create({
     width: 60,
     borderRadius: 30,
     marginTop: 25,
-
   },
   headerbar: {
     flexDirection: 'row',
     marginTop: -350,
     alignItems: 'center',
-
   }
 });
 
@@ -71,25 +68,19 @@ var styles = StyleSheet.create({
 class UserProfilePage extends Component {
   render() {
     return (
-
       <Image source={require('./Common/rally-loading-screen.png')} style={styles.container} >
-
-
-
         <View style={styles.headerbar}>
           <Image style={styles.image} source={{uri: this.props.userData.avatarUrl}} />
           <Text style={styles.title}>  {this.props.userData.username}</Text>
         </View>
         <Text style={styles.label}>Email: {this.props.userData.email}</Text>
-
-
         <TouchableHighlight style={styles.button} onPress={this.editUserInfo.bind(this)} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Edit Profile</Text>
         </TouchableHighlight>
-
       </Image>
     )
   }
+
   editUserInfo() {
     this.props.navigator.push({
     title: 'Edit User Profile',
@@ -97,4 +88,4 @@ class UserProfilePage extends Component {
   })}
 };
 
-module.exports = UserProfilePage;
+export default UserProfilePage;
