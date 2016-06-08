@@ -1,5 +1,5 @@
-var Button = require('./Common/button');
-var Dimensions = require('Dimensions');
+import Button      from './Common/button'
+import Dimensions  from 'Dimensions'
 var {height, width} = Dimensions.get('window');
 
 
@@ -35,7 +35,7 @@ var styles = StyleSheet.create({
     flexDirection: 'column',
     alignSelf: 'flex-start',
   },
-  
+
   bubble: {
     width: width * .75,
     flexDirection: 'row',
@@ -46,11 +46,6 @@ var styles = StyleSheet.create({
     borderRadius: 6,
     borderColor: '#6600ff',
     borderWidth: 0.5,
-  },
-  dollar: {
-
-    //color: '#FFFFFF',
-    //fontSize: 10,
   },
   amount: {
     flex: 1,
