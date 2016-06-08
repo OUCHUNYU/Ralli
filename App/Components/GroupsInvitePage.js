@@ -1,9 +1,7 @@
-import Firebase   from 'firebase'
-import groupsApi  from '../Utils/groupsApi.js'
-
-
-import markersApi from '../Utils/markersApi'
-import GoogleMap from './GoogleMap'
+import Firebase    from 'firebase'
+import groupsApi   from '../Utils/groupsApi.js'
+import markersApi  from '../Utils/markersApi'
+import GoogleMap   from './GoogleMap'
 
 let { width, height } = Dimensions.get('window');
 import React, { Component } from 'react';
@@ -208,6 +206,7 @@ class GroupsInvitePage extends Component {
       userData: '',
       groupsInfo: false
     }
+    this.dateString = this.props.eventInfo.date.toLocaleDateString() + ' ' + this.props.eventInfo.date.toLocaleTimeString();
   }
 
   componentWillMount() {
@@ -236,12 +235,18 @@ class GroupsInvitePage extends Component {
       }
     }
   }
+
   onStartRally() {
      this._grabGroupIds(this.state.groupsInfo)
-     var groupIds = this.state.groupIDs
-     var dateString = this.props.eventInfo.date.toLocaleDateString() + ' ' + this.props.eventInfo.date.toLocaleTimeString();
-
-     markersApi.createMarker(this.props.userId, this.props.eventInfo.eventTitle, this.props.eventInfo.address, this.props.eventInfo.description, dateString, groupIds, false).then((res) => {console.log("Create marker")}).catch((err) => {console.log("Failed creation")})
+     markersApi.createMarker(
+       this.props.userId,
+       this.props.eventInfo.eventTitle,
+       this.props.eventInfo.address,
+       this.props.eventInfo.description,
+       this.dateString,
+       this.state.groupIDs,
+       false
+     ).then((res) => {console.log("Create marker")}).catch((err) => {console.log("Failed creation")})
 
      this.props.navigator.pop({
        title: 'Map Page',
@@ -252,12 +257,18 @@ class GroupsInvitePage extends Component {
        }
      })
    }
+
    onMakePublic() {
      this._grabGroupIds(this.state.groupsInfo)
-     var groupIds = this.state.groupIDs
-     var dateString = this.props.eventInfo.date.toLocaleDateString() + ' ' + this.props.eventInfo.date.toLocaleTimeString();
-
-     markersApi.createMarker(this.props.userId, this.props.eventInfo.eventTitle, this.props.eventInfo.address, this.props.eventInfo.description, dateString, groupIds, true).then((res) => {console.log("Create marker")}).catch((err) => {console.log("Failed creation")})
+     markersApi.createMarker(
+       this.props.userId,
+       this.props.eventInfo.eventTitle,
+       this.props.eventInfo.address,
+       this.props.eventInfo.description,
+       this.dateString,
+       this.state.groupIDs,
+       true
+      ).then((res) => {console.log("Create marker")}).catch((err) => {console.log("Failed creation")})
 
      this.props.navigator.pop({
        title: 'Map Page',
@@ -277,44 +288,29 @@ class GroupsInvitePage extends Component {
           <Switch
             onValueChange={(value) => this._inviteChange(value, sectionID)}
             style={{marginBottom: 10}}
-            value={rowData.invited}
-          />
+            value={rowData.invited} />
         </View>
       </View>
     )
   }
 
   render() {
-    var contentOffset = {x: 0, y: 0}
-    if(this.state.groupsInfo) {
-      return(
-        <ScrollView style={styles.container} contentOffset={contentOffset}>
-          <Text style={styles.spacer}></Text>
-          <TouchableHighlight style={styles.button} onPress={this.onMakePublic.bind(this)} underlayColor='#99d9f4'>
-             <Text style={styles.buttonText}> Make a Public Rally </Text>
-          </TouchableHighlight>
-          <View style={styles.listviewbox}>
-          <ListView
-            dataSource={this.state.dataSource}
-            renderRow={this.renderRow.bind(this)} />
-            </View>
-            <TouchableHighlight style={styles.button} onPress={this.onStartRally.bind(this)} underlayColor='#99d9f4'>
-              <Text style={styles.buttonText}> Start Rally </Text>
-            </TouchableHighlight>
-        </ScrollView>
-      )
-    }else {
-      return(
-        <ScrollView style={styles.container} contentOffset={contentOffset}>
-          <Text style={styles.spacer}></Text>
-          <TouchableHighlight style={styles.button} onPress={this.onMakePublic.bind(this)} underlayColor='#99d9f4'>
-             <Text style={styles.buttonText}> Make a Public Rally </Text>
-          </TouchableHighlight>
-          <View style={styles.listviewbox}>
-          </View>
-        </ScrollView>
-      )
-    }
+    let contentOffset = {x: 0, y: 0}
+    let startRallyButton = this.state.groupsInfo ? (<TouchableHighlight style={styles.button} onPress={this.onStartRally.bind(this)} underlayColor='#99d9f4'><Text style={styles.buttonText}> Start Rally </Text></TouchableHighlight>) : <View></View>;
+    let listViewRendering = this.state.groupsInfo ? <ListView dataSource={this.state.dataSource} renderRow={this.renderRow.bind(this)} /> : <View></View>;
+
+    return(
+      <ScrollView style={styles.container} contentOffset={contentOffset}>
+        <Text style={styles.spacer}></Text>
+        <TouchableHighlight style={styles.button} onPress={this.onMakePublic.bind(this)} underlayColor='#99d9f4'>
+           <Text style={styles.buttonText}> Make a Public Rally </Text>
+        </TouchableHighlight>
+        <View style={styles.listviewbox}>
+          {listViewRendering}
+        </View>
+        {startRallyButton}
+      </ScrollView>
+    )
   }
 }
 
@@ -324,5 +320,4 @@ GroupsInvitePage.propTypes = {
   eventInfo: React.PropTypes.object.isRequired
 };
 
-
-module.exports = GroupsInvitePage;
+export default GroupsInvitePage;
