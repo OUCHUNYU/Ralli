@@ -1,5 +1,5 @@
-var Button = require('./Common/button');
-var { width, height } = Dimensions.get('window');
+import Button from './Common/button'
+let { width, height } = Dimensions.get('window');
 
 import React, { Component } from 'react';
 import {
@@ -14,7 +14,7 @@ import {
   Dimensions
 } from 'react-native';
 
-var styles = StyleSheet.create({
+let styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     padding: 20,
@@ -76,15 +76,10 @@ var styles = StyleSheet.create({
   }
 });
 
-
-
 class QuestionBox extends Component {
   render() {
-    console.log(this.props.userData.markers);
     return (
-
       <Image source={require('./Common/rally-loading-screen.png')} style={styles.container} >
-
         <View style={styles.body}>
           <Text style={styles.title}>{this.props.eventInfo.title}</Text>
           <Image style={styles.image} source={require('./Common/sbpete.png')} />
@@ -92,11 +87,9 @@ class QuestionBox extends Component {
           <Text style={styles.label}>{this.props.eventInfo.description}</Text>
           <Text style={styles.label}>{this.props.eventInfo.timeStart}</Text>
         </View>
-
       </Image>
     )
   }
-
 };
 
-module.exports = QuestionBox;
+export default QuestionBox;
