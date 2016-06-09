@@ -77,4 +77,9 @@ jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?p
 ```javascript
 jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=false"];
 ```
+## Todo list
+- [x] Testing
+- [x] Deleting events
+- [x] Set timeout
+- [x] Delete person from group
 
