@@ -78,8 +78,8 @@ jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?p
 jsCodeLocation = [NSURL URLWithString:@"http://localhost:8081/index.ios.bundle?platform=ios&dev=false"];
 ```
 ## Todo list
-- [x] Testing
-- [x] Deleting events
-- [x] Set timeout
-- [x] Delete person from group
+- [ ] Testing
+- [ ] Deleting events
+- [ ] Set timeout
+- [ ] Delete person from group
 
